@@ -1,0 +1,101 @@
+SkyArena
+========
+
+An 8-bit interactive sky built from open data, made with AI-assisted workflows
+in VS Code with GitHub Copilot. Copyright for the original code, runners, and
+prompt files is in LICENSE (MIT).
+
+Third-party notices
+-------------------
+
+Python
+    Host and repo .venv interpreter (3.11+). PSF License.
+    https://docs.python.org/3/license.html
+
+Git
+    Version control. GPL-2.0.
+    https://git-scm.com/
+
+Visual Studio Code and GitHub Copilot
+    Editor and AI assistant used to build this piece. The fly-* prompt files
+    under .github/prompts/ are project customizations for Copilot Chat.
+    Proprietary. https://code.visualstudio.com/
+    https://github.com/features/copilot
+
+OpenRouter
+    Routes the model calls used in the AI part of the workshop. The API key
+    is supplied to each participant and stored in a gitignored .env.
+    https://openrouter.ai/
+
+idtracker.ai
+    Multi-animal tracking used for the Drosophila and zebrafish CSVs.
+    GPL-3.0. https://idtracker.ai/
+    Torrents J, Costa T, de Polavieja GG. 2026. New idtracker.ai
+    rethinks multi-animal tracking as a representation learning
+    problem to increase accuracy and reduce tracking time. eLife
+    14:RP107602. doi:10.7554/eLife.107602.4
+    https://doi.org/10.7554/eLife.107602.4
+    Drive (anyone-with-link validated CSVs):
+    https://drive.google.com/file/d/17Cn8rT8Fk9QLcAnU8yokScMdqTk8QA5u/view
+    https://drive.google.com/file/d/1eVZWK89DHTkyQNL5B0Euj9ezGvqzTvyl/view
+
+Tao et al. 2019
+    Statistical structure of locomotion (v||, v-perp HMM/HHMM). The fly
+    tracks follow that observation model in the standard library; this is
+    not a MATLAB port.
+    eLife 8:e41235. doi:10.7554/eLife.41235
+    https://elifesciences.org/articles/41235
+    https://github.com/bhandawat/HHMM (GPL-3.0)
+
+Dommanget-Kott et al. 2024
+    Hidden Markov model of zebrafish locomotion. The fish tracks cite this
+    and use the same standard-library sampler as the flies.
+    doi:10.1101/2024.11.22.624881
+    https://www.biorxiv.org/content/10.1101/2024.11.22.624881
+
+EMSC / SeismicPortal
+    Earthquake catalogue for 2026-06-21, all magnitudes, via the FDSN event
+    service. Curated to data/curated/quakes_21062026.json.
+    https://www.seismicportal.eu/
+    https://www.seismicportal.eu/fdsnws/event/1/query
+
+Hoffleit D., Warren Jr W.H. 1991
+    Bright Star Catalogue, 5th Revised Ed. CDS V/50. Downloaded as ReadMe
+    and catalog.gz, curated to data/curated/stars_catalog.
+    https://cdsarc.cds.unistra.fr/ftp/cats/V/50/
+    https://vizier.cds.unistra.fr/viz-bin/VizieR?-source=V/50
+
+pyarrow
+    Apache Arrow Python library. Writes fly.parquet and fish.parquet.
+    Apache-2.0. Installed into the repo .venv only.
+    https://arrow.apache.org/
+
+gdown
+    Drive fallback when Google returns an HTML interstitial. MIT. Installed
+    into the repo .venv only when needed.
+    https://github.com/wkentaro/gdown
+
+Pillow
+    Imaging library used by app/utils/sprites/organic_sprites.py and
+    cyber_sprites.py to draw the sprite PNG frames. It is not needed to run
+    the piece. HPND-Pillow. Install it into the repo .venv only if you redraw
+    the sprites.
+    https://python-pillow.org/
+
+Press Start 2P
+    Pixel font shipped in app/fonts/, used for the title screen and the HUD
+    text. SIL Open Font License 1.1 (app/fonts/OFL.txt). Copyright 2012 The
+    Press Start 2P Project Authors.
+    https://fonts.google.com/specimen/Press+Start+2P
+
+Animal sprites
+    15x15 (fly) and 19x19 (fish) grow, flicker, and shrink PNG frames under
+    app/utils/sprites/fly and fish, in an east-facing and a down-right version
+    (n.png and n_d.png). Drawn by organic_sprites.py in that folder from
+    shapes, in the colors of app/palette.js. A neon set is kept beside them in
+    cyber-fly and cyber-fish. MIT with the rest of this repo. Served from that
+    folder, PNG only.
+
+World capitals
+    Country capital coordinates shipped in data/raw/capitals/locations.json
+    and curated to data/curated/capitals.json.

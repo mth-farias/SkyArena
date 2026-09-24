@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>SkyArena</title>
+  <style>
+    @font-face {
+      font-family: "Press Start 2P";
+      src: url("fonts/PressStart2P-Regular.ttf") format("truetype");
+      font-display: block;
+    }
+    /* --px is the CSS size of one arena pixel; view.js sets it on resize. */
+    :root {
+      --px: 3px;
+      --pixel-font: "Press Start 2P", monospace;
+    }
+    html, body {
+      margin: 0;
+      height: 100%;
+    }
+    body {
+      background: #060504;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text",
+          "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      color: #f5f5f7;
+    }
+    /* view.js sizes and centers the canvas in whole device pixels. */
+    canvas#dome {
+      position: absolute;
+      display: block;
+      image-rendering: pixelated;
+    }
+    #topLeft, #topRight {
+      position: fixed;
+      top: calc(var(--px) * 3);
+      z-index: 2;
+      font-family: var(--pixel-font);
+      font-size: calc(var(--px) * 8);
+      line-height: calc(var(--px) * 12);
+      text-transform: uppercase;
+      text-shadow: var(--px) var(--px) 0 #000;
+      pointer-events: none;
+    }
+    /* Long capital names wrap instead of running into the date. */
+    #topLeft {
+      left: calc(var(--px) * 4);
+      max-width: calc(100vw - var(--px) * 8 * 20);
+    }
+    #placeLine, #dateLine { font-size: calc(var(--px) * 10); }
+    #latlonLine, #timeLine { color: #9898b0; }
+    #topRight { right: calc(var(--px) * 4); text-align: right; }
+    #hud-live {
+      position: fixed;
+      left: 20px;
+      bottom: 20px;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    #hud-look {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
+    }
+    /* The live button sits above the game button. */
+    #hud-live > #live-open { order: 1; }
+    #hud-live > #game-btn { order: 2; }
+    .glass {
+      color: #f5f5f7;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow:
+          0 8px 28px rgba(0, 0, 0, 0.12),
+          inset 0 1px 0 rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(56px) saturate(180%);
+      -webkit-backdrop-filter: blur(56px) saturate(180%);
+    }
+    #live-open {
+      width: 44px;
+      height: 72px;
+      border-radius: 22px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      color: #f5f5f7;
+      cursor: pointer;
+    }
+    #game-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 22px;
+      display: grid;
+      place-items: center;
+      color: #f5f5f7;
+      cursor: pointer;
+    }
+    #live-open.live-on {
+      box-shadow: 0 0 14px 2px rgba(255, 75, 40, 0.45);
+      border-color: rgba(255, 75, 40, 0.55);
+    }
+    #game-btn.game-on {
+      box-shadow: 0 0 14px 2px rgba(180, 255, 90, 0.4);
+      border-color: rgba(180, 255, 90, 0.45);
+    }
+    #live-open .globe {
+      width: 20px;
+      height: 20px;
+      display: block;
+      flex: 0 0 auto;
+    }
+    #live-open .vibe {
+      width: 22px;
+      height: 10px;
+      display: block;
+      flex: 0 0 auto;
+    }
+    #game-btn svg {
+      width: 18px;
+      height: 18px;
+      display: block;
+    }
+    #menu-open {
+      width: 44px;
+      height: 44px;
+      border-radius: 22px;
+      display: grid;
+      place-items: center;
+      color: #f5f5f7;
+      cursor: pointer;
+    }
+    #menu-open:hover,
+    #menu-close:hover,
+    #live-close:hover,
+    #live-open:hover,
+    #game-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    #menu-open svg,
+    #menu-close svg,
+    #live-close svg {
+      width: 18px;
+      height: 18px;
+      display: block;
+    }
+    button {
+      font: inherit;
+      color: inherit;
+      background: none;
+      border: 0;
+      padding: 0;
+    }
+    #menu,
+    #live-menu {
+      width: 280px;
+      max-height: calc(100vh - 48px);
+      overflow: auto;
+      border-radius: 18px;
+      padding: 6px 0 10px;
+    }
+    #menu[hidden],
+    #live-menu[hidden] {
+      display: none;
+    }
+    .menu-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px 8px 16px;
+    }
+    .menu-head h1 {
+      margin: 0;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: rgba(245, 245, 247, 0.92);
+    }
+    #menu-close,
+    #live-close {
+      width: 28px;
+      height: 28px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      color: rgba(245, 245, 247, 0.88);
+    }
+    .group {
+      margin: 4px 10px 0;
+      padding: 4px 6px 8px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.015);
+    }
+    .group h2 {
+      margin: 8px 8px 4px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(245, 245, 247, 0.45);
+    }
+    .toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 36px;
+      padding: 0 8px;
+      font-size: 14px;
+      letter-spacing: -0.01em;
+      cursor: pointer;
+    }
+    .toggle input,
+    .switch input {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 42px;
+      height: 26px;
+      margin: 0;
+      border-radius: 13px;
+      background: rgba(120, 120, 128, 0.36);
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.18);
+      position: relative;
+      flex: 0 0 42px;
+      cursor: pointer;
+    }
+    .toggle input::after,
+    .switch input::after {
+      content: "";
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.28);
+      transition: transform 0.18s ease;
+    }
+    .toggle input:checked,
+    .switch input:checked {
+      background: #30d158;
+    }
+    #live-menu .toggle input:checked {
+      background: #ff4b28;
+    }
+    .toggle input:checked::after,
+    .switch input:checked::after {
+      transform: translateX(16px);
+    }
+    .switch {
+      display: grid;
+      place-items: center;
+    }
+    .inline-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      min-height: 36px;
+      padding: 0 8px;
+      font-size: 14px;
+      letter-spacing: -0.01em;
+    }
+    .inline-row > .label {
+      flex: 1;
+      min-width: 0;
+    }
+    .inline-row output {
+      font-variant-numeric: tabular-nums;
+      color: rgba(245, 245, 247, 0.62);
+      font-size: 13px;
+      min-width: 1.75em;
+      text-align: right;
+    }
+    input[type="range"] {
+      width: calc(100% - 16px);
+      margin: 2px 8px 8px;
+      accent-color: #ff4b28;
+    }
+    #menu input[type="range"] {
+      accent-color: #0a84ff;
+    }
+    .action-btn {
+      display: block;
+      width: calc(100% - 16px);
+      margin: 6px 8px;
+      min-height: 36px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #f5f5f7;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .action-btn:hover:not(:disabled) {
+      background: rgba(255, 255, 255, 0.14);
+    }
+    .action-btn:disabled {
+      opacity: 0.4;
+      cursor: default;
+    }
+    #boot {
+      position: fixed;
+      inset: 0;
+      z-index: 3;
+      display: grid;
+      place-items: center;
+      background: #000;
+      color: #d0d0e0;
+      font-family: var(--pixel-font);
+      text-align: center;
+      text-transform: uppercase;
+      cursor: default;
+    }
+    #boot[hidden] { display: none; }
+    #boot .title { max-width: 90vw; }
+    #boot h1 {
+      margin: 0 0 calc(var(--px) * 26);
+      font-size: calc(var(--px) * 16);
+      font-weight: normal;
+      line-height: 1;
+      color: #f8d820;
+      text-shadow:
+          calc(var(--px) * 2) calc(var(--px) * 2) 0 #a04010,
+          calc(var(--px) * 3) calc(var(--px) * 3) 0 #000;
+    }
+    #boot-msg {
+      margin: 0;
+      font-size: calc(var(--px) * 8);
+      line-height: calc(var(--px) * 12);
+      text-shadow: var(--px) var(--px) 0 #383848;
+    }
+    #boot.ready { cursor: pointer; }
+    #boot.ready #boot-msg {
+      color: #f8f8f8;
+      animation: boot-blink 1s steps(1) infinite;
+    }
+    @keyframes boot-blink {
+      0% { visibility: visible; }
+      50% { visibility: hidden; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="dome"></canvas>
+  <div id="boot">
+    <div class="title">
+      <h1>SkyArena</h1>
+      <p id="boot-msg">Loading...</p>
+    </div>
+  </div>
+  <div id="topLeft">
+    <span id="placeLine"></span><br>
+    <span id="latlonLine"></span><br>
+    <span id="quakeLine"></span>
+  </div>
+  <div id="topRight">
+    <span id="dateLine"></span><br>
+    <span id="timeLine"></span>
+  </div>
+  <div id="hud-live">
+    <form id="live-menu" class="glass" autocomplete="off" hidden>
+      <div class="menu-head">
+        <h1>Live</h1>
+        <button type="button" id="live-close" aria-label="Hide live panel">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.8" stroke-linecap="round">
+            <path d="M6 6l12 12M18 6L6 18"/>
+          </svg>
+        </button>
+      </div>
+      <section class="group">
+        <h2>Events</h2>
+        <label class="toggle">Live
+          <input id="toggle-live" type="checkbox" role="switch" checked></label>
+        <div class="inline-row">
+          <span class="label">Magnitude</span>
+          <output id="mag-min-out">3.0</output>
+        </div>
+        <input id="mag-min" type="range" min="0" max="8" step="0.1" value="3">
+        <button type="button" class="action-btn" id="travel-btn">Travel</button>
+        <button type="button" class="action-btn" id="shake-btn">Shake</button>
+      </section>
+    </form>
+    <button type="button" class="glass live-on" id="live-open"
+            aria-label="Show live panel" aria-expanded="false"
+            aria-controls="live-menu">
+      <svg class="vibe" viewBox="0 0 24 10" fill="none"
+           stroke="currentColor" stroke-width="1.6"
+           stroke-linecap="round" aria-hidden="true">
+        <path d="M21 7l-4-4-4 4-4-4-4 4"/>
+      </svg>
+      <svg class="globe" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+        <circle cx="12" cy="12" r="8"/>
+        <path d="M4 12h16M12 4c3 3 3 13 0 16M12 4c-3 3-3 13 0 16"/>
+      </svg>
+      <svg class="vibe" viewBox="0 0 24 10" fill="none"
+           stroke="currentColor" stroke-width="1.6"
+           stroke-linecap="round" aria-hidden="true">
+        <path d="M21 3l-4 4-4-4-4 4-4-4"/>
+      </svg>
+    </button>
+    <button type="button" class="glass" id="game-btn"
+            aria-label="Toggle the game" aria-pressed="false">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M6 8h2V6h2V4h4v2h2v2h2v2h2v4h-2v2h-2v2H8v-2H6v-2H4v-4h2V8zm4 2H8v2h2v-2zm6 0h-2v2h2v-2z"/>
+      </svg>
+    </button>
+  </div>
+  <div id="hud-look">
+    <form id="menu" class="glass" autocomplete="off" hidden>
+      <div class="menu-head">
+        <h1>Controls</h1>
+        <button type="button" id="menu-close" aria-label="Hide controls">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.8" stroke-linecap="round">
+            <path d="M6 6l12 12M18 6L6 18"/>
+          </svg>
+        </button>
+      </div>
+      <section class="group">
+        <h2>Layers</h2>
+        <label class="toggle">Circle
+          <input id="layer-circle" type="checkbox" role="switch"></label>
+        <div class="inline-row">
+          <span class="label">Stars</span>
+          <output id="n-stars-out">60</output>
+          <label class="switch"><input id="layer-stars" type="checkbox"
+                 role="switch"></label>
+        </div>
+        <input id="n-stars" type="range" min="0" max="500" step="2" value="60">
+        <label class="toggle">Voronoi
+          <input id="layer-voronoi" type="checkbox" role="switch"></label>
+        <label class="toggle">Wiggle
+          <input id="layer-wiggle" type="checkbox" role="switch"></label>
+        <label class="toggle">Spokes
+          <input id="layer-spokes" type="checkbox" role="switch"></label>
+        <label class="toggle">Sparkle
+          <input id="layer-sparkle" type="checkbox" role="switch"></label>
+        <label class="toggle">Cursor
+          <input id="toggle-cursor" type="checkbox" role="switch"></label>
+        <div class="inline-row">
+          <span class="label">Fly</span>
+          <output id="n-flies-out">20</output>
+          <label class="switch"><input id="layer-flies" type="checkbox"
+                 role="switch"></label>
+        </div>
+        <input id="n-flies" type="range" min="0" max="100" value="20">
+        <div class="inline-row">
+          <span class="label">Fish</span>
+          <output id="n-fish-out">20</output>
+          <label class="switch"><input id="layer-fish" type="checkbox"
+                 role="switch"></label>
+        </div>
+        <input id="n-fish" type="range" min="0" max="100" value="20">
+        <label class="toggle">Interact
+          <input id="toggle-interact" type="checkbox" role="switch"></label>
+        <label class="toggle">Color
+          <input id="layer-color" type="checkbox" role="switch"></label>
+      </section>
+    </form>
+    <button type="button" class="glass" id="menu-open"
+            aria-label="Show controls" aria-expanded="false"
+            aria-controls="menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="1.8" stroke-linecap="round">
+        <path d="M4 7h16M4 12h11M4 17h7"/>
+      </svg>
+    </button>
+  </div>
+  <script type="module" src="view.js?v=1"></script>
+</body>
+</html>

@@ -1,0 +1,3971 @@
+[
+  {
+    "id": "20260621_0000001",
+    "time": "2026-06-21T00:00:10.27Z",
+    "mag": 2.3,
+    "lat": 36.0545,
+    "lon": -120.8905,
+    "depth_km": -11.2,
+    "region": "CENTRAL CALIFORNIA"
+  },
+  {
+    "id": "20260621_0000002",
+    "time": "2026-06-21T00:02:40.29Z",
+    "mag": 3.6,
+    "lat": -21.2692,
+    "lon": -69.0348,
+    "depth_km": -131.0,
+    "region": "TARAPACA, CHILE"
+  },
+  {
+    "id": "20260621_0000003",
+    "time": "2026-06-21T00:06:55.0Z",
+    "mag": 2.8,
+    "lat": -9.16,
+    "lon": 120.39,
+    "depth_km": -25.0,
+    "region": "SUMBA REGION, INDONESIA"
+  },
+  {
+    "id": "20260621_0000016",
+    "time": "2026-06-21T00:07:14.0Z",
+    "mag": 1.3,
+    "lat": 38.4592,
+    "lon": 40.2419,
+    "depth_km": -7.0,
+    "region": "EASTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000007",
+    "time": "2026-06-21T00:12:36.0Z",
+    "mag": 3.0,
+    "lat": -7.8,
+    "lon": 119.51,
+    "depth_km": -269.0,
+    "region": "FLORES SEA"
+  },
+  {
+    "id": "20260621_0000128",
+    "time": "2026-06-21T00:16:27.459527Z",
+    "mag": 0.7,
+    "lat": 45.9001,
+    "lon": 7.0095,
+    "depth_km": -6.3,
+    "region": "NORTHERN ITALY"
+  },
+  {
+    "id": "20260621_0000013",
+    "time": "2026-06-21T00:17:15.0Z",
+    "mag": 1.0,
+    "lat": 37.2528,
+    "lon": 34.6772,
+    "depth_km": -7.0,
+    "region": "CENTRAL TURKEY"
+  },
+  {
+    "id": "20260621_0000012",
+    "time": "2026-06-21T00:19:11.0Z",
+    "mag": 3.0,
+    "lat": 12.55,
+    "lon": -89.08,
+    "depth_km": -18.0,
+    "region": "OFFSHORE EL SALVADOR"
+  },
+  {
+    "id": "20260621_0000006",
+    "time": "2026-06-21T00:21:30.0Z",
+    "mag": 3.4,
+    "lat": 1.34,
+    "lon": 126.41,
+    "depth_km": -29.0,
+    "region": "MOLUCCA SEA"
+  },
+  {
+    "id": "20260621_0000004",
+    "time": "2026-06-21T00:21:45.0Z",
+    "mag": 3.3,
+    "lat": -22.94,
+    "lon": -67.24,
+    "depth_km": -219.6,
+    "region": "ANTOFAGASTA, CHILE"
+  },
+  {
+    "id": "20260621_0000008",
+    "time": "2026-06-21T00:22:18.68Z",
+    "mag": 1.0,
+    "lat": 39.257,
+    "lon": 28.9212,
+    "depth_km": -10.1,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000005",
+    "time": "2026-06-21T00:23:23.0Z",
+    "mag": 3.6,
+    "lat": -6.76,
+    "lon": 105.19,
+    "depth_km": -23.0,
+    "region": "SUNDA STRAIT, INDONESIA"
+  },
+  {
+    "id": "20260621_0000011",
+    "time": "2026-06-21T00:26:48.0Z",
+    "mag": 3.5,
+    "lat": 12.53,
+    "lon": -89.11,
+    "depth_km": -30.0,
+    "region": "OFFSHORE EL SALVADOR"
+  },
+  {
+    "id": "20260621_0000010",
+    "time": "2026-06-21T00:27:20.0Z",
+    "mag": 2.7,
+    "lat": -0.92,
+    "lon": 120.35,
+    "depth_km": -3.0,
+    "region": "MINAHASA, SULAWESI, INDONESIA"
+  },
+  {
+    "id": "20260621_0000017",
+    "time": "2026-06-21T00:28:25.0Z",
+    "mag": 3.5,
+    "lat": 4.8,
+    "lon": 125.64,
+    "depth_km": -10.0,
+    "region": "KEPULAUAN SANGIHE, INDONESIA"
+  },
+  {
+    "id": "20260621_0000009",
+    "time": "2026-06-21T00:29:25.0Z",
+    "mag": 2.5,
+    "lat": -4.07,
+    "lon": 102.64,
+    "depth_km": -69.0,
+    "region": "SOUTHERN SUMATRA, INDONESIA"
+  },
+  {
+    "id": "20260621_0000024",
+    "time": "2026-06-21T00:30:53.0Z",
+    "mag": 2.8,
+    "lat": 8.8658,
+    "lon": -84.4163,
+    "depth_km": -6.0,
+    "region": "OFF COAST OF COSTA RICA"
+  },
+  {
+    "id": "20260621_0000014",
+    "time": "2026-06-21T00:32:21.0Z",
+    "mag": 2.5,
+    "lat": -20.28,
+    "lon": -69.06,
+    "depth_km": -106.5,
+    "region": "TARAPACA, CHILE"
+  },
+  {
+    "id": "20260621_0000418",
+    "time": "2026-06-21T00:36:57.616Z",
+    "mag": 2.8,
+    "lat": 52.712,
+    "lon": -166.681,
+    "depth_km": -8.2,
+    "region": "FOX ISLANDS, ALEUTIAN ISLANDS"
+  },
+  {
+    "id": "20260621_0000015",
+    "time": "2026-06-21T00:37:07.78Z",
+    "mag": 2.8,
+    "lat": 38.7673,
+    "lon": -122.7255,
+    "depth_km": -1.5,
+    "region": "NORTHERN CALIFORNIA"
+  },
+  {
+    "id": "20260621_0000026",
+    "time": "2026-06-21T00:42:06.25Z",
+    "mag": 1.6,
+    "lat": 36.9394,
+    "lon": 28.9836,
+    "depth_km": -7.0,
+    "region": "DODECANESE IS.-TURKEY BORDER REG"
+  },
+  {
+    "id": "20260621_0000020",
+    "time": "2026-06-21T00:42:58.0Z",
+    "mag": 2.5,
+    "lat": 27.303,
+    "lon": 91.953,
+    "depth_km": -5.0,
+    "region": "BHUTAN"
+  },
+  {
+    "id": "20260621_0000018",
+    "time": "2026-06-21T00:43:27.62Z",
+    "mag": 5.3,
+    "lat": -6.9893,
+    "lon": -81.4865,
+    "depth_km": -35.0,
+    "region": "NEAR COAST OF NORTHERN PERU"
+  },
+  {
+    "id": "20260621_0000019",
+    "time": "2026-06-21T00:44:18.0Z",
+    "mag": 3.6,
+    "lat": -3.43,
+    "lon": -79.93,
+    "depth_km": -69.0,
+    "region": "NEAR COAST OF ECUADOR"
+  },
+  {
+    "id": "20260621_0000412",
+    "time": "2026-06-21T00:48:07.0Z",
+    "mag": 2.5,
+    "lat": -31.487,
+    "lon": -69.05,
+    "depth_km": -109.0,
+    "region": "SAN JUAN, ARGENTINA"
+  },
+  {
+    "id": "20260621_0000023",
+    "time": "2026-06-21T00:52:53.0Z",
+    "mag": 4.2,
+    "lat": 27.373,
+    "lon": 92.023,
+    "depth_km": -10.0,
+    "region": "ARUNACHAL PRADESH, INDIA"
+  },
+  {
+    "id": "20260621_0000025",
+    "time": "2026-06-21T00:53:34.0Z",
+    "mag": 0.8,
+    "lat": 40.59,
+    "lon": 34.4253,
+    "depth_km": -7.0,
+    "region": "CENTRAL TURKEY"
+  },
+  {
+    "id": "20260621_0000021",
+    "time": "2026-06-21T00:54:25.0Z",
+    "mag": 2.8,
+    "lat": -3.65,
+    "lon": 135.69,
+    "depth_km": -15.0,
+    "region": "PAPUA, INDONESIA"
+  },
+  {
+    "id": "20260621_0000033",
+    "time": "2026-06-21T00:55:02.15Z",
+    "mag": 4.6,
+    "lat": -24.3709,
+    "lon": -179.8793,
+    "depth_km": -507.0,
+    "region": "SOUTH OF FIJI ISLANDS"
+  },
+  {
+    "id": "20260621_0000022",
+    "time": "2026-06-21T00:56:42.34Z",
+    "mag": 3.0,
+    "lat": 37.7583,
+    "lon": 36.1428,
+    "depth_km": -7.0,
+    "region": "CENTRAL TURKEY"
+  },
+  {
+    "id": "20260621_0000029",
+    "time": "2026-06-21T01:00:30.0Z",
+    "mag": 1.0,
+    "lat": 38.2311,
+    "lon": 36.1356,
+    "depth_km": -7.0,
+    "region": "CENTRAL TURKEY"
+  },
+  {
+    "id": "20260621_0000030",
+    "time": "2026-06-21T01:07:07.0Z",
+    "mag": 1.2,
+    "lat": 39.8347,
+    "lon": 41.8031,
+    "depth_km": -7.0,
+    "region": "EASTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000027",
+    "time": "2026-06-21T01:07:58.0Z",
+    "mag": 2.5,
+    "lat": -20.06,
+    "lon": -69.19,
+    "depth_km": -94.1,
+    "region": "TARAPACA, CHILE"
+  },
+  {
+    "id": "20260621_0000028",
+    "time": "2026-06-21T01:09:51.298846Z",
+    "mag": 2.9,
+    "lat": -33.5717,
+    "lon": 122.7918,
+    "depth_km": -5.0,
+    "region": "WESTERN AUSTRALIA"
+  },
+  {
+    "id": "20260621_0000032",
+    "time": "2026-06-21T01:23:30.74Z",
+    "mag": 1.1,
+    "lat": 38.4813,
+    "lon": 37.3106,
+    "depth_km": -9.7,
+    "region": "CENTRAL TURKEY"
+  },
+  {
+    "id": "20260621_0000031",
+    "time": "2026-06-21T01:24:20.33Z",
+    "mag": 2.0,
+    "lat": 39.2353,
+    "lon": 28.0847,
+    "depth_km": -7.0,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000423",
+    "time": "2026-06-21T01:24:23.0Z",
+    "mag": 3.1,
+    "lat": -18.874,
+    "lon": -67.023,
+    "depth_km": -251.2,
+    "region": "ORURO, BOLIVIA"
+  },
+  {
+    "id": "20260621_0000035",
+    "time": "2026-06-21T01:25:07.0Z",
+    "mag": 2.7,
+    "lat": 1.06,
+    "lon": 128.26,
+    "depth_km": -36.0,
+    "region": "HALMAHERA, INDONESIA"
+  },
+  {
+    "id": "20260621_0000038",
+    "time": "2026-06-21T01:31:35.0Z",
+    "mag": 1.2,
+    "lat": 38.7711,
+    "lon": 36.5608,
+    "depth_km": -6.8,
+    "region": "CENTRAL TURKEY"
+  },
+  {
+    "id": "20260621_0000034",
+    "time": "2026-06-21T01:34:23.0Z",
+    "mag": 2.5,
+    "lat": -1.19,
+    "lon": 120.04,
+    "depth_km": -3.0,
+    "region": "SULAWESI, INDONESIA"
+  },
+  {
+    "id": "20260621_0000041",
+    "time": "2026-06-21T01:41:11.0Z",
+    "mag": 1.0,
+    "lat": 37.8561,
+    "lon": 37.8514,
+    "depth_km": -8.6,
+    "region": "CENTRAL TURKEY"
+  },
+  {
+    "id": "20260621_0000044",
+    "time": "2026-06-21T01:41:43.73Z",
+    "mag": 1.1,
+    "lat": 39.1897,
+    "lon": 28.9672,
+    "depth_km": -11.3,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000043",
+    "time": "2026-06-21T01:50:46.65Z",
+    "mag": 1.4,
+    "lat": 36.0525,
+    "lon": 36.0221,
+    "depth_km": -7.5,
+    "region": "TURKEY-SYRIA BORDER REGION"
+  },
+  {
+    "id": "20260621_0000040",
+    "time": "2026-06-21T01:54:56.2Z",
+    "mag": 1.4,
+    "lat": 39.4414,
+    "lon": 37.3869,
+    "depth_km": -9.4,
+    "region": "CENTRAL TURKEY"
+  },
+  {
+    "id": "20260621_0000042",
+    "time": "2026-06-21T02:00:25.0Z",
+    "mag": 2.8,
+    "lat": 27.444,
+    "lon": 91.997,
+    "depth_km": -5.0,
+    "region": "BHUTAN"
+  },
+  {
+    "id": "20260621_0000432",
+    "time": "2026-06-21T02:01:57.171Z",
+    "mag": 2.5,
+    "lat": 51.9789,
+    "lon": -174.1805,
+    "depth_km": -196.5,
+    "region": "ANDREANOF ISLANDS, ALEUTIAN IS."
+  },
+  {
+    "id": "20260621_0000036",
+    "time": "2026-06-21T02:02:34.0Z",
+    "mag": 2.6,
+    "lat": -31.81,
+    "lon": -71.51,
+    "depth_km": -37.3,
+    "region": "OFFSHORE COQUIMBO, CHILE"
+  },
+  {
+    "id": "20260621_0000037",
+    "time": "2026-06-21T02:04:03.45Z",
+    "mag": 2.2,
+    "lat": 19.2048,
+    "lon": -155.3698,
+    "depth_km": -30.5,
+    "region": "ISLAND OF HAWAII, HAWAII"
+  },
+  {
+    "id": "20260621_0000039",
+    "time": "2026-06-21T02:08:15.098362Z",
+    "mag": 2.8,
+    "lat": -23.44,
+    "lon": 120.0746,
+    "depth_km": -10.0,
+    "region": "WESTERN AUSTRALIA"
+  },
+  {
+    "id": "20260621_0000047",
+    "time": "2026-06-21T02:19:26.69Z",
+    "mag": 4.3,
+    "lat": 33.7573,
+    "lon": 81.2998,
+    "depth_km": -10.0,
+    "region": "WESTERN XIZANG"
+  },
+  {
+    "id": "20260621_0000436",
+    "time": "2026-06-21T02:23:34.378Z",
+    "mag": 4.6,
+    "lat": -32.1189,
+    "lon": -178.6789,
+    "depth_km": -60.1,
+    "region": "SOUTH OF KERMADEC ISLANDS"
+  },
+  {
+    "id": "20260621_0000046",
+    "time": "2026-06-21T02:24:28.634678Z",
+    "mag": 3.5,
+    "lat": -36.2311,
+    "lon": 179.3987,
+    "depth_km": -10.0,
+    "region": "OFF E. COAST OF N. ISLAND, N.Z."
+  },
+  {
+    "id": "20260621_0000054",
+    "time": "2026-06-21T02:24:54.0Z",
+    "mag": 4.3,
+    "lat": 27.395,
+    "lon": 92.007,
+    "depth_km": -10.0,
+    "region": "ARUNACHAL PRADESH, INDIA"
+  },
+  {
+    "id": "20260621_0000045",
+    "time": "2026-06-21T02:25:30.316706Z",
+    "mag": 3.5,
+    "lat": 61.389,
+    "lon": -146.722,
+    "depth_km": -23.4,
+    "region": "SOUTHERN ALASKA"
+  },
+  {
+    "id": "20260621_0000050",
+    "time": "2026-06-21T02:25:49.86Z",
+    "mag": 2.1,
+    "lat": 37.9617,
+    "lon": 14.9362,
+    "depth_km": -10.6,
+    "region": "SICILY, ITALY"
+  },
+  {
+    "id": "20260621_0000048",
+    "time": "2026-06-21T02:27:10.22Z",
+    "mag": 2.6,
+    "lat": 36.6586,
+    "lon": 26.2967,
+    "depth_km": -23.1,
+    "region": "DODECANESE ISLANDS, GREECE"
+  },
+  {
+    "id": "20260621_0000049",
+    "time": "2026-06-21T02:29:23.0Z",
+    "mag": 2.7,
+    "lat": -31.91,
+    "lon": -68.32,
+    "depth_km": -102.0,
+    "region": "SAN JUAN, ARGENTINA"
+  },
+  {
+    "id": "20260621_0000052",
+    "time": "2026-06-21T02:33:31.95Z",
+    "mag": 4.7,
+    "lat": -1.2117,
+    "lon": 99.8234,
+    "depth_km": -80.0,
+    "region": "KEP. MENTAWAI REGION, INDONESIA"
+  },
+  {
+    "id": "20260621_0000051",
+    "time": "2026-06-21T02:34:13.0Z",
+    "mag": 2.6,
+    "lat": -9.03,
+    "lon": 119.33,
+    "depth_km": -107.0,
+    "region": "SUMBA REGION, INDONESIA"
+  },
+  {
+    "id": "20260621_0000062",
+    "time": "2026-06-21T02:36:16.0Z",
+    "mag": 2.7,
+    "lat": 27.468,
+    "lon": 92.021,
+    "depth_km": -10.0,
+    "region": "ARUNACHAL PRADESH, INDIA"
+  },
+  {
+    "id": "20260621_0000056",
+    "time": "2026-06-21T02:38:48.0Z",
+    "mag": 0.9,
+    "lat": 36.9311,
+    "lon": 29.0231,
+    "depth_km": -7.0,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000060",
+    "time": "2026-06-21T02:39:26.02Z",
+    "mag": 1.2,
+    "lat": 38.2242,
+    "lon": 37.6758,
+    "depth_km": -7.1,
+    "region": "CENTRAL TURKEY"
+  },
+  {
+    "id": "20260621_0000057",
+    "time": "2026-06-21T02:40:44.0Z",
+    "mag": 1.1,
+    "lat": 39.1578,
+    "lon": 28.2856,
+    "depth_km": -7.0,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000061",
+    "time": "2026-06-21T02:41:27.0Z",
+    "mag": 0.9,
+    "lat": 39.0756,
+    "lon": 41.2703,
+    "depth_km": -7.0,
+    "region": "EASTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000053",
+    "time": "2026-06-21T02:48:50.0Z",
+    "mag": 3.6,
+    "lat": -1.27,
+    "lon": 99.82,
+    "depth_km": -24.0,
+    "region": "KEP. MENTAWAI REGION, INDONESIA"
+  },
+  {
+    "id": "20260621_0000055",
+    "time": "2026-06-21T02:49:30.0Z",
+    "mag": 1.0,
+    "lat": 37.7275,
+    "lon": 29.3758,
+    "depth_km": -7.0,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000165",
+    "time": "2026-06-21T02:58:20.0Z",
+    "mag": 3.1,
+    "lat": -1.17,
+    "lon": 120.05,
+    "depth_km": -3.0,
+    "region": "SULAWESI, INDONESIA"
+  },
+  {
+    "id": "20260621_0000433",
+    "time": "2026-06-21T03:05:01.809Z",
+    "mag": 2.7,
+    "lat": 53.183,
+    "lon": -167.3086,
+    "depth_km": -35.0,
+    "region": "FOX ISLANDS, ALEUTIAN ISLANDS"
+  },
+  {
+    "id": "20260621_0000058",
+    "time": "2026-06-21T03:05:43.0Z",
+    "mag": 3.2,
+    "lat": -23.81,
+    "lon": -67.2,
+    "depth_km": -227.4,
+    "region": "SALTA, ARGENTINA"
+  },
+  {
+    "id": "20260621_0000059",
+    "time": "2026-06-21T03:09:02.0Z",
+    "mag": 2.7,
+    "lat": -21.14,
+    "lon": -68.63,
+    "depth_km": -129.2,
+    "region": "ANTOFAGASTA, CHILE"
+  },
+  {
+    "id": "20260621_0000069",
+    "time": "2026-06-21T03:17:51.87Z",
+    "mag": 1.4,
+    "lat": 37.7492,
+    "lon": 36.1403,
+    "depth_km": -4.8,
+    "region": "CENTRAL TURKEY"
+  },
+  {
+    "id": "20260621_0000070",
+    "time": "2026-06-21T03:18:53.0Z",
+    "mag": 1.0,
+    "lat": 37.5942,
+    "lon": 36.0408,
+    "depth_km": -7.0,
+    "region": "CENTRAL TURKEY"
+  },
+  {
+    "id": "20260621_0000068",
+    "time": "2026-06-21T03:21:24.0Z",
+    "mag": 1.2,
+    "lat": 39.7769,
+    "lon": 25.5194,
+    "depth_km": -11.8,
+    "region": "AEGEAN SEA"
+  },
+  {
+    "id": "20260621_0000437",
+    "time": "2026-06-21T03:22:35.431Z",
+    "mag": 4.2,
+    "lat": 28.506,
+    "lon": 57.1229,
+    "depth_km": -87.2,
+    "region": "SOUTHERN IRAN"
+  },
+  {
+    "id": "20260621_0000066",
+    "time": "2026-06-21T03:22:42.47Z",
+    "mag": 1.8,
+    "lat": 39.2239,
+    "lon": 28.1175,
+    "depth_km": -11.5,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000067",
+    "time": "2026-06-21T03:24:10.0Z",
+    "mag": 1.0,
+    "lat": 39.2269,
+    "lon": 28.1447,
+    "depth_km": -7.0,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000063",
+    "time": "2026-06-21T03:24:46.0Z",
+    "mag": 3.0,
+    "lat": -9.46,
+    "lon": 121.11,
+    "depth_km": -31.0,
+    "region": "SAVU SEA"
+  },
+  {
+    "id": "20260621_0000064",
+    "time": "2026-06-21T03:29:32.02Z",
+    "mag": 1.9,
+    "lat": 39.2089,
+    "lon": 29.4181,
+    "depth_km": -10.0,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000117",
+    "time": "2026-06-21T03:30:46.0Z",
+    "mag": 2.5,
+    "lat": -8.78,
+    "lon": 118.87,
+    "depth_km": -10.0,
+    "region": "SUMBAWA REGION, INDONESIA"
+  },
+  {
+    "id": "20260621_0000065",
+    "time": "2026-06-21T03:36:22.0Z",
+    "mag": 2.7,
+    "lat": -9.07,
+    "lon": 110.47,
+    "depth_km": -10.0,
+    "region": "SOUTH OF JAVA, INDONESIA"
+  },
+  {
+    "id": "20260621_0000078",
+    "time": "2026-06-21T03:43:47.29Z",
+    "mag": 1.2,
+    "lat": 38.2042,
+    "lon": 38.7014,
+    "depth_km": -7.0,
+    "region": "EASTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000076",
+    "time": "2026-06-21T03:44:53.21Z",
+    "mag": 1.1,
+    "lat": 38.7572,
+    "lon": 36.5625,
+    "depth_km": -7.0,
+    "region": "CENTRAL TURKEY"
+  },
+  {
+    "id": "20260621_0000072",
+    "time": "2026-06-21T03:44:58.1Z",
+    "mag": 2.0,
+    "lat": 37.611,
+    "lon": -24.796,
+    "depth_km": -13.0,
+    "region": "AZORES ISLANDS REGION"
+  },
+  {
+    "id": "20260621_0000421",
+    "time": "2026-06-21T03:46:48.286846Z",
+    "mag": 3.3,
+    "lat": 51.231,
+    "lon": 178.369,
+    "depth_km": -16.6,
+    "region": "RAT ISLANDS, ALEUTIAN ISLANDS"
+  },
+  {
+    "id": "20260621_0000073",
+    "time": "2026-06-21T03:52:53.74Z",
+    "mag": 1.0,
+    "lat": 38.0505,
+    "lon": 28.9877,
+    "depth_km": -9.0,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000071",
+    "time": "2026-06-21T03:55:26.0Z",
+    "mag": 0.9,
+    "lat": 39.2236,
+    "lon": 28.1436,
+    "depth_km": -7.0,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000075",
+    "time": "2026-06-21T03:59:32.0Z",
+    "mag": 0.9,
+    "lat": 36.9511,
+    "lon": 28.9867,
+    "depth_km": -7.0,
+    "region": "DODECANESE IS.-TURKEY BORDER REG"
+  },
+  {
+    "id": "20260621_0000080",
+    "time": "2026-06-21T04:02:04.0Z",
+    "mag": 0.8,
+    "lat": 39.1564,
+    "lon": 28.315,
+    "depth_km": -6.2,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000077",
+    "time": "2026-06-21T04:08:57.0Z",
+    "mag": 2.5,
+    "lat": -21.69,
+    "lon": -69.0,
+    "depth_km": -98.1,
+    "region": "ANTOFAGASTA, CHILE"
+  },
+  {
+    "id": "20260621_0000074",
+    "time": "2026-06-21T04:09:31.9Z",
+    "mag": 3.1,
+    "lat": -0.76,
+    "lon": -80.54,
+    "depth_km": -23.0,
+    "region": "NEAR COAST OF ECUADOR"
+  },
+  {
+    "id": "20260621_0000079",
+    "time": "2026-06-21T04:15:58.0Z",
+    "mag": 2.7,
+    "lat": -8.22,
+    "lon": 119.98,
+    "depth_km": -162.0,
+    "region": "FLORES REGION, INDONESIA"
+  },
+  {
+    "id": "20260621_0000087",
+    "time": "2026-06-21T04:17:03.24Z",
+    "mag": 1.8,
+    "lat": 28.1493,
+    "lon": -15.8862,
+    "depth_km": -22.0,
+    "region": "CANARY ISLANDS, SPAIN REGION"
+  },
+  {
+    "id": "20260621_0000082",
+    "time": "2026-06-21T04:25:39.0Z",
+    "mag": 2.7,
+    "lat": -1.23,
+    "lon": 134.64,
+    "depth_km": -10.0,
+    "region": "NEAR N COAST OF PAPUA, INDONESIA"
+  },
+  {
+    "id": "20260621_0000083",
+    "time": "2026-06-21T04:29:20.0Z",
+    "mag": 1.1,
+    "lat": 37.8703,
+    "lon": 36.4411,
+    "depth_km": -7.0,
+    "region": "CENTRAL TURKEY"
+  },
+  {
+    "id": "20260621_0000434",
+    "time": "2026-06-21T04:30:42.288Z",
+    "mag": 2.5,
+    "lat": 52.1005,
+    "lon": -174.5728,
+    "depth_km": -212.0,
+    "region": "ANDREANOF ISLANDS, ALEUTIAN IS."
+  },
+  {
+    "id": "20260621_0000096",
+    "time": "2026-06-21T04:33:56.68Z",
+    "mag": 1.3,
+    "lat": 39.2556,
+    "lon": 28.1569,
+    "depth_km": -7.0,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000081",
+    "time": "2026-06-21T04:36:30.0Z",
+    "mag": 3.4,
+    "lat": -8.52,
+    "lon": 119.48,
+    "depth_km": -142.0,
+    "region": "FLORES REGION, INDONESIA"
+  },
+  {
+    "id": "20260621_0000410",
+    "time": "2026-06-21T04:37:33.319Z",
+    "mag": 4.3,
+    "lat": 37.8275,
+    "lon": 95.3645,
+    "depth_km": -10.0,
+    "region": "NORTHERN QINGHAI, CHINA"
+  },
+  {
+    "id": "20260621_0000084",
+    "time": "2026-06-21T04:43:34.0Z",
+    "mag": 2.5,
+    "lat": -20.92,
+    "lon": -69.02,
+    "depth_km": -110.0,
+    "region": "TARAPACA, CHILE"
+  },
+  {
+    "id": "20260621_0000092",
+    "time": "2026-06-21T04:50:09.0Z",
+    "mag": 1.3,
+    "lat": 37.9669,
+    "lon": 36.5094,
+    "depth_km": -4.7,
+    "region": "CENTRAL TURKEY"
+  },
+  {
+    "id": "20260621_0000086",
+    "time": "2026-06-21T04:50:33.0Z",
+    "mag": 2.7,
+    "lat": -32.55,
+    "lon": -71.81,
+    "depth_km": -24.1,
+    "region": "OFFSHORE VALPARAISO, CHILE"
+  },
+  {
+    "id": "20260621_0000191",
+    "time": "2026-06-21T04:50:34.0Z",
+    "mag": 2.8,
+    "lat": -8.46,
+    "lon": 110.62,
+    "depth_km": -26.0,
+    "region": "JAVA, INDONESIA"
+  },
+  {
+    "id": "20260621_0000088",
+    "time": "2026-06-21T04:51:24.0Z",
+    "mag": 2.5,
+    "lat": 27.87,
+    "lon": 88.266,
+    "depth_km": -20.0,
+    "region": "SIKKIM, INDIA"
+  },
+  {
+    "id": "20260621_0000085",
+    "time": "2026-06-21T04:52:05.0Z",
+    "mag": 2.8,
+    "lat": -1.17,
+    "lon": 120.12,
+    "depth_km": -10.0,
+    "region": "SULAWESI, INDONESIA"
+  },
+  {
+    "id": "20260621_0000093",
+    "time": "2026-06-21T04:58:40.75Z",
+    "mag": 1.6,
+    "lat": 38.7564,
+    "lon": 36.5639,
+    "depth_km": -7.1,
+    "region": "CENTRAL TURKEY"
+  },
+  {
+    "id": "20260621_0000089",
+    "time": "2026-06-21T05:10:58.0Z",
+    "mag": 2.6,
+    "lat": 14.22,
+    "lon": -92.12,
+    "depth_km": -28.0,
+    "region": "OFFSHORE GUATEMALA"
+  },
+  {
+    "id": "20260621_0000101",
+    "time": "2026-06-21T05:12:20.24Z",
+    "mag": 1.7,
+    "lat": 40.7703,
+    "lon": 42.3564,
+    "depth_km": -7.8,
+    "region": "EASTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000099",
+    "time": "2026-06-21T05:16:23.0Z",
+    "mag": 3.2,
+    "lat": 9.58,
+    "lon": 126.79,
+    "depth_km": -32.0,
+    "region": "MINDANAO, PHILIPPINES"
+  },
+  {
+    "id": "20260621_0000095",
+    "time": "2026-06-21T05:17:47.0Z",
+    "mag": 2.8,
+    "lat": -1.15,
+    "lon": 120.07,
+    "depth_km": -5.0,
+    "region": "SULAWESI, INDONESIA"
+  },
+  {
+    "id": "20260621_0000091",
+    "time": "2026-06-21T05:18:00.0Z",
+    "mag": 3.3,
+    "lat": -26.42,
+    "lon": -70.75,
+    "depth_km": -35.9,
+    "region": "OFFSHORE ATACAMA, CHILE"
+  },
+  {
+    "id": "20260621_0000090",
+    "time": "2026-06-21T05:18:37.04Z",
+    "mag": 1.6,
+    "lat": 45.5463,
+    "lon": 11.7587,
+    "depth_km": -6.0,
+    "region": "NORTHERN ITALY"
+  },
+  {
+    "id": "20260621_0000100",
+    "time": "2026-06-21T05:20:05.0Z",
+    "mag": 1.0,
+    "lat": 36.9217,
+    "lon": 28.2856,
+    "depth_km": -7.0,
+    "region": "DODECANESE IS.-TURKEY BORDER REG"
+  },
+  {
+    "id": "20260621_0000094",
+    "time": "2026-06-21T05:21:52.0Z",
+    "mag": 4.2,
+    "lat": -4.1,
+    "lon": 102.51,
+    "depth_km": -20.0,
+    "region": "SOUTHERN SUMATRA, INDONESIA"
+  },
+  {
+    "id": "20260621_0000097",
+    "time": "2026-06-21T05:25:45.0Z",
+    "mag": 3.1,
+    "lat": -21.78,
+    "lon": -68.72,
+    "depth_km": -131.9,
+    "region": "ANTOFAGASTA, CHILE"
+  },
+  {
+    "id": "20260621_0000098",
+    "time": "2026-06-21T05:29:24.0Z",
+    "mag": 2.9,
+    "lat": -8.88,
+    "lon": 111.15,
+    "depth_km": -21.0,
+    "region": "JAVA, INDONESIA"
+  },
+  {
+    "id": "20260621_0000417",
+    "time": "2026-06-21T05:30:18.0Z",
+    "mag": 3.5,
+    "lat": 66.0748,
+    "lon": -135.1192,
+    "depth_km": -5.0,
+    "region": "NORTHERN YUKON TERRITORY, CANADA"
+  },
+  {
+    "id": "20260621_0000103",
+    "time": "2026-06-21T05:34:22.0Z",
+    "mag": 1.1,
+    "lat": 36.6756,
+    "lon": 29.3375,
+    "depth_km": -7.0,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000102",
+    "time": "2026-06-21T05:38:36.0Z",
+    "mag": 1.5,
+    "lat": 39.2558,
+    "lon": 27.9694,
+    "depth_km": -6.3,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000109",
+    "time": "2026-06-21T05:50:21.0Z",
+    "mag": 1.4,
+    "lat": 38.1019,
+    "lon": 37.5197,
+    "depth_km": -9.9,
+    "region": "CENTRAL TURKEY"
+  },
+  {
+    "id": "20260621_0000105",
+    "time": "2026-06-21T05:52:48.0Z",
+    "mag": 3.8,
+    "lat": -1.12,
+    "lon": 120.1,
+    "depth_km": -10.0,
+    "region": "SULAWESI, INDONESIA"
+  },
+  {
+    "id": "20260621_0000413",
+    "time": "2026-06-21T05:52:59.7Z",
+    "mag": 1.5,
+    "lat": 55.07,
+    "lon": -11.3,
+    "depth_km": -5.0,
+    "region": "NORTH ATLANTIC OCEAN"
+  },
+  {
+    "id": "20260621_0000104",
+    "time": "2026-06-21T05:55:49.174Z",
+    "mag": 3.2,
+    "lat": 19.3364,
+    "lon": -155.2099,
+    "depth_km": -9.7,
+    "region": "ISLAND OF HAWAII, HAWAII"
+  },
+  {
+    "id": "20260621_0000106",
+    "time": "2026-06-21T05:58:12.0Z",
+    "mag": 3.1,
+    "lat": -23.43,
+    "lon": -70.63,
+    "depth_km": -29.3,
+    "region": "OFFSHORE ANTOFAGASTA, CHILE"
+  },
+  {
+    "id": "20260621_0000129",
+    "time": "2026-06-21T05:59:31.0Z",
+    "mag": 2.6,
+    "lat": -8.11,
+    "lon": 117.79,
+    "depth_km": -23.0,
+    "region": "SUMBAWA REGION, INDONESIA"
+  },
+  {
+    "id": "20260621_0000108",
+    "time": "2026-06-21T05:59:34.48Z",
+    "mag": 1.7,
+    "lat": 39.3661,
+    "lon": 27.9736,
+    "depth_km": -7.0,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000107",
+    "time": "2026-06-21T05:59:51.0Z",
+    "mag": 2.9,
+    "lat": -21.27,
+    "lon": -68.83,
+    "depth_km": -123.8,
+    "region": "TARAPACA, CHILE"
+  },
+  {
+    "id": "20260621_0000110",
+    "time": "2026-06-21T06:04:30.76Z",
+    "mag": 4.8,
+    "lat": -26.317,
+    "lon": 178.3442,
+    "depth_km": -617.0,
+    "region": "SOUTH OF FIJI ISLANDS"
+  },
+  {
+    "id": "20260621_0000112",
+    "time": "2026-06-21T06:06:15.0Z",
+    "mag": 2.5,
+    "lat": -22.0,
+    "lon": -68.61,
+    "depth_km": -120.1,
+    "region": "ANTOFAGASTA, CHILE"
+  },
+  {
+    "id": "20260621_0000111",
+    "time": "2026-06-21T06:10:27.0Z",
+    "mag": 2.6,
+    "lat": -1.09,
+    "lon": 120.04,
+    "depth_km": -7.0,
+    "region": "SULAWESI, INDONESIA"
+  },
+  {
+    "id": "20260621_0000113",
+    "time": "2026-06-21T06:16:52.07Z",
+    "mag": 2.5,
+    "lat": 46.3606,
+    "lon": 6.7021,
+    "depth_km": -4.8,
+    "region": "FRANCE"
+  },
+  {
+    "id": "20260621_0000118",
+    "time": "2026-06-21T06:18:18.02Z",
+    "mag": 4.4,
+    "lat": 2.4077,
+    "lon": 125.5792,
+    "depth_km": -109.0,
+    "region": "KEPULAUAN SANGIHE, INDONESIA"
+  },
+  {
+    "id": "20260621_0000114",
+    "time": "2026-06-21T06:21:10.0Z",
+    "mag": 3.8,
+    "lat": 1.84,
+    "lon": -79.27,
+    "depth_km": -12.0,
+    "region": "NEAR COAST OF ECUADOR"
+  },
+  {
+    "id": "20260621_0000116",
+    "time": "2026-06-21T06:28:33.0Z",
+    "mag": 2.8,
+    "lat": -22.48,
+    "lon": -68.78,
+    "depth_km": -94.8,
+    "region": "ANTOFAGASTA, CHILE"
+  },
+  {
+    "id": "20260621_0000115",
+    "time": "2026-06-21T06:29:53.94Z",
+    "mag": 2.1,
+    "lat": 36.4383,
+    "lon": -121.9362,
+    "depth_km": -9.2,
+    "region": "OFFSHORE CENTRAL CALIFORNIA"
+  },
+  {
+    "id": "20260621_0000120",
+    "time": "2026-06-21T06:30:34.17Z",
+    "mag": 2.0,
+    "lat": 36.1481,
+    "lon": 36.0155,
+    "depth_km": -10.0,
+    "region": "TURKEY-SYRIA BORDER REGION"
+  },
+  {
+    "id": "20260621_0000119",
+    "time": "2026-06-21T06:30:45.0Z",
+    "mag": 4.4,
+    "lat": 13.43,
+    "lon": -90.94,
+    "depth_km": -3.0,
+    "region": "OFFSHORE GUATEMALA"
+  },
+  {
+    "id": "20260621_0000123",
+    "time": "2026-06-21T06:32:00.11Z",
+    "mag": 4.6,
+    "lat": 24.3406,
+    "lon": -115.7067,
+    "depth_km": -10.0,
+    "region": "OFF COAST OF BAJA CALIFORNIA SUR"
+  },
+  {
+    "id": "20260621_0000135",
+    "time": "2026-06-21T06:33:03.06Z",
+    "mag": 1.6,
+    "lat": 36.9747,
+    "lon": 28.0836,
+    "depth_km": -7.0,
+    "region": "DODECANESE IS.-TURKEY BORDER REG"
+  },
+  {
+    "id": "20260621_0000435",
+    "time": "2026-06-21T06:42:11.991Z",
+    "mag": 2.9,
+    "lat": 41.9157,
+    "lon": -126.8569,
+    "depth_km": -10.0,
+    "region": "OFF COAST OF NORTHERN CALIFORNIA"
+  },
+  {
+    "id": "20260621_0000122",
+    "time": "2026-06-21T06:50:03.0Z",
+    "mag": 2.9,
+    "lat": -8.05,
+    "lon": 107.18,
+    "depth_km": -136.0,
+    "region": "JAVA, INDONESIA"
+  },
+  {
+    "id": "20260621_0000121",
+    "time": "2026-06-21T06:50:33.70018Z",
+    "mag": 3.6,
+    "lat": -36.2729,
+    "lon": 177.8068,
+    "depth_km": -194.3,
+    "region": "OFF E. COAST OF N. ISLAND, N.Z."
+  },
+  {
+    "id": "20260621_0000133",
+    "time": "2026-06-21T06:52:31.57Z",
+    "mag": 2.0,
+    "lat": 38.5097,
+    "lon": 40.2064,
+    "depth_km": -7.0,
+    "region": "EASTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000407",
+    "time": "2026-06-21T06:54:43.648725Z",
+    "mag": 2.4,
+    "lat": -31.576,
+    "lon": 138.3742,
+    "depth_km": -5.7,
+    "region": "SOUTH AUSTRALIA"
+  },
+  {
+    "id": "20260621_0000185",
+    "time": "2026-06-21T06:55:57.78Z",
+    "mag": 3.2,
+    "lat": 18.6628,
+    "lon": -65.3217,
+    "depth_km": -74.7,
+    "region": "PUERTO RICO REGION"
+  },
+  {
+    "id": "20260621_0000124",
+    "time": "2026-06-21T07:00:58.620696Z",
+    "mag": 3.0,
+    "lat": -31.009,
+    "lon": 138.9499,
+    "depth_km": -16.8,
+    "region": "SOUTH AUSTRALIA"
+  },
+  {
+    "id": "20260621_0000125",
+    "time": "2026-06-21T07:07:06.0Z",
+    "mag": 3.4,
+    "lat": -23.03,
+    "lon": -66.88,
+    "depth_km": -283.9,
+    "region": "JUJUY, ARGENTINA"
+  },
+  {
+    "id": "20260621_0000127",
+    "time": "2026-06-21T07:10:08.0Z",
+    "mag": 3.3,
+    "lat": -11.05,
+    "lon": 118.23,
+    "depth_km": -10.0,
+    "region": "SOUTH OF SUMBAWA, INDONESIA"
+  },
+  {
+    "id": "20260621_0000126",
+    "time": "2026-06-21T07:11:03.78Z",
+    "mag": 2.0,
+    "lat": 33.1462,
+    "lon": -116.474,
+    "depth_km": -11.1,
+    "region": "SOUTHERN CALIFORNIA"
+  },
+  {
+    "id": "20260621_0000139",
+    "time": "2026-06-21T07:16:10.0Z",
+    "mag": 2.5,
+    "lat": -7.84,
+    "lon": 120.6,
+    "depth_km": -18.0,
+    "region": "FLORES SEA"
+  },
+  {
+    "id": "20260621_0000136",
+    "time": "2026-06-21T07:24:49.58Z",
+    "mag": 1.2,
+    "lat": 39.2539,
+    "lon": 28.9692,
+    "depth_km": -7.0,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000256",
+    "time": "2026-06-21T07:26:51.317867Z",
+    "mag": 3.6,
+    "lat": 52.194,
+    "lon": 176.397,
+    "depth_km": -67.3,
+    "region": "RAT ISLANDS, ALEUTIAN ISLANDS"
+  },
+  {
+    "id": "20260621_0000131",
+    "time": "2026-06-21T07:28:19.0Z",
+    "mag": 3.4,
+    "lat": 7.8496,
+    "lon": -82.6729,
+    "depth_km": -16.0,
+    "region": "SOUTH OF PANAMA"
+  },
+  {
+    "id": "20260621_0000132",
+    "time": "2026-06-21T07:32:42.0Z",
+    "mag": 3.2,
+    "lat": 4.27,
+    "lon": 125.49,
+    "depth_km": -218.0,
+    "region": "KEPULAUAN SANGIHE, INDONESIA"
+  },
+  {
+    "id": "20260621_0000130",
+    "time": "2026-06-21T07:34:24.92Z",
+    "mag": 2.4,
+    "lat": 40.3437,
+    "lon": -124.9273,
+    "depth_km": -15.5,
+    "region": "OFFSHORE NORTHERN CALIFORNIA"
+  },
+  {
+    "id": "20260621_0000134",
+    "time": "2026-06-21T07:41:01.0Z",
+    "mag": 4.2,
+    "lat": -0.98,
+    "lon": 120.01,
+    "depth_km": -10.0,
+    "region": "MINAHASA, SULAWESI, INDONESIA"
+  },
+  {
+    "id": "20260621_0000422",
+    "time": "2026-06-21T07:41:33.271338Z",
+    "mag": 3.1,
+    "lat": 51.656,
+    "lon": 177.93,
+    "depth_km": -70.3,
+    "region": "RAT ISLANDS, ALEUTIAN ISLANDS"
+  },
+  {
+    "id": "20260621_0000138",
+    "time": "2026-06-21T07:46:36.0Z",
+    "mag": 3.0,
+    "lat": 0.74,
+    "lon": 126.47,
+    "depth_km": -15.0,
+    "region": "MOLUCCA SEA"
+  },
+  {
+    "id": "20260621_0000146",
+    "time": "2026-06-21T07:50:44.39Z",
+    "mag": 4.2,
+    "lat": 33.5153,
+    "lon": 81.405,
+    "depth_km": -36.0,
+    "region": "WESTERN XIZANG"
+  },
+  {
+    "id": "20260621_0000141",
+    "time": "2026-06-21T07:51:03.0Z",
+    "mag": 2.8,
+    "lat": -31.13,
+    "lon": -71.34,
+    "depth_km": -58.2,
+    "region": "COQUIMBO, CHILE"
+  },
+  {
+    "id": "20260621_0000137",
+    "time": "2026-06-21T07:51:13.0Z",
+    "mag": 2.5,
+    "lat": -0.19,
+    "lon": 122.79,
+    "depth_km": -17.0,
+    "region": "SULAWESI, INDONESIA"
+  },
+  {
+    "id": "20260621_0000145",
+    "time": "2026-06-21T07:56:08.0Z",
+    "mag": 4.0,
+    "lat": -7.86,
+    "lon": 128.73,
+    "depth_km": -157.0,
+    "region": "KEPULAUAN BARAT DAYA, INDONESIA"
+  },
+  {
+    "id": "20260621_0000143",
+    "time": "2026-06-21T07:56:31.89Z",
+    "mag": 1.1,
+    "lat": 38.1339,
+    "lon": 38.5336,
+    "depth_km": -7.0,
+    "region": "EASTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000140",
+    "time": "2026-06-21T07:59:12.0Z",
+    "mag": 3.6,
+    "lat": -23.95,
+    "lon": -67.5,
+    "depth_km": -220.6,
+    "region": "ANTOFAGASTA, CHILE"
+  },
+  {
+    "id": "20260621_0000148",
+    "time": "2026-06-21T08:00:43.22Z",
+    "mag": 3.0,
+    "lat": 35.4206,
+    "lon": -9.5529,
+    "depth_km": -10.0,
+    "region": "WEST OF GIBRALTAR"
+  },
+  {
+    "id": "20260621_0000142",
+    "time": "2026-06-21T08:02:04.0Z",
+    "mag": 3.3,
+    "lat": -0.35,
+    "lon": 123.12,
+    "depth_km": -28.0,
+    "region": "SULAWESI, INDONESIA"
+  },
+  {
+    "id": "20260621_0000144",
+    "time": "2026-06-21T08:09:17.0Z",
+    "mag": 2.7,
+    "lat": -1.09,
+    "lon": 119.99,
+    "depth_km": -5.0,
+    "region": "SULAWESI, INDONESIA"
+  },
+  {
+    "id": "20260621_0000157",
+    "time": "2026-06-21T08:10:26.0Z",
+    "mag": 1.0,
+    "lat": 38.1378,
+    "lon": 38.5411,
+    "depth_km": -7.0,
+    "region": "EASTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000154",
+    "time": "2026-06-21T08:16:56.51Z",
+    "mag": 1.1,
+    "lat": 37.8806,
+    "lon": 29.2487,
+    "depth_km": -27.1,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000147",
+    "time": "2026-06-21T08:17:52.0Z",
+    "mag": 3.1,
+    "lat": -22.4,
+    "lon": -68.63,
+    "depth_km": -117.2,
+    "region": "ANTOFAGASTA, CHILE"
+  },
+  {
+    "id": "20260621_0000155",
+    "time": "2026-06-21T08:20:10.39Z",
+    "mag": 1.3,
+    "lat": 37.8833,
+    "lon": 29.2544,
+    "depth_km": -10.3,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000149",
+    "time": "2026-06-21T08:23:37.73Z",
+    "mag": 2.4,
+    "lat": 37.197,
+    "lon": -2.3025,
+    "depth_km": -0.2,
+    "region": "SPAIN"
+  },
+  {
+    "id": "20260621_0000156",
+    "time": "2026-06-21T08:27:20.07Z",
+    "mag": 1.1,
+    "lat": 36.8089,
+    "lon": 29.1683,
+    "depth_km": -7.0,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000158",
+    "time": "2026-06-21T08:28:58.007Z",
+    "mag": 4.4,
+    "lat": 36.2762,
+    "lon": 70.6957,
+    "depth_km": -125.8,
+    "region": "HINDU KUSH REGION, AFGHANISTAN"
+  },
+  {
+    "id": "20260621_0000150",
+    "time": "2026-06-21T08:29:08.54Z",
+    "mag": 3.9,
+    "lat": 19.192,
+    "lon": -64.2561,
+    "depth_km": -24.0,
+    "region": "VIRGIN ISLANDS REGION"
+  },
+  {
+    "id": "20260621_0000166",
+    "time": "2026-06-21T08:32:10.979Z",
+    "mag": 2.8,
+    "lat": 62.9597,
+    "lon": -148.2437,
+    "depth_km": -4.5,
+    "region": "CENTRAL ALASKA"
+  },
+  {
+    "id": "20260621_0000152",
+    "time": "2026-06-21T08:38:52.0Z",
+    "mag": 3.5,
+    "lat": -10.52,
+    "lon": 110.44,
+    "depth_km": -10.0,
+    "region": "SOUTH OF JAVA, INDONESIA"
+  },
+  {
+    "id": "20260621_0000161",
+    "time": "2026-06-21T08:43:29.34Z",
+    "mag": 2.0,
+    "lat": 40.1311,
+    "lon": 41.3864,
+    "depth_km": -7.0,
+    "region": "EASTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000151",
+    "time": "2026-06-21T08:43:51.0Z",
+    "mag": 3.5,
+    "lat": -10.45,
+    "lon": 110.69,
+    "depth_km": -10.0,
+    "region": "SOUTH OF JAVA, INDONESIA"
+  },
+  {
+    "id": "20260621_0000153",
+    "time": "2026-06-21T08:47:57.0Z",
+    "mag": 3.9,
+    "lat": 29.558,
+    "lon": 81.704,
+    "depth_km": -30.0,
+    "region": "NEPAL"
+  },
+  {
+    "id": "20260621_0000163",
+    "time": "2026-06-21T08:50:10.49Z",
+    "mag": 4.7,
+    "lat": -16.9125,
+    "lon": -70.4527,
+    "depth_km": -78.0,
+    "region": "SOUTHERN PERU"
+  },
+  {
+    "id": "20260621_0000159",
+    "time": "2026-06-21T08:57:29.0Z",
+    "mag": 3.4,
+    "lat": -4.1,
+    "lon": 141.23,
+    "depth_km": -8.0,
+    "region": "NEW GUINEA, PAPUA NEW GUINEA"
+  },
+  {
+    "id": "20260621_0000171",
+    "time": "2026-06-21T09:00:09.283Z",
+    "mag": 4.1,
+    "lat": 19.6882,
+    "lon": -87.5678,
+    "depth_km": -14.0,
+    "region": "BAHIA LA ASCENSION, Q.R., MEXICO"
+  },
+  {
+    "id": "20260621_0000160",
+    "time": "2026-06-21T09:01:17.0Z",
+    "mag": 2.8,
+    "lat": 15.04,
+    "lon": -89.52,
+    "depth_km": -26.0,
+    "region": "GUATEMALA"
+  },
+  {
+    "id": "20260621_0000441",
+    "time": "2026-06-21T09:02:53.561Z",
+    "mag": 2.6,
+    "lat": 51.6883,
+    "lon": 178.9967,
+    "depth_km": -93.1,
+    "region": "RAT ISLANDS, ALEUTIAN ISLANDS"
+  },
+  {
+    "id": "20260621_0000168",
+    "time": "2026-06-21T09:03:27.01Z",
+    "mag": 1.7,
+    "lat": 36.6356,
+    "lon": 36.3075,
+    "depth_km": -12.5,
+    "region": "TURKEY-SYRIA BORDER REGION"
+  },
+  {
+    "id": "20260621_0000162",
+    "time": "2026-06-21T09:03:49.76Z",
+    "mag": 2.0,
+    "lat": 41.9473,
+    "lon": 15.4982,
+    "depth_km": -7.5,
+    "region": "SOUTHERN ITALY"
+  },
+  {
+    "id": "20260621_0000164",
+    "time": "2026-06-21T09:14:41.0Z",
+    "mag": 3.5,
+    "lat": -10.58,
+    "lon": 110.64,
+    "depth_km": -10.0,
+    "region": "SOUTH OF JAVA, INDONESIA"
+  },
+  {
+    "id": "20260621_0000167",
+    "time": "2026-06-21T09:21:03.0Z",
+    "mag": 3.3,
+    "lat": 3.69,
+    "lon": 127.44,
+    "depth_km": -87.0,
+    "region": "KEPULAUAN TALAUD, INDONESIA"
+  },
+  {
+    "id": "20260621_0000169",
+    "time": "2026-06-21T09:26:55.0Z",
+    "mag": 2.8,
+    "lat": -32.26,
+    "lon": -71.75,
+    "depth_km": -21.6,
+    "region": "OFFSHORE VALPARAISO, CHILE"
+  },
+  {
+    "id": "20260621_0000170",
+    "time": "2026-06-21T09:29:29.0Z",
+    "mag": 2.7,
+    "lat": -21.71,
+    "lon": -68.6,
+    "depth_km": -131.3,
+    "region": "ANTOFAGASTA, CHILE"
+  },
+  {
+    "id": "20260621_0000177",
+    "time": "2026-06-21T09:34:07.31Z",
+    "mag": 1.6,
+    "lat": 38.7769,
+    "lon": 36.5544,
+    "depth_km": -6.9,
+    "region": "CENTRAL TURKEY"
+  },
+  {
+    "id": "20260621_0000226",
+    "time": "2026-06-21T09:42:31.0Z",
+    "mag": 2.5,
+    "lat": -2.47,
+    "lon": 120.78,
+    "depth_km": -5.0,
+    "region": "SULAWESI, INDONESIA"
+  },
+  {
+    "id": "20260621_0000176",
+    "time": "2026-06-21T09:43:07.0Z",
+    "mag": 0.9,
+    "lat": 39.2236,
+    "lon": 28.9617,
+    "depth_km": -6.5,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000172",
+    "time": "2026-06-21T09:46:48.0Z",
+    "mag": 2.8,
+    "lat": -21.18,
+    "lon": -68.94,
+    "depth_km": -117.2,
+    "region": "TARAPACA, CHILE"
+  },
+  {
+    "id": "20260621_0000179",
+    "time": "2026-06-21T09:47:20.09Z",
+    "mag": 1.6,
+    "lat": 38.7667,
+    "lon": 36.5347,
+    "depth_km": -7.0,
+    "region": "CENTRAL TURKEY"
+  },
+  {
+    "id": "20260621_0000173",
+    "time": "2026-06-21T09:49:06.0Z",
+    "mag": 3.2,
+    "lat": -22.25,
+    "lon": -68.69,
+    "depth_km": -104.8,
+    "region": "ANTOFAGASTA, CHILE"
+  },
+  {
+    "id": "20260621_0000174",
+    "time": "2026-06-21T09:50:57.0Z",
+    "mag": 3.0,
+    "lat": -24.83,
+    "lon": -70.99,
+    "depth_km": -13.5,
+    "region": "OFFSHORE ANTOFAGASTA, CHILE"
+  },
+  {
+    "id": "20260621_0000178",
+    "time": "2026-06-21T09:52:33.19Z",
+    "mag": 1.3,
+    "lat": 39.2883,
+    "lon": 29.2747,
+    "depth_km": -7.0,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000180",
+    "time": "2026-06-21T09:52:40.25Z",
+    "mag": 2.0,
+    "lat": 36.6795,
+    "lon": -7.7356,
+    "depth_km": -11.2,
+    "region": "STRAIT OF GIBRALTAR"
+  },
+  {
+    "id": "20260621_0000175",
+    "time": "2026-06-21T09:53:27.0Z",
+    "mag": 3.7,
+    "lat": -20.97,
+    "lon": -70.34,
+    "depth_km": -64.6,
+    "region": "OFFSHORE TARAPACA, CHILE"
+  },
+  {
+    "id": "20260621_0000181",
+    "time": "2026-06-21T10:09:44.226153Z",
+    "mag": 4.2,
+    "lat": -33.9748,
+    "lon": 178.96,
+    "depth_km": -12.0,
+    "region": "SOUTH OF KERMADEC ISLANDS"
+  },
+  {
+    "id": "20260621_0000183",
+    "time": "2026-06-21T10:15:01.0Z",
+    "mag": 2.5,
+    "lat": -20.99,
+    "lon": -68.66,
+    "depth_km": -137.7,
+    "region": "ANTOFAGASTA, CHILE"
+  },
+  {
+    "id": "20260621_0000184",
+    "time": "2026-06-21T10:16:10.0Z",
+    "mag": 2.8,
+    "lat": -28.02,
+    "lon": -69.27,
+    "depth_km": -107.4,
+    "region": "LA RIOJA, ARGENTINA"
+  },
+  {
+    "id": "20260621_0000182",
+    "time": "2026-06-21T10:17:41.0Z",
+    "mag": 2.5,
+    "lat": -1.23,
+    "lon": 120.09,
+    "depth_km": -5.0,
+    "region": "SULAWESI, INDONESIA"
+  },
+  {
+    "id": "20260621_0000194",
+    "time": "2026-06-21T10:22:04.83Z",
+    "mag": 3.7,
+    "lat": 19.2278,
+    "lon": -64.26,
+    "depth_km": -26.0,
+    "region": "VIRGIN ISLANDS REGION"
+  },
+  {
+    "id": "20260621_0000219",
+    "time": "2026-06-21T10:29:34.96Z",
+    "mag": 2.7,
+    "lat": 34.7952,
+    "lon": 29.0988,
+    "depth_km": -15.9,
+    "region": "EASTERN MEDITERRANEAN SEA"
+  },
+  {
+    "id": "20260621_0000186",
+    "time": "2026-06-21T10:35:59.0Z",
+    "mag": 2.7,
+    "lat": -21.16,
+    "lon": -68.9,
+    "depth_km": -123.5,
+    "region": "TARAPACA, CHILE"
+  },
+  {
+    "id": "20260621_0000195",
+    "time": "2026-06-21T10:37:44.6Z",
+    "mag": 1.8,
+    "lat": 38.5028,
+    "lon": 40.2047,
+    "depth_km": -7.0,
+    "region": "EASTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000188",
+    "time": "2026-06-21T10:41:01.0Z",
+    "mag": 3.2,
+    "lat": 13.84,
+    "lon": -90.94,
+    "depth_km": -80.0,
+    "region": "OFFSHORE GUATEMALA"
+  },
+  {
+    "id": "20260621_0000187",
+    "time": "2026-06-21T10:41:37.0Z",
+    "mag": 2.6,
+    "lat": 27.478,
+    "lon": 92.045,
+    "depth_km": -10.0,
+    "region": "ARUNACHAL PRADESH, INDIA"
+  },
+  {
+    "id": "20260621_0000190",
+    "time": "2026-06-21T10:44:17.0Z",
+    "mag": 3.0,
+    "lat": -3.73,
+    "lon": 136.41,
+    "depth_km": -9.0,
+    "region": "PAPUA, INDONESIA"
+  },
+  {
+    "id": "20260621_0000189",
+    "time": "2026-06-21T10:52:06.52Z",
+    "mag": 2.5,
+    "lat": 19.2727,
+    "lon": -155.395,
+    "depth_km": -31.7,
+    "region": "ISLAND OF HAWAII, HAWAII"
+  },
+  {
+    "id": "20260621_0000225",
+    "time": "2026-06-21T10:54:09.2Z",
+    "mag": 4.5,
+    "lat": 52.66,
+    "lon": 161.01,
+    "depth_km": -20.0,
+    "region": "OFF EAST COAST OF KAMCHATKA"
+  },
+  {
+    "id": "20260621_0000439",
+    "time": "2026-06-21T11:08:59.705Z",
+    "mag": 2.6,
+    "lat": 51.62,
+    "lon": -167.0305,
+    "depth_km": -10.0,
+    "region": "FOX ISLANDS, ALEUTIAN ISLANDS"
+  },
+  {
+    "id": "20260621_0000200",
+    "time": "2026-06-21T11:10:45.38Z",
+    "mag": 3.8,
+    "lat": 19.118,
+    "lon": -64.2733,
+    "depth_km": -11.0,
+    "region": "VIRGIN ISLANDS REGION"
+  },
+  {
+    "id": "20260621_0000199",
+    "time": "2026-06-21T11:11:13.55Z",
+    "mag": 1.9,
+    "lat": 39.2714,
+    "lon": 28.9492,
+    "depth_km": -7.0,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000193",
+    "time": "2026-06-21T11:12:59.0Z",
+    "mag": 2.5,
+    "lat": 13.22,
+    "lon": -89.83,
+    "depth_km": -25.0,
+    "region": "OFFSHORE EL SALVADOR"
+  },
+  {
+    "id": "20260621_0000201",
+    "time": "2026-06-21T11:16:50.0Z",
+    "mag": 1.1,
+    "lat": 38.2244,
+    "lon": 38.14,
+    "depth_km": -7.0,
+    "region": "EASTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000197",
+    "time": "2026-06-21T11:16:59.0Z",
+    "mag": 3.7,
+    "lat": -10.6,
+    "lon": 111.9,
+    "depth_km": -10.0,
+    "region": "SOUTH OF JAVA, INDONESIA"
+  },
+  {
+    "id": "20260621_0000192",
+    "time": "2026-06-21T11:18:02.0Z",
+    "mag": 2.6,
+    "lat": -1.25,
+    "lon": 120.22,
+    "depth_km": -5.0,
+    "region": "SULAWESI, INDONESIA"
+  },
+  {
+    "id": "20260621_0000205",
+    "time": "2026-06-21T11:22:25.0Z",
+    "mag": 2.9,
+    "lat": 9.0226,
+    "lon": -84.1748,
+    "depth_km": -19.0,
+    "region": "COSTA RICA"
+  },
+  {
+    "id": "20260621_0000196",
+    "time": "2026-06-21T11:23:23.799759Z",
+    "mag": 3.1,
+    "lat": -37.6503,
+    "lon": 176.2096,
+    "depth_km": -339.3,
+    "region": "NORTH ISLAND OF NEW ZEALAND"
+  },
+  {
+    "id": "20260621_0000198",
+    "time": "2026-06-21T11:30:14.0Z",
+    "mag": 2.8,
+    "lat": -21.48,
+    "lon": -68.59,
+    "depth_km": -154.3,
+    "region": "ANTOFAGASTA, CHILE"
+  },
+  {
+    "id": "20260621_0000204",
+    "time": "2026-06-21T11:32:14.17Z",
+    "mag": 1.2,
+    "lat": 40.7636,
+    "lon": 31.5358,
+    "depth_km": -9.3,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000364",
+    "time": "2026-06-21T11:34:11.0Z",
+    "mag": 2.5,
+    "lat": -1.08,
+    "lon": 120.01,
+    "depth_km": -4.0,
+    "region": "SULAWESI, INDONESIA"
+  },
+  {
+    "id": "20260621_0000440",
+    "time": "2026-06-21T11:43:03.713Z",
+    "mag": 4.2,
+    "lat": 37.7935,
+    "lon": 95.4218,
+    "depth_km": -10.0,
+    "region": "NORTHERN QINGHAI, CHINA"
+  },
+  {
+    "id": "20260621_0000202",
+    "time": "2026-06-21T11:44:45.25Z",
+    "mag": 2.0,
+    "lat": 19.3463,
+    "lon": -155.425,
+    "depth_km": -6.7,
+    "region": "ISLAND OF HAWAII, HAWAII"
+  },
+  {
+    "id": "20260621_0000203",
+    "time": "2026-06-21T11:47:46.3Z",
+    "mag": 2.0,
+    "lat": 40.418,
+    "lon": 20.098,
+    "depth_km": -15.0,
+    "region": "ALBANIA"
+  },
+  {
+    "id": "20260621_0000411",
+    "time": "2026-06-21T11:48:45.27Z",
+    "mag": 1.6,
+    "lat": 42.0078,
+    "lon": -8.5565,
+    "depth_km": -21.1,
+    "region": "SPAIN"
+  },
+  {
+    "id": "20260621_0000420",
+    "time": "2026-06-21T11:53:07.4Z",
+    "mag": 2.9,
+    "lat": 38.79,
+    "lon": 72.03,
+    "depth_km": -4.0,
+    "region": "TAJIKISTAN"
+  },
+  {
+    "id": "20260621_0000206",
+    "time": "2026-06-21T11:57:26.0Z",
+    "mag": 2.6,
+    "lat": -21.67,
+    "lon": -68.63,
+    "depth_km": -135.6,
+    "region": "ANTOFAGASTA, CHILE"
+  },
+  {
+    "id": "20260621_0000215",
+    "time": "2026-06-21T12:05:06.86Z",
+    "mag": 2.5,
+    "lat": 63.5351,
+    "lon": -148.9755,
+    "depth_km": -9.1,
+    "region": "CENTRAL ALASKA"
+  },
+  {
+    "id": "20260621_0000404",
+    "time": "2026-06-21T12:07:27.0Z",
+    "mag": 3.5,
+    "lat": -1.23,
+    "lon": 120.27,
+    "depth_km": -5.0,
+    "region": "SULAWESI, INDONESIA"
+  },
+  {
+    "id": "20260621_0000217",
+    "time": "2026-06-21T12:08:16.0Z",
+    "mag": 3.3,
+    "lat": 8.0452,
+    "lon": -82.7719,
+    "depth_km": -14.0,
+    "region": "PANAMA-COSTA RICA BORDER REGION"
+  },
+  {
+    "id": "20260621_0000208",
+    "time": "2026-06-21T12:11:53.0Z",
+    "mag": 2.9,
+    "lat": 3.29,
+    "lon": 97.18,
+    "depth_km": -12.0,
+    "region": "NORTHERN SUMATRA, INDONESIA"
+  },
+  {
+    "id": "20260621_0000207",
+    "time": "2026-06-21T12:12:16.0Z",
+    "mag": 2.8,
+    "lat": -1.27,
+    "lon": 120.3,
+    "depth_km": -5.0,
+    "region": "SULAWESI, INDONESIA"
+  },
+  {
+    "id": "20260621_0000213",
+    "time": "2026-06-21T12:12:59.71Z",
+    "mag": 4.3,
+    "lat": 52.7094,
+    "lon": 160.7547,
+    "depth_km": -24.0,
+    "region": "OFF EAST COAST OF KAMCHATKA"
+  },
+  {
+    "id": "20260621_0000210",
+    "time": "2026-06-21T12:19:42.0Z",
+    "mag": 2.7,
+    "lat": -2.94,
+    "lon": 130.08,
+    "depth_km": -27.0,
+    "region": "CERAM SEA, INDONESIA"
+  },
+  {
+    "id": "20260621_0000211",
+    "time": "2026-06-21T12:20:37.0Z",
+    "mag": 3.2,
+    "lat": 13.94,
+    "lon": -91.57,
+    "depth_km": -29.0,
+    "region": "OFFSHORE GUATEMALA"
+  },
+  {
+    "id": "20260621_0000209",
+    "time": "2026-06-21T12:23:24.0Z",
+    "mag": 3.4,
+    "lat": -3.49,
+    "lon": 141.66,
+    "depth_km": -13.0,
+    "region": "NEW GUINEA, PAPUA NEW GUINEA"
+  },
+  {
+    "id": "20260621_0000431",
+    "time": "2026-06-21T12:27:45.51Z",
+    "mag": 2.2,
+    "lat": 39.781,
+    "lon": -122.546,
+    "depth_km": -11.2,
+    "region": "NORTHERN CALIFORNIA"
+  },
+  {
+    "id": "20260621_0000212",
+    "time": "2026-06-21T12:30:18.0Z",
+    "mag": 3.4,
+    "lat": -0.94,
+    "lon": 123.46,
+    "depth_km": -10.0,
+    "region": "SULAWESI, INDONESIA"
+  },
+  {
+    "id": "20260621_0000214",
+    "time": "2026-06-21T12:45:42.0Z",
+    "mag": 3.3,
+    "lat": 13.32,
+    "lon": -90.88,
+    "depth_km": -5.0,
+    "region": "OFFSHORE GUATEMALA"
+  },
+  {
+    "id": "20260621_0000262",
+    "time": "2026-06-21T12:46:34.63Z",
+    "mag": 2.6,
+    "lat": 52.8178,
+    "lon": -169.8878,
+    "depth_km": -4.3,
+    "region": "FOX ISLANDS, ALEUTIAN ISLANDS"
+  },
+  {
+    "id": "20260621_0000216",
+    "time": "2026-06-21T12:47:14.0Z",
+    "mag": 3.3,
+    "lat": 11.6,
+    "lon": -86.06,
+    "depth_km": -144.0,
+    "region": "NEAR COAST OF NICARAGUA"
+  },
+  {
+    "id": "20260621_0000218",
+    "time": "2026-06-21T12:49:06.0Z",
+    "mag": 0.9,
+    "lat": 38.2714,
+    "lon": 38.2919,
+    "depth_km": -7.0,
+    "region": "EASTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000222",
+    "time": "2026-06-21T12:58:43.04Z",
+    "mag": 1.8,
+    "lat": 40.4703,
+    "lon": 42.3744,
+    "depth_km": -7.0,
+    "region": "EASTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000223",
+    "time": "2026-06-21T13:02:14.0Z",
+    "mag": 3.0,
+    "lat": -22.02,
+    "lon": -68.61,
+    "depth_km": -121.9,
+    "region": "ANTOFAGASTA, CHILE"
+  },
+  {
+    "id": "20260621_0000221",
+    "time": "2026-06-21T13:06:29.0Z",
+    "mag": 3.3,
+    "lat": 4.88,
+    "lon": 125.47,
+    "depth_km": -3.0,
+    "region": "KEPULAUAN SANGIHE, INDONESIA"
+  },
+  {
+    "id": "20260621_0000220",
+    "time": "2026-06-21T13:09:21.0Z",
+    "mag": 2.6,
+    "lat": -1.16,
+    "lon": 120.09,
+    "depth_km": -5.0,
+    "region": "SULAWESI, INDONESIA"
+  },
+  {
+    "id": "20260621_0000224",
+    "time": "2026-06-21T13:15:54.0Z",
+    "mag": 2.6,
+    "lat": -8.83,
+    "lon": 124.22,
+    "depth_km": -80.0,
+    "region": "KEPULAUAN ALOR, INDONESIA"
+  },
+  {
+    "id": "20260621_0000408",
+    "time": "2026-06-21T13:18:01.5Z",
+    "mag": 4.2,
+    "lat": -4.0855,
+    "lon": 153.9901,
+    "depth_km": -287.0,
+    "region": "NEW IRELAND REGION, P.N.G."
+  },
+  {
+    "id": "20260621_0000231",
+    "time": "2026-06-21T13:26:58.29Z",
+    "mag": 4.5,
+    "lat": 13.4194,
+    "lon": -90.8922,
+    "depth_km": -10.0,
+    "region": "OFFSHORE GUATEMALA"
+  },
+  {
+    "id": "20260621_0000227",
+    "time": "2026-06-21T13:33:41.0Z",
+    "mag": 3.2,
+    "lat": -1.33,
+    "lon": 120.41,
+    "depth_km": -5.0,
+    "region": "SULAWESI, INDONESIA"
+  },
+  {
+    "id": "20260621_0000233",
+    "time": "2026-06-21T13:37:09.0Z",
+    "mag": 2.8,
+    "lat": -33.593,
+    "lon": -65.711,
+    "depth_km": -18.0,
+    "region": "SAN LUIS, ARGENTINA"
+  },
+  {
+    "id": "20260621_0000228",
+    "time": "2026-06-21T13:38:18.0Z",
+    "mag": 3.4,
+    "lat": 13.38,
+    "lon": -90.82,
+    "depth_km": -3.0,
+    "region": "OFFSHORE GUATEMALA"
+  },
+  {
+    "id": "20260621_0000230",
+    "time": "2026-06-21T13:39:14.0Z",
+    "mag": 3.2,
+    "lat": -9.85,
+    "lon": 119.18,
+    "depth_km": -14.0,
+    "region": "SUMBA REGION, INDONESIA"
+  },
+  {
+    "id": "20260621_0000406",
+    "time": "2026-06-21T13:40:54.0Z",
+    "mag": 2.9,
+    "lat": -1.21,
+    "lon": 120.05,
+    "depth_km": -5.0,
+    "region": "SULAWESI, INDONESIA"
+  },
+  {
+    "id": "20260621_0000229",
+    "time": "2026-06-21T13:42:14.0Z",
+    "mag": 2.6,
+    "lat": -1.92,
+    "lon": 115.73,
+    "depth_km": -9.0,
+    "region": "KALIMANTAN, INDONESIA"
+  },
+  {
+    "id": "20260621_0000327",
+    "time": "2026-06-21T13:47:34.213Z",
+    "mag": 2.6,
+    "lat": 59.6451,
+    "lon": -138.9584,
+    "depth_km": -10.0,
+    "region": "SOUTHEASTERN ALASKA"
+  },
+  {
+    "id": "20260621_0000409",
+    "time": "2026-06-21T13:48:06.03Z",
+    "mag": 4.4,
+    "lat": 78.4125,
+    "lon": 6.7106,
+    "depth_km": -10.0,
+    "region": "SVALBARD REGION"
+  },
+  {
+    "id": "20260621_0000232",
+    "time": "2026-06-21T13:49:44.0Z",
+    "mag": 3.5,
+    "lat": -10.58,
+    "lon": 110.35,
+    "depth_km": -10.0,
+    "region": "SOUTH OF JAVA, INDONESIA"
+  },
+  {
+    "id": "20260621_0000234",
+    "time": "2026-06-21T13:57:45.0Z",
+    "mag": 2.9,
+    "lat": -3.56,
+    "lon": 141.21,
+    "depth_km": -10.0,
+    "region": "NEW GUINEA, PAPUA NEW GUINEA"
+  },
+  {
+    "id": "20260621_0000240",
+    "time": "2026-06-21T14:00:28.0Z",
+    "mag": 1.3,
+    "lat": 40.84,
+    "lon": 28.0544,
+    "depth_km": -5.5,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000426",
+    "time": "2026-06-21T14:05:56.959Z",
+    "mag": 2.0,
+    "lat": 55.4242,
+    "lon": -162.8657,
+    "depth_km": -169.1,
+    "region": "ALASKA PENINSULA"
+  },
+  {
+    "id": "20260621_0000235",
+    "time": "2026-06-21T14:10:20.51Z",
+    "mag": 1.6,
+    "lat": 39.2958,
+    "lon": 28.9067,
+    "depth_km": -7.0,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000236",
+    "time": "2026-06-21T14:33:57.91Z",
+    "mag": 2.1,
+    "lat": 39.235,
+    "lon": 28.9611,
+    "depth_km": -9.2,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000237",
+    "time": "2026-06-21T14:37:38.53Z",
+    "mag": 2.2,
+    "lat": 40.1453,
+    "lon": 31.77,
+    "depth_km": -7.0,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000427",
+    "time": "2026-06-21T14:44:42.56Z",
+    "mag": 2.8,
+    "lat": 51.445,
+    "lon": -166.5067,
+    "depth_km": -10.0,
+    "region": "SOUTH OF ALEUTIAN ISLANDS"
+  },
+  {
+    "id": "20260621_0000238",
+    "time": "2026-06-21T14:46:05.3Z",
+    "mag": 3.1,
+    "lat": 59.7753,
+    "lon": -153.53,
+    "depth_km": -134.4,
+    "region": "SOUTHERN ALASKA"
+  },
+  {
+    "id": "20260621_0000243",
+    "time": "2026-06-21T14:49:20.0Z",
+    "mag": 2.5,
+    "lat": -8.97,
+    "lon": 124.05,
+    "depth_km": -54.0,
+    "region": "KEPULAUAN ALOR, INDONESIA"
+  },
+  {
+    "id": "20260621_0000239",
+    "time": "2026-06-21T14:49:56.24Z",
+    "mag": 2.1,
+    "lat": 19.3075,
+    "lon": -155.7693,
+    "depth_km": -9.4,
+    "region": "ISLAND OF HAWAII, HAWAII"
+  },
+  {
+    "id": "20260621_0000241",
+    "time": "2026-06-21T14:52:37.0Z",
+    "mag": 3.1,
+    "lat": -29.24,
+    "lon": -71.31,
+    "depth_km": -50.2,
+    "region": "COQUIMBO, CHILE"
+  },
+  {
+    "id": "20260621_0000242",
+    "time": "2026-06-21T14:56:49.0Z",
+    "mag": 2.7,
+    "lat": 1.23,
+    "lon": 126.18,
+    "depth_km": -21.0,
+    "region": "MOLUCCA SEA"
+  },
+  {
+    "id": "20260621_0000244",
+    "time": "2026-06-21T15:03:34.0Z",
+    "mag": 2.8,
+    "lat": -9.23,
+    "lon": 113.13,
+    "depth_km": -9.0,
+    "region": "SOUTH OF JAVA, INDONESIA"
+  },
+  {
+    "id": "20260621_0000329",
+    "time": "2026-06-21T15:08:52.831Z",
+    "mag": 2.3,
+    "lat": 35.733,
+    "lon": -98.0591,
+    "depth_km": -5.0,
+    "region": "OKLAHOMA"
+  },
+  {
+    "id": "20260621_0000245",
+    "time": "2026-06-21T15:15:30.0Z",
+    "mag": 2.7,
+    "lat": 12.13,
+    "lon": -86.85,
+    "depth_km": -119.0,
+    "region": "NICARAGUA"
+  },
+  {
+    "id": "20260621_0000246",
+    "time": "2026-06-21T15:15:45.016513Z",
+    "mag": 3.0,
+    "lat": -32.1777,
+    "lon": 149.1151,
+    "depth_km": -1.2,
+    "region": "NEW SOUTH WALES, AUSTRALIA"
+  },
+  {
+    "id": "20260621_0000248",
+    "time": "2026-06-21T15:25:14.99Z",
+    "mag": 2.0,
+    "lat": 37.9267,
+    "lon": 36.4728,
+    "depth_km": -7.0,
+    "region": "CENTRAL TURKEY"
+  },
+  {
+    "id": "20260621_0000249",
+    "time": "2026-06-21T15:26:07.0Z",
+    "mag": 2.5,
+    "lat": -21.49,
+    "lon": -68.46,
+    "depth_km": -140.1,
+    "region": "ANTOFAGASTA, CHILE"
+  },
+  {
+    "id": "20260621_0000247",
+    "time": "2026-06-21T15:29:19.12Z",
+    "mag": 1.4,
+    "lat": 39.2775,
+    "lon": 29.1678,
+    "depth_km": -6.3,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000428",
+    "time": "2026-06-21T15:41:39.744Z",
+    "mag": 4.2,
+    "lat": 49.9505,
+    "lon": 157.2775,
+    "depth_km": -35.0,
+    "region": "EAST OF KURIL ISLANDS"
+  },
+  {
+    "id": "20260621_0000251",
+    "time": "2026-06-21T15:46:31.24Z",
+    "mag": 2.2,
+    "lat": 39.7503,
+    "lon": 41.1097,
+    "depth_km": -12.5,
+    "region": "EASTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000253",
+    "time": "2026-06-21T15:57:41.0Z",
+    "mag": 2.6,
+    "lat": -9.05,
+    "lon": 110.44,
+    "depth_km": -14.0,
+    "region": "SOUTH OF JAVA, INDONESIA"
+  },
+  {
+    "id": "20260621_0000250",
+    "time": "2026-06-21T15:58:09.63Z",
+    "mag": 3.0,
+    "lat": 36.2057,
+    "lon": -120.089,
+    "depth_km": -10.6,
+    "region": "CENTRAL CALIFORNIA"
+  },
+  {
+    "id": "20260621_0000429",
+    "time": "2026-06-21T16:01:48.055Z",
+    "mag": 2.5,
+    "lat": 54.4491,
+    "lon": -160.3985,
+    "depth_km": -35.0,
+    "region": "ALASKA PENINSULA"
+  },
+  {
+    "id": "20260621_0000252",
+    "time": "2026-06-21T16:05:19.3Z",
+    "mag": 2.4,
+    "lat": 36.195,
+    "lon": -120.0862,
+    "depth_km": -8.5,
+    "region": "CENTRAL CALIFORNIA"
+  },
+  {
+    "id": "20260621_0000259",
+    "time": "2026-06-21T16:07:12.227153Z",
+    "mag": 3.1,
+    "lat": -35.9512,
+    "lon": 178.9245,
+    "depth_km": -152.0,
+    "region": "OFF E. COAST OF N. ISLAND, N.Z."
+  },
+  {
+    "id": "20260621_0000255",
+    "time": "2026-06-21T16:08:15.0Z",
+    "mag": 2.5,
+    "lat": -21.09,
+    "lon": -69.0,
+    "depth_km": -104.3,
+    "region": "TARAPACA, CHILE"
+  },
+  {
+    "id": "20260621_0000430",
+    "time": "2026-06-21T16:08:57.301Z",
+    "mag": 4.2,
+    "lat": 63.2505,
+    "lon": 174.8164,
+    "depth_km": -10.0,
+    "region": "CHUKOTKA, RUSSIA"
+  },
+  {
+    "id": "20260621_0000254",
+    "time": "2026-06-21T16:11:49.022Z",
+    "mag": 2.2,
+    "lat": 38.1544,
+    "lon": -118.2797,
+    "depth_km": -9.9,
+    "region": "NEVADA"
+  },
+  {
+    "id": "20260621_0000257",
+    "time": "2026-06-21T16:17:40.0Z",
+    "mag": 2.7,
+    "lat": -31.99,
+    "lon": -69.56,
+    "depth_km": -107.0,
+    "region": "SAN JUAN, ARGENTINA"
+  },
+  {
+    "id": "20260621_0000261",
+    "time": "2026-06-21T16:24:21.0Z",
+    "mag": 3.1,
+    "lat": 13.36,
+    "lon": -90.86,
+    "depth_km": -1.0,
+    "region": "OFFSHORE GUATEMALA"
+  },
+  {
+    "id": "20260621_0000438",
+    "time": "2026-06-21T16:27:26.673Z",
+    "mag": 2.4,
+    "lat": 60.1011,
+    "lon": -153.0153,
+    "depth_km": -120.1,
+    "region": "SOUTHERN ALASKA"
+  },
+  {
+    "id": "20260621_0000258",
+    "time": "2026-06-21T16:27:37.31Z",
+    "mag": 1.4,
+    "lat": 39.2277,
+    "lon": 28.9663,
+    "depth_km": -9.7,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000260",
+    "time": "2026-06-21T16:29:16.0Z",
+    "mag": 3.7,
+    "lat": 5.46,
+    "lon": 125.47,
+    "depth_km": -9.0,
+    "region": "MINDANAO, PHILIPPINES"
+  },
+  {
+    "id": "20260621_0000267",
+    "time": "2026-06-21T16:36:42.22Z",
+    "mag": 1.6,
+    "lat": 38.7717,
+    "lon": 36.5228,
+    "depth_km": -7.0,
+    "region": "CENTRAL TURKEY"
+  },
+  {
+    "id": "20260621_0000265",
+    "time": "2026-06-21T16:41:02.0Z",
+    "mag": 2.8,
+    "lat": 14.16,
+    "lon": -91.53,
+    "depth_km": -54.0,
+    "region": "GUATEMALA"
+  },
+  {
+    "id": "20260621_0000263",
+    "time": "2026-06-21T16:44:12.0Z",
+    "mag": 2.6,
+    "lat": -3.38,
+    "lon": 135.54,
+    "depth_km": -28.0,
+    "region": "PAPUA, INDONESIA"
+  },
+  {
+    "id": "20260621_0000264",
+    "time": "2026-06-21T16:45:30.0Z",
+    "mag": 2.5,
+    "lat": -9.25,
+    "lon": 118.2,
+    "depth_km": -11.0,
+    "region": "SUMBAWA REGION, INDONESIA"
+  },
+  {
+    "id": "20260621_0000269",
+    "time": "2026-06-21T16:45:31.32Z",
+    "mag": 1.6,
+    "lat": 37.7569,
+    "lon": -1.7154,
+    "depth_km": -24.5,
+    "region": "SPAIN"
+  },
+  {
+    "id": "20260621_0000271",
+    "time": "2026-06-21T16:52:51.0Z",
+    "mag": 2.6,
+    "lat": -8.82,
+    "lon": 124.16,
+    "depth_km": -68.0,
+    "region": "KEPULAUAN ALOR, INDONESIA"
+  },
+  {
+    "id": "20260621_0000266",
+    "time": "2026-06-21T16:54:27.0Z",
+    "mag": 2.7,
+    "lat": -32.27,
+    "lon": -71.62,
+    "depth_km": -31.1,
+    "region": "OFFSHORE VALPARAISO, CHILE"
+  },
+  {
+    "id": "20260621_0000268",
+    "time": "2026-06-21T17:01:51.0Z",
+    "mag": 2.5,
+    "lat": 1.7,
+    "lon": 126.78,
+    "depth_km": -21.0,
+    "region": "MOLUCCA SEA"
+  },
+  {
+    "id": "20260621_0000270",
+    "time": "2026-06-21T17:07:17.0Z",
+    "mag": 2.9,
+    "lat": 2.5,
+    "lon": 126.87,
+    "depth_km": -3.0,
+    "region": "MOLUCCA SEA"
+  },
+  {
+    "id": "20260621_0000296",
+    "time": "2026-06-21T17:14:47.0Z",
+    "mag": 2.5,
+    "lat": -8.48,
+    "lon": 117.19,
+    "depth_km": -13.0,
+    "region": "SUMBAWA REGION, INDONESIA"
+  },
+  {
+    "id": "20260621_0000272",
+    "time": "2026-06-21T17:17:30.0Z",
+    "mag": 2.5,
+    "lat": -8.83,
+    "lon": 114.29,
+    "depth_km": -94.0,
+    "region": "BALI REGION, INDONESIA"
+  },
+  {
+    "id": "20260621_0000274",
+    "time": "2026-06-21T17:18:50.85Z",
+    "mag": 1.9,
+    "lat": 36.815,
+    "lon": -7.2778,
+    "depth_km": 0.0,
+    "region": "STRAIT OF GIBRALTAR"
+  },
+  {
+    "id": "20260621_0000273",
+    "time": "2026-06-21T17:28:38.43Z",
+    "mag": 1.4,
+    "lat": 38.1354,
+    "lon": 38.1623,
+    "depth_km": -14.3,
+    "region": "EASTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000275",
+    "time": "2026-06-21T17:29:43.33Z",
+    "mag": 4.8,
+    "lat": -19.4478,
+    "lon": -173.455,
+    "depth_km": -10.0,
+    "region": "TONGA"
+  },
+  {
+    "id": "20260621_0000277",
+    "time": "2026-06-21T17:43:47.55Z",
+    "mag": 1.5,
+    "lat": 39.6344,
+    "lon": 38.4103,
+    "depth_km": -11.8,
+    "region": "EASTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000276",
+    "time": "2026-06-21T17:46:28.47Z",
+    "mag": 1.1,
+    "lat": 38.2326,
+    "lon": 38.1541,
+    "depth_km": -13.3,
+    "region": "EASTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000278",
+    "time": "2026-06-21T17:58:45.1Z",
+    "mag": 4.7,
+    "lat": 43.4353,
+    "lon": 81.0139,
+    "depth_km": -10.0,
+    "region": "NORTHERN XINJIANG, CHINA"
+  },
+  {
+    "id": "20260621_0000279",
+    "time": "2026-06-21T17:58:55.0Z",
+    "mag": 3.0,
+    "lat": 13.56,
+    "lon": -90.78,
+    "depth_km": -15.0,
+    "region": "OFFSHORE GUATEMALA"
+  },
+  {
+    "id": "20260621_0000283",
+    "time": "2026-06-21T18:00:35.9Z",
+    "mag": 1.9,
+    "lat": 39.2069,
+    "lon": 27.7717,
+    "depth_km": -8.0,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000286",
+    "time": "2026-06-21T18:01:57.96Z",
+    "mag": 1.6,
+    "lat": 38.7511,
+    "lon": 36.5236,
+    "depth_km": -6.1,
+    "region": "CENTRAL TURKEY"
+  },
+  {
+    "id": "20260621_0000284",
+    "time": "2026-06-21T18:09:31.0Z",
+    "mag": 1.0,
+    "lat": 38.2386,
+    "lon": 37.8228,
+    "depth_km": -9.3,
+    "region": "CENTRAL TURKEY"
+  },
+  {
+    "id": "20260621_0000280",
+    "time": "2026-06-21T18:11:34.0Z",
+    "mag": 3.0,
+    "lat": 5.93,
+    "lon": 125.35,
+    "depth_km": -3.0,
+    "region": "MINDANAO, PHILIPPINES"
+  },
+  {
+    "id": "20260621_0000281",
+    "time": "2026-06-21T18:16:14.35Z",
+    "mag": 1.6,
+    "lat": 38.0565,
+    "lon": -0.6207,
+    "depth_km": 0.0,
+    "region": "SPAIN"
+  },
+  {
+    "id": "20260621_0000424",
+    "time": "2026-06-21T18:18:19.46Z",
+    "mag": 4.4,
+    "lat": -22.9991,
+    "lon": 171.4797,
+    "depth_km": -10.0,
+    "region": "SOUTHEAST OF LOYALTY ISLANDS"
+  },
+  {
+    "id": "20260621_0000302",
+    "time": "2026-06-21T18:23:17.377Z",
+    "mag": 2.7,
+    "lat": 59.5239,
+    "lon": -138.931,
+    "depth_km": -10.0,
+    "region": "SOUTHEASTERN ALASKA"
+  },
+  {
+    "id": "20260621_0000300",
+    "time": "2026-06-21T18:30:03.68Z",
+    "mag": 4.2,
+    "lat": 50.745,
+    "lon": 156.6625,
+    "depth_km": -104.0,
+    "region": "KURIL ISLANDS"
+  },
+  {
+    "id": "20260621_0000282",
+    "time": "2026-06-21T18:31:28.0Z",
+    "mag": 3.1,
+    "lat": 13.32,
+    "lon": -90.84,
+    "depth_km": -2.0,
+    "region": "OFFSHORE GUATEMALA"
+  },
+  {
+    "id": "20260621_0000285",
+    "time": "2026-06-21T18:35:14.0Z",
+    "mag": 2.5,
+    "lat": -8.76,
+    "lon": 110.14,
+    "depth_km": -23.0,
+    "region": "JAVA, INDONESIA"
+  },
+  {
+    "id": "20260621_0000293",
+    "time": "2026-06-21T18:36:37.0Z",
+    "mag": 0.7,
+    "lat": 38.2603,
+    "lon": 38.6053,
+    "depth_km": -7.1,
+    "region": "EASTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000289",
+    "time": "2026-06-21T18:37:15.0Z",
+    "mag": 1.0,
+    "lat": 39.1764,
+    "lon": 28.1117,
+    "depth_km": -5.1,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000288",
+    "time": "2026-06-21T18:48:44.0Z",
+    "mag": 3.0,
+    "lat": -3.9,
+    "lon": 139.71,
+    "depth_km": -104.0,
+    "region": "PAPUA, INDONESIA"
+  },
+  {
+    "id": "20260621_0000287",
+    "time": "2026-06-21T18:54:39.045Z",
+    "mag": 2.4,
+    "lat": 39.9934,
+    "lon": -124.3916,
+    "depth_km": -10.0,
+    "region": "OFFSHORE NORTHERN CALIFORNIA"
+  },
+  {
+    "id": "20260621_0000290",
+    "time": "2026-06-21T18:56:42.18Z",
+    "mag": 1.8,
+    "lat": 37.7842,
+    "lon": 27.0089,
+    "depth_km": -13.6,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000291",
+    "time": "2026-06-21T18:59:40.0Z",
+    "mag": 2.5,
+    "lat": -21.81,
+    "lon": -68.68,
+    "depth_km": -107.0,
+    "region": "ANTOFAGASTA, CHILE"
+  },
+  {
+    "id": "20260621_0000305",
+    "time": "2026-06-21T19:01:39.0Z",
+    "mag": 2.6,
+    "lat": -20.74,
+    "lon": -69.75,
+    "depth_km": -12.8,
+    "region": "TARAPACA, CHILE"
+  },
+  {
+    "id": "20260621_0000292",
+    "time": "2026-06-21T19:05:09.358Z",
+    "mag": 3.4,
+    "lat": 58.8864,
+    "lon": -154.5084,
+    "depth_km": -134.9,
+    "region": "ALASKA PENINSULA"
+  },
+  {
+    "id": "20260621_0000295",
+    "time": "2026-06-21T19:10:09.0Z",
+    "mag": 2.6,
+    "lat": -9.61,
+    "lon": 118.01,
+    "depth_km": -4.0,
+    "region": "SUMBAWA REGION, INDONESIA"
+  },
+  {
+    "id": "20260621_0000311",
+    "time": "2026-06-21T19:12:25.63Z",
+    "mag": 1.7,
+    "lat": 39.3567,
+    "lon": 27.0194,
+    "depth_km": -7.0,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000299",
+    "time": "2026-06-21T19:13:41.0Z",
+    "mag": 3.0,
+    "lat": 5.67,
+    "lon": 125.32,
+    "depth_km": -21.0,
+    "region": "MINDANAO, PHILIPPINES"
+  },
+  {
+    "id": "20260621_0000310",
+    "time": "2026-06-21T19:13:59.0Z",
+    "mag": 3.8,
+    "lat": 6.6043,
+    "lon": -85.0294,
+    "depth_km": -3.0,
+    "region": "OFF COAST OF CENTRAL AMERICA"
+  },
+  {
+    "id": "20260621_0000294",
+    "time": "2026-06-21T19:16:17.0Z",
+    "mag": 3.6,
+    "lat": -31.1,
+    "lon": -71.75,
+    "depth_km": -39.9,
+    "region": "OFFSHORE COQUIMBO, CHILE"
+  },
+  {
+    "id": "20260621_0000297",
+    "time": "2026-06-21T19:19:54.26Z",
+    "mag": 2.8,
+    "lat": 36.2077,
+    "lon": -120.091,
+    "depth_km": -12.6,
+    "region": "CENTRAL CALIFORNIA"
+  },
+  {
+    "id": "20260621_0000298",
+    "time": "2026-06-21T19:21:30.0Z",
+    "mag": 2.8,
+    "lat": -1.25,
+    "lon": 120.21,
+    "depth_km": -5.0,
+    "region": "SULAWESI, INDONESIA"
+  },
+  {
+    "id": "20260621_0000301",
+    "time": "2026-06-21T19:23:15.0Z",
+    "mag": 3.2,
+    "lat": 5.2,
+    "lon": 124.56,
+    "depth_km": -26.0,
+    "region": "MINDANAO, PHILIPPINES"
+  },
+  {
+    "id": "20260621_0000312",
+    "time": "2026-06-21T19:24:09.46Z",
+    "mag": 1.6,
+    "lat": 38.7697,
+    "lon": 36.5492,
+    "depth_km": -7.0,
+    "region": "CENTRAL TURKEY"
+  },
+  {
+    "id": "20260621_0000304",
+    "time": "2026-06-21T19:31:09.0Z",
+    "mag": 2.5,
+    "lat": -9.91,
+    "lon": 119.38,
+    "depth_km": -5.0,
+    "region": "SUMBA REGION, INDONESIA"
+  },
+  {
+    "id": "20260621_0000414",
+    "time": "2026-06-21T19:33:11.003Z",
+    "mag": 2.9,
+    "lat": 44.3576,
+    "lon": -115.6651,
+    "depth_km": -11.1,
+    "region": "SOUTHERN IDAHO"
+  },
+  {
+    "id": "20260621_0000303",
+    "time": "2026-06-21T19:38:21.0Z",
+    "mag": 2.5,
+    "lat": -31.08,
+    "lon": -71.76,
+    "depth_km": -20.0,
+    "region": "OFFSHORE COQUIMBO, CHILE"
+  },
+  {
+    "id": "20260621_0000314",
+    "time": "2026-06-21T19:46:29.21Z",
+    "mag": 1.1,
+    "lat": 39.3019,
+    "lon": 29.2694,
+    "depth_km": -6.9,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000308",
+    "time": "2026-06-21T19:52:21.0Z",
+    "mag": 3.5,
+    "lat": 5.54,
+    "lon": 125.26,
+    "depth_km": -10.0,
+    "region": "MINDANAO, PHILIPPINES"
+  },
+  {
+    "id": "20260621_0000306",
+    "time": "2026-06-21T19:52:22.0Z",
+    "mag": 3.1,
+    "lat": 13.38,
+    "lon": -90.87,
+    "depth_km": -22.0,
+    "region": "OFFSHORE GUATEMALA"
+  },
+  {
+    "id": "20260621_0000315",
+    "time": "2026-06-21T19:52:58.71Z",
+    "mag": 1.1,
+    "lat": 36.9006,
+    "lon": 27.6361,
+    "depth_km": -7.0,
+    "region": "DODECANESE IS.-TURKEY BORDER REG"
+  },
+  {
+    "id": "20260621_0000307",
+    "time": "2026-06-21T19:54:43.0Z",
+    "mag": 3.2,
+    "lat": -21.37,
+    "lon": -70.21,
+    "depth_km": -51.4,
+    "region": "OFFSHORE ANTOFAGASTA, CHILE"
+  },
+  {
+    "id": "20260621_0000309",
+    "time": "2026-06-21T19:54:48.0Z",
+    "mag": 2.6,
+    "lat": 0.96,
+    "lon": 120.85,
+    "depth_km": -3.0,
+    "region": "MINAHASA, SULAWESI, INDONESIA"
+  },
+  {
+    "id": "20260621_0000313",
+    "time": "2026-06-21T20:02:00.0Z",
+    "mag": 3.5,
+    "lat": 5.27,
+    "lon": 125.33,
+    "depth_km": -6.0,
+    "region": "MINDANAO, PHILIPPINES"
+  },
+  {
+    "id": "20260621_0000317",
+    "time": "2026-06-21T20:05:26.34Z",
+    "mag": 5.0,
+    "lat": -60.0907,
+    "lon": -62.4182,
+    "depth_km": -10.0,
+    "region": "DRAKE PASSAGE"
+  },
+  {
+    "id": "20260621_0000331",
+    "time": "2026-06-21T20:06:24.08Z",
+    "mag": 1.6,
+    "lat": 39.355,
+    "lon": 27.0106,
+    "depth_km": -7.0,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000316",
+    "time": "2026-06-21T20:12:33.0Z",
+    "mag": 2.5,
+    "lat": -8.62,
+    "lon": 110.32,
+    "depth_km": -54.0,
+    "region": "JAVA, INDONESIA"
+  },
+  {
+    "id": "20260621_0000319",
+    "time": "2026-06-21T20:16:19.0Z",
+    "mag": 3.2,
+    "lat": 6.73,
+    "lon": 126.34,
+    "depth_km": -50.0,
+    "region": "MINDANAO, PHILIPPINES"
+  },
+  {
+    "id": "20260621_0000318",
+    "time": "2026-06-21T20:20:20.0Z",
+    "mag": 2.7,
+    "lat": -22.34,
+    "lon": -68.85,
+    "depth_km": -106.9,
+    "region": "ANTOFAGASTA, CHILE"
+  },
+  {
+    "id": "20260621_0000415",
+    "time": "2026-06-21T20:28:01.759Z",
+    "mag": 4.4,
+    "lat": 30.9569,
+    "lon": 142.7831,
+    "depth_km": -10.0,
+    "region": "IZU ISLANDS, JAPAN REGION"
+  },
+  {
+    "id": "20260621_0000320",
+    "time": "2026-06-21T20:29:31.0Z",
+    "mag": 2.5,
+    "lat": -10.39,
+    "lon": 120.22,
+    "depth_km": -23.0,
+    "region": "SUMBA REGION, INDONESIA"
+  },
+  {
+    "id": "20260621_0000335",
+    "time": "2026-06-21T20:30:32.0Z",
+    "mag": 0.8,
+    "lat": 38.2861,
+    "lon": 38.6986,
+    "depth_km": -13.8,
+    "region": "EASTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000321",
+    "time": "2026-06-21T20:33:15.0Z",
+    "mag": 2.6,
+    "lat": -10.49,
+    "lon": 120.16,
+    "depth_km": -19.0,
+    "region": "SUMBA REGION, INDONESIA"
+  },
+  {
+    "id": "20260621_0000322",
+    "time": "2026-06-21T20:39:45.0Z",
+    "mag": 3.5,
+    "lat": 13.84,
+    "lon": -90.72,
+    "depth_km": -117.0,
+    "region": "OFFSHORE GUATEMALA"
+  },
+  {
+    "id": "20260621_0000330",
+    "time": "2026-06-21T20:40:48.0Z",
+    "mag": 2.5,
+    "lat": 11.3429,
+    "lon": -86.5658,
+    "depth_km": -2.0,
+    "region": "NEAR COAST OF NICARAGUA"
+  },
+  {
+    "id": "20260621_0000323",
+    "time": "2026-06-21T20:41:38.39Z",
+    "mag": 2.2,
+    "lat": 40.8491,
+    "lon": 3.7259,
+    "depth_km": 0.0,
+    "region": "BALEARIC ISLANDS, SPAIN"
+  },
+  {
+    "id": "20260621_0000337",
+    "time": "2026-06-21T20:47:55.4Z",
+    "mag": 1.8,
+    "lat": 37.8597,
+    "lon": 36.205,
+    "depth_km": -7.4,
+    "region": "CENTRAL TURKEY"
+  },
+  {
+    "id": "20260621_0000324",
+    "time": "2026-06-21T20:50:48.0Z",
+    "mag": 2.5,
+    "lat": -8.93,
+    "lon": 118.91,
+    "depth_km": -109.0,
+    "region": "SUMBAWA REGION, INDONESIA"
+  },
+  {
+    "id": "20260621_0000326",
+    "time": "2026-06-21T20:51:47.0Z",
+    "mag": 3.2,
+    "lat": 4.5,
+    "lon": 127.54,
+    "depth_km": -102.0,
+    "region": "KEPULAUAN TALAUD, INDONESIA"
+  },
+  {
+    "id": "20260621_0000328",
+    "time": "2026-06-21T20:53:18.0Z",
+    "mag": 3.2,
+    "lat": 11.9,
+    "lon": -88.21,
+    "depth_km": -7.0,
+    "region": "OFF COAST OF CENTRAL AMERICA"
+  },
+  {
+    "id": "20260621_0000325",
+    "time": "2026-06-21T20:54:18.0Z",
+    "mag": 2.7,
+    "lat": 0.4,
+    "lon": 122.04,
+    "depth_km": -176.0,
+    "region": "MINAHASA, SULAWESI, INDONESIA"
+  },
+  {
+    "id": "20260621_0000333",
+    "time": "2026-06-21T21:06:13.0Z",
+    "mag": 3.1,
+    "lat": -10.47,
+    "lon": 120.45,
+    "depth_km": -12.0,
+    "region": "SUMBA REGION, INDONESIA"
+  },
+  {
+    "id": "20260621_0000332",
+    "time": "2026-06-21T21:07:58.0Z",
+    "mag": 3.2,
+    "lat": -2.87,
+    "lon": 129.93,
+    "depth_km": -4.0,
+    "region": "SERAM, INDONESIA"
+  },
+  {
+    "id": "20260621_0000340",
+    "time": "2026-06-21T21:08:47.0Z",
+    "mag": 3.5,
+    "lat": 15.77,
+    "lon": -88.35,
+    "depth_km": -3.0,
+    "region": "GUATEMALA"
+  },
+  {
+    "id": "20260621_0000334",
+    "time": "2026-06-21T21:11:05.0Z",
+    "mag": 3.3,
+    "lat": -0.19,
+    "lon": 122.96,
+    "depth_km": -115.0,
+    "region": "SULAWESI, INDONESIA"
+  },
+  {
+    "id": "20260621_0000336",
+    "time": "2026-06-21T21:12:26.3Z",
+    "mag": 2.7,
+    "lat": 38.4547,
+    "lon": 39.3075,
+    "depth_km": -13.7,
+    "region": "EASTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000339",
+    "time": "2026-06-21T21:20:54.0Z",
+    "mag": 2.9,
+    "lat": -23.91,
+    "lon": -67.04,
+    "depth_km": -222.9,
+    "region": "SALTA, ARGENTINA"
+  },
+  {
+    "id": "20260621_0000338",
+    "time": "2026-06-21T21:24:01.0Z",
+    "mag": 2.5,
+    "lat": 1.0,
+    "lon": 120.19,
+    "depth_km": -3.0,
+    "region": "MINAHASA, SULAWESI, INDONESIA"
+  },
+  {
+    "id": "20260621_0000342",
+    "time": "2026-06-21T21:26:28.03Z",
+    "mag": 4.5,
+    "lat": -3.0131,
+    "lon": 129.959,
+    "depth_km": -10.0,
+    "region": "SERAM, INDONESIA"
+  },
+  {
+    "id": "20260621_0000341",
+    "time": "2026-06-21T21:29:35.0Z",
+    "mag": 2.6,
+    "lat": -7.87,
+    "lon": 117.03,
+    "depth_km": -268.0,
+    "region": "BALI SEA"
+  },
+  {
+    "id": "20260621_0000368",
+    "time": "2026-06-21T21:36:57.8Z",
+    "mag": 1.8,
+    "lat": 28.095,
+    "lon": -16.2074,
+    "depth_km": -41.9,
+    "region": "CANARY ISLANDS, SPAIN REGION"
+  },
+  {
+    "id": "20260621_0000344",
+    "time": "2026-06-21T21:38:48.0Z",
+    "mag": 2.9,
+    "lat": -9.03,
+    "lon": 123.92,
+    "depth_km": -69.0,
+    "region": "TIMOR REGION, INDONESIA"
+  },
+  {
+    "id": "20260621_0000343",
+    "time": "2026-06-21T21:40:14.0Z",
+    "mag": 2.9,
+    "lat": -2.82,
+    "lon": 129.87,
+    "depth_km": -5.0,
+    "region": "SERAM, INDONESIA"
+  },
+  {
+    "id": "20260621_0000405",
+    "time": "2026-06-21T21:41:18.0Z",
+    "mag": 2.5,
+    "lat": -1.14,
+    "lon": 120.11,
+    "depth_km": -5.0,
+    "region": "SULAWESI, INDONESIA"
+  },
+  {
+    "id": "20260621_0000345",
+    "time": "2026-06-21T21:49:58.1Z",
+    "mag": 2.4,
+    "lat": 39.629,
+    "lon": 20.546,
+    "depth_km": -15.0,
+    "region": "GREECE"
+  },
+  {
+    "id": "20260621_0000352",
+    "time": "2026-06-21T21:50:15.9Z",
+    "mag": 1.6,
+    "lat": 38.4813,
+    "lon": -6.7225,
+    "depth_km": 0.0,
+    "region": "SPAIN"
+  },
+  {
+    "id": "20260621_0000416",
+    "time": "2026-06-21T21:50:52.39Z",
+    "mag": 2.3,
+    "lat": 44.7825,
+    "lon": -110.9652,
+    "depth_km": -8.7,
+    "region": "YELLOWSTONE NAT. PARK, WYOMING"
+  },
+  {
+    "id": "20260621_0000425",
+    "time": "2026-06-21T21:56:03.311Z",
+    "mag": 4.0,
+    "lat": 40.8188,
+    "lon": 142.5422,
+    "depth_km": -49.8,
+    "region": "NEAR EAST COAST OF HONSHU, JAPAN"
+  },
+  {
+    "id": "20260621_0000357",
+    "time": "2026-06-21T21:57:08.15Z",
+    "mag": 1.8,
+    "lat": 27.6615,
+    "lon": -18.1743,
+    "depth_km": -19.3,
+    "region": "CANARY ISLANDS, SPAIN REGION"
+  },
+  {
+    "id": "20260621_0000348",
+    "time": "2026-06-21T21:57:45.0Z",
+    "mag": 2.8,
+    "lat": -2.87,
+    "lon": 130.02,
+    "depth_km": -5.0,
+    "region": "CERAM SEA, INDONESIA"
+  },
+  {
+    "id": "20260621_0000347",
+    "time": "2026-06-21T21:58:59.0Z",
+    "mag": 3.3,
+    "lat": -2.81,
+    "lon": 130.0,
+    "depth_km": -6.0,
+    "region": "CERAM SEA, INDONESIA"
+  },
+  {
+    "id": "20260621_0000346",
+    "time": "2026-06-21T21:59:35.0Z",
+    "mag": 3.0,
+    "lat": -3.55,
+    "lon": 135.59,
+    "depth_km": -10.0,
+    "region": "PAPUA, INDONESIA"
+  },
+  {
+    "id": "20260621_0000360",
+    "time": "2026-06-21T22:01:56.09Z",
+    "mag": 1.9,
+    "lat": 37.7342,
+    "lon": 29.2219,
+    "depth_km": -13.1,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000361",
+    "time": "2026-06-21T22:03:48.8Z",
+    "mag": 1.6,
+    "lat": 39.3256,
+    "lon": 29.2533,
+    "depth_km": -7.6,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000358",
+    "time": "2026-06-21T22:04:18.48Z",
+    "mag": 5.4,
+    "lat": 1.1351,
+    "lon": -28.0179,
+    "depth_km": -14.0,
+    "region": "CENTRAL MID-ATLANTIC RIDGE"
+  },
+  {
+    "id": "20260621_0000350",
+    "time": "2026-06-21T22:04:38.0Z",
+    "mag": 3.3,
+    "lat": -2.86,
+    "lon": 130.01,
+    "depth_km": -6.0,
+    "region": "CERAM SEA, INDONESIA"
+  },
+  {
+    "id": "20260621_0000351",
+    "time": "2026-06-21T22:05:41.0Z",
+    "mag": 2.8,
+    "lat": 26.818,
+    "lon": 91.776,
+    "depth_km": -10.0,
+    "region": "ASSAM, INDIA"
+  },
+  {
+    "id": "20260621_0000349",
+    "time": "2026-06-21T22:08:16.0Z",
+    "mag": 3.5,
+    "lat": -2.8,
+    "lon": 129.97,
+    "depth_km": -3.0,
+    "region": "SERAM, INDONESIA"
+  },
+  {
+    "id": "20260621_0000354",
+    "time": "2026-06-21T22:11:22.0Z",
+    "mag": 3.2,
+    "lat": -8.99,
+    "lon": 112.84,
+    "depth_km": -29.0,
+    "region": "JAVA, INDONESIA"
+  },
+  {
+    "id": "20260621_0000372",
+    "time": "2026-06-21T22:14:56.41Z",
+    "mag": 1.6,
+    "lat": 36.6238,
+    "lon": -1.8572,
+    "depth_km": 0.0,
+    "region": "WESTERN MEDITERRANEAN SEA"
+  },
+  {
+    "id": "20260621_0000356",
+    "time": "2026-06-21T22:16:10.0Z",
+    "mag": 4.2,
+    "lat": -4.22,
+    "lon": 137.22,
+    "depth_km": -11.0,
+    "region": "PAPUA, INDONESIA"
+  },
+  {
+    "id": "20260621_0000353",
+    "time": "2026-06-21T22:17:29.0Z",
+    "mag": 2.8,
+    "lat": -2.87,
+    "lon": 129.97,
+    "depth_km": -5.0,
+    "region": "SERAM, INDONESIA"
+  },
+  {
+    "id": "20260621_0000365",
+    "time": "2026-06-21T22:17:52.36Z",
+    "mag": 2.8,
+    "lat": 36.0745,
+    "lon": 36.8571,
+    "depth_km": -1.8,
+    "region": "TURKEY-SYRIA BORDER REGION"
+  },
+  {
+    "id": "20260621_0000363",
+    "time": "2026-06-21T22:18:47.0Z",
+    "mag": 2.6,
+    "lat": -2.82,
+    "lon": 130.0,
+    "depth_km": -8.0,
+    "region": "CERAM SEA, INDONESIA"
+  },
+  {
+    "id": "20260621_0000366",
+    "time": "2026-06-21T22:20:44.0Z",
+    "mag": 2.5,
+    "lat": 25.189,
+    "lon": 93.791,
+    "depth_km": -17.0,
+    "region": "ASSAM-NAGALAND-MANIPUR, INDIA"
+  },
+  {
+    "id": "20260621_0000355",
+    "time": "2026-06-21T22:22:25.0Z",
+    "mag": 2.6,
+    "lat": -8.96,
+    "lon": 111.36,
+    "depth_km": -14.0,
+    "region": "JAVA, INDONESIA"
+  },
+  {
+    "id": "20260621_0000359",
+    "time": "2026-06-21T22:24:05.0Z",
+    "mag": 2.5,
+    "lat": -28.93,
+    "lon": -71.22,
+    "depth_km": -67.4,
+    "region": "ATACAMA, CHILE"
+  },
+  {
+    "id": "20260621_0000367",
+    "time": "2026-06-21T22:24:06.95Z",
+    "mag": 1.4,
+    "lat": 38.4656,
+    "lon": 39.1575,
+    "depth_km": -7.0,
+    "region": "EASTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000362",
+    "time": "2026-06-21T22:36:02.0Z",
+    "mag": 2.8,
+    "lat": -2.9,
+    "lon": 129.95,
+    "depth_km": -12.0,
+    "region": "SERAM, INDONESIA"
+  },
+  {
+    "id": "20260621_0000378",
+    "time": "2026-06-21T22:36:34.23Z",
+    "mag": 1.6,
+    "lat": 38.1061,
+    "lon": 37.5413,
+    "depth_km": -10.4,
+    "region": "CENTRAL TURKEY"
+  },
+  {
+    "id": "20260621_0000371",
+    "time": "2026-06-21T22:39:03.0Z",
+    "mag": 3.2,
+    "lat": -2.85,
+    "lon": 129.92,
+    "depth_km": -12.0,
+    "region": "SERAM, INDONESIA"
+  },
+  {
+    "id": "20260621_0000379",
+    "time": "2026-06-21T22:40:41.42Z",
+    "mag": 1.4,
+    "lat": 38.612,
+    "lon": 38.0146,
+    "depth_km": -11.9,
+    "region": "EASTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000370",
+    "time": "2026-06-21T22:41:51.0Z",
+    "mag": 3.0,
+    "lat": -2.45,
+    "lon": 127.93,
+    "depth_km": -12.0,
+    "region": "CERAM SEA, INDONESIA"
+  },
+  {
+    "id": "20260621_0000369",
+    "time": "2026-06-21T22:42:38.0Z",
+    "mag": 2.6,
+    "lat": -1.2,
+    "lon": 120.09,
+    "depth_km": -4.0,
+    "region": "SULAWESI, INDONESIA"
+  },
+  {
+    "id": "20260621_0000385",
+    "time": "2026-06-21T22:51:10.0Z",
+    "mag": 0.9,
+    "lat": 38.3333,
+    "lon": 38.3822,
+    "depth_km": -10.6,
+    "region": "EASTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000383",
+    "time": "2026-06-21T22:56:50.0Z",
+    "mag": 2.6,
+    "lat": -8.23,
+    "lon": 119.83,
+    "depth_km": -155.0,
+    "region": "FLORES REGION, INDONESIA"
+  },
+  {
+    "id": "20260621_0000373",
+    "time": "2026-06-21T22:58:58.133495Z",
+    "mag": 3.4,
+    "lat": -36.9146,
+    "lon": 177.4629,
+    "depth_km": -10.0,
+    "region": "OFF E. COAST OF N. ISLAND, N.Z."
+  },
+  {
+    "id": "20260621_0000399",
+    "time": "2026-06-21T23:02:00.53Z",
+    "mag": 1.4,
+    "lat": 39.2678,
+    "lon": 27.8519,
+    "depth_km": -7.0,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000374",
+    "time": "2026-06-21T23:02:40.92Z",
+    "mag": 2.5,
+    "lat": 36.8961,
+    "lon": -10.6342,
+    "depth_km": -61.3,
+    "region": "AZORES-CAPE ST. VINCENT RIDGE"
+  },
+  {
+    "id": "20260621_0000376",
+    "time": "2026-06-21T23:03:05.0Z",
+    "mag": 2.7,
+    "lat": -20.76,
+    "lon": -68.02,
+    "depth_km": -175.1,
+    "region": "POTOSI, BOLIVIA"
+  },
+  {
+    "id": "20260621_0000384",
+    "time": "2026-06-21T23:03:14.6Z",
+    "mag": 3.4,
+    "lat": 16.9101,
+    "lon": 120.293,
+    "depth_km": -55.1,
+    "region": "LUZON, PHILIPPINES"
+  },
+  {
+    "id": "20260621_0000419",
+    "time": "2026-06-21T23:04:12.312Z",
+    "mag": 2.7,
+    "lat": 53.2606,
+    "lon": -162.5377,
+    "depth_km": -10.0,
+    "region": "SOUTH OF ALASKA"
+  },
+  {
+    "id": "20260621_0000377",
+    "time": "2026-06-21T23:04:26.05Z",
+    "mag": 4.9,
+    "lat": 49.9871,
+    "lon": 158.9461,
+    "depth_km": -13.1,
+    "region": "EAST OF KURIL ISLANDS"
+  },
+  {
+    "id": "20260621_0000394",
+    "time": "2026-06-21T23:05:10.0Z",
+    "mag": 2.9,
+    "lat": -2.92,
+    "lon": 129.21,
+    "depth_km": -10.0,
+    "region": "SERAM, INDONESIA"
+  },
+  {
+    "id": "20260621_0000400",
+    "time": "2026-06-21T23:05:40.0Z",
+    "mag": 1.2,
+    "lat": 39.3153,
+    "lon": 29.2697,
+    "depth_km": -10.3,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000375",
+    "time": "2026-06-21T23:11:01.9Z",
+    "mag": 2.2,
+    "lat": 39.737,
+    "lon": 20.733,
+    "depth_km": -15.0,
+    "region": "GREECE"
+  },
+  {
+    "id": "20260621_0000380",
+    "time": "2026-06-21T23:14:42.0Z",
+    "mag": 3.0,
+    "lat": -20.57,
+    "lon": -68.97,
+    "depth_km": -115.6,
+    "region": "TARAPACA, CHILE"
+  },
+  {
+    "id": "20260621_0000381",
+    "time": "2026-06-21T23:14:42.61Z",
+    "mag": 5.1,
+    "lat": -30.4063,
+    "lon": -178.1965,
+    "depth_km": -46.0,
+    "region": "KERMADEC ISLANDS, NEW ZEALAND"
+  },
+  {
+    "id": "20260621_0000398",
+    "time": "2026-06-21T23:14:57.65Z",
+    "mag": 2.2,
+    "lat": 40.4494,
+    "lon": 27.7706,
+    "depth_km": -8.5,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000382",
+    "time": "2026-06-21T23:16:30.311293Z",
+    "mag": 3.1,
+    "lat": -38.0609,
+    "lon": 177.7814,
+    "depth_km": -10.0,
+    "region": "NORTH ISLAND OF NEW ZEALAND"
+  },
+  {
+    "id": "20260621_0000386",
+    "time": "2026-06-21T23:16:41.0Z",
+    "mag": 3.0,
+    "lat": -24.05,
+    "lon": -67.28,
+    "depth_km": -234.2,
+    "region": "SALTA, ARGENTINA"
+  },
+  {
+    "id": "20260621_0000390",
+    "time": "2026-06-21T23:20:10.0Z",
+    "mag": 3.2,
+    "lat": 5.67,
+    "lon": 125.31,
+    "depth_km": -10.0,
+    "region": "MINDANAO, PHILIPPINES"
+  },
+  {
+    "id": "20260621_0000387",
+    "time": "2026-06-21T23:23:41.0Z",
+    "mag": 2.5,
+    "lat": -9.7,
+    "lon": 119.75,
+    "depth_km": -24.0,
+    "region": "SUMBA REGION, INDONESIA"
+  },
+  {
+    "id": "20260621_0000389",
+    "time": "2026-06-21T23:26:38.0Z",
+    "mag": 3.3,
+    "lat": -8.82,
+    "lon": 124.24,
+    "depth_km": -82.0,
+    "region": "KEPULAUAN ALOR, INDONESIA"
+  },
+  {
+    "id": "20260621_0000397",
+    "time": "2026-06-21T23:27:49.6Z",
+    "mag": 2.8,
+    "lat": 18.0398,
+    "lon": -66.7868,
+    "depth_km": -15.7,
+    "region": "PUERTO RICO"
+  },
+  {
+    "id": "20260621_0000391",
+    "time": "2026-06-21T23:29:23.0Z",
+    "mag": 2.8,
+    "lat": -22.88,
+    "lon": -66.95,
+    "depth_km": -213.2,
+    "region": "JUJUY, ARGENTINA"
+  },
+  {
+    "id": "20260621_0000388",
+    "time": "2026-06-21T23:30:28.0Z",
+    "mag": 2.6,
+    "lat": -1.06,
+    "lon": 120.01,
+    "depth_km": -3.0,
+    "region": "SULAWESI, INDONESIA"
+  },
+  {
+    "id": "20260621_0000393",
+    "time": "2026-06-21T23:31:00.0Z",
+    "mag": 2.7,
+    "lat": 13.38,
+    "lon": -90.59,
+    "depth_km": -13.0,
+    "region": "OFFSHORE GUATEMALA"
+  },
+  {
+    "id": "20260621_0000392",
+    "time": "2026-06-21T23:34:02.0Z",
+    "mag": 2.8,
+    "lat": -10.48,
+    "lon": 120.48,
+    "depth_km": -12.0,
+    "region": "SUMBA REGION, INDONESIA"
+  },
+  {
+    "id": "20260621_0000403",
+    "time": "2026-06-21T23:36:13.64Z",
+    "mag": 1.4,
+    "lat": 38.9553,
+    "lon": 28.6206,
+    "depth_km": -7.0,
+    "region": "WESTERN TURKEY"
+  },
+  {
+    "id": "20260621_0000401",
+    "time": "2026-06-21T23:36:37.76Z",
+    "mag": 2.4,
+    "lat": 29.026,
+    "lon": -17.2164,
+    "depth_km": -30.1,
+    "region": "CANARY ISLANDS, SPAIN REGION"
+  },
+  {
+    "id": "20260621_0000402",
+    "time": "2026-06-21T23:41:02.0Z",
+    "mag": 2.5,
+    "lat": -7.66,
+    "lon": 109.71,
+    "depth_km": -10.0,
+    "region": "JAVA, INDONESIA"
+  },
+  {
+    "id": "20260621_0000395",
+    "time": "2026-06-21T23:51:56.757Z",
+    "mag": 2.5,
+    "lat": 31.6193,
+    "lon": -103.9978,
+    "depth_km": -8.3,
+    "region": "WESTERN TEXAS"
+  },
+  {
+    "id": "20260621_0000396",
+    "time": "2026-06-21T23:52:44.0Z",
+    "mag": 3.0,
+    "lat": -1.11,
+    "lon": 120.08,
+    "depth_km": -6.0,
+    "region": "SULAWESI, INDONESIA"
+  }
+]
