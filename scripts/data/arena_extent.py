@@ -413,15 +413,21 @@ def write_hz_proofs(
     species: str,
     paths: list[list[tuple[float, float]]],
     out_dir: Path | None = None,
+    label: str | None = None,
 ) -> tuple[float, float, float]:
     """Measure 10 Hz real tracks, write PNG/JSON, return (cx, cy, r).
 
     Call this **before** unit-disk normalize and **before** the HMM close.
 
+    Each species is curated from more than one recording, and each is
+    normalized on its own circle, so every pack needs its own proof rather
+    than overwriting the last one's.
+
     Args:
         species: ``fly`` or ``fish``.
         paths: Per-identity 10 Hz polylines in pixel space.
         out_dir: Lesson ``data/`` by default.
+        label: Names the proof files. Defaults to ``species``.
 
     Returns:
         Arena center and radius used to normalize ``paths``.
@@ -431,13 +437,14 @@ def write_hz_proofs(
     points = [xy for path in paths for xy in path]
     if not points:
         raise ValueError(f"no 10 Hz points for {species}")
+    name = label if label is not None else species
     stats = measure(points)
     dest = out_dir if out_dir is not None else _PROOF_DIR
     dest.mkdir(parents=True, exist_ok=True)
-    write_sidecar(dest / f"{species}_arena.json", stats)
-    render_proof(dest / f"{species}_extent.png", points, stats)
+    write_sidecar(dest / f"{name}_arena.json", stats)
+    render_proof(dest / f"{name}_extent.png", points, stats)
     print(
-        f"  {species}: {len(paths)} identities, "
+        f"  {name}: {len(paths)} identities, "
         f"{int(stats['n_points'])} 10 Hz dots",
         flush=True,
     )

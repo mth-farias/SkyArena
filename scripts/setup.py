@@ -2,8 +2,9 @@
 
 Run this once before you open the piece. It creates a repo ``.venv``,
 installs ``pyarrow`` and ``gdown``, downloads the raw packs into
-``data/raw/``, and curates the five files the app reads into
-``data/curated/``. Every step skips work that is already done.
+``data/raw/``, and curates the files the app reads into ``data/curated/``,
+including the fictional tracks the cyber look draws. Every step skips work
+that is already done.
 
 Requires Python 3.11+ on PATH.
 """
@@ -73,9 +74,10 @@ def download_raw() -> None:
 
 
 def curate_all() -> None:
-    """Write the five curated files into ``data/curated/``."""
+    """Write the curated files into ``data/curated/``."""
     sys.path.insert(0, str(_CURATE))
     from curate_capitals import curate as curate_capitals
+    from curate_fiction import curate as curate_fiction
     from curate_fish import curate as curate_fish
     from curate_flies import curate as curate_flies
     from curate_quakes import curate as curate_quakes
@@ -84,6 +86,11 @@ def curate_all() -> None:
     for step in (curate_capitals, curate_stars, curate_quakes,
                  curate_flies, curate_fish):
         path = step()
+        _ok(f"wrote {path.relative_to(_ROOT).as_posix()}")
+    # The cyber look draws these instead of the recorded tracks. They are
+    # generated from the curated animals, so they come last.
+    for species in ("fly", "fish"):
+        path = curate_fiction(species)
         _ok(f"wrote {path.relative_to(_ROOT).as_posix()}")
 
 

@@ -169,10 +169,14 @@ class Handler(BaseHTTPRequestHandler):
         self._send_json(200, bundle)
 
     def _send_quakes_live(self, query: str) -> None:
-        """Return live EMSC events at or above ``minmagnitude``."""
+        """Return live quake events at or above ``minmagnitude``.
+
+        The events come from a store that background threads keep filled, so
+        this answers from memory and never waits on the network.
+        """
         qs = parse_qs(query)
         try:
-            min_mag = float(qs.get("minmagnitude", ["2.0"])[0])
+            min_mag = float(qs.get("minmagnitude", ["3"])[0])
             from app.utils.data_lookup.quakes_live import (
                 fetch_live_earthquakes,
             )
@@ -184,10 +188,18 @@ class Handler(BaseHTTPRequestHandler):
         self._send_json(200, events)
 
     def _send_tracks_bin(self, species: str, query: str) -> None:
-        """Return the packed Float32 tracks of one species."""
+        """Return the packed Float32 tracks of one species.
+
+        The ``set`` parameter chooses between the recorded tracks and the
+        fictional ones, which the cyber look draws. It defaults to the
+        recorded set, so a client that knows nothing about the look still
+        gets exactly what it always got.
+        """
         qs = parse_qs(query)
-        name = "fly.parquet" if species == "fly" else "fish.parquet"
-        path = self.root / "data" / "curated" / name
+        stem = "fly" if species == "fly" else "fish"
+        if qs.get("set", [""])[0] == "fiction":
+            stem += "_fiction"
+        path = self.root / "data" / "curated" / f"{stem}.parquet"
         try:
             n_ids = int(qs.get("n", [_parquet_n_ids(path)])[0])
             from app.utils.data_lookup.tracks_bin import pack_wide_parquet
@@ -260,6 +272,9 @@ def serve(root: Path, open_browser: bool = False) -> int:
         print("skyarena: will not steal the port", file=sys.stderr)
         return 1
     write_pid(root)
+    from app.utils.data_lookup.quakes_live import start_live_feed
+
+    start_live_feed()
     print(Handler.site_url, flush=True)
     print(
         "skyarena: leave this window open. Ctrl+C to stop.",

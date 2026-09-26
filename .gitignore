@@ -23,8 +23,7 @@ desktop.ini
 # Viewer pid (scripts/viewer_lock.py writes viewer.pid)
 *.pid
 
-# Session state and the Claude-only entry point
-/.github/handoff.md
+# The Claude-only entry point. Session state is under /.claude/ below.
 /CLAUDE.md
 
 # Downloaded raw packs (capitals stay tracked)

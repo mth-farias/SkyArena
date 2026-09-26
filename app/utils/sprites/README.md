@@ -18,10 +18,24 @@ The trails that go with the sprites live in
 [`../../trails.js`](../../trails.js). A neon look is kept in
 `cyber-fly/`, `cyber-fish/`, `cyber-trails.js` and `cyber_sprites.py` here.
 
-## Cyber look (not loaded)
+## Cyber look
 
 `cyber-fly/` and `cyber-fish/` hold the neon wireframe fly and hologram fish.
 `cyber_sprites.py` redraws them, and `cyber-trails.js` is the matching trail
-code. To switch, point the sprite paths in `view.js` at the `cyber-` folders,
-replace `trails.js` with `cyber-trails.js` (import `./palette.js`), and set
-the counter colors in `COUNTER_LOOK` to the neon bands.
+code. Every colour comes from [`../../palette.js`](../../palette.js), the same
+locked palette the organic set uses — the neon look is a different set of
+ramps, not a set of new colours.
+
+The two animals differ in more than their shape. The fly is **violet
+dominant**: its hull and wings sit on the violet ramp and only the lights and
+the core keep the warm half, so no red survives anywhere on it. Its trail is
+**not a line** — a run of fractal bursts with no master stroke through them,
+thinning in length and colour with age, with warm sparkles shed between them.
+The fish keeps its teal hologram and magenta tail, and its trail is still a
+ladder of scan bars, sonar diamonds and data bits.
+
+**It is loaded.** The start screen has a Bio / Cyber toggle, and `view.js`
+loads both sets at boot so switching costs nothing. The same toggle also swaps
+the trails, the trajectories and the counter colours, because the cyber look
+pairs its sprites with the fictional tracks and a neon fly dragging an organic
+dust comet reads as a bug rather than a look.

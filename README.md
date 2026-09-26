@@ -40,7 +40,7 @@ First time here? Follow [Setup](AGENTS.md#setup) in `AGENTS.md`.
 | Look | 720-row pixel grid scaled by whole numbers; every pixel from a locked 58-color palette; Press Start 2P for all text |
 | Sky | Real star positions (CDS V/50) for the chosen city, date, and time; nine planet color schemes, one per new sky |
 | Animals | Fly and fish tracks from idtracker.ai recordings, replayed at 10 Hz on the unit disk; the fly and the fish each have a 15-pixel sprite and a trail |
-| Earthquakes | EMSC / SeismicPortal: a fixed set from 21 June 2026, plus a live feed polled every 8 seconds |
+| Earthquakes | EMSC / SeismicPortal: a fixed set from 21 June 2026, plus a live feed that merges EMSC's real-time push channel with the USGS summary feed |
 | Runs on | A canvas in the browser, no dependencies. A small Python server (`127.0.0.1:5444`, standard library only) serves the page and the data |
 | Needs | Python 3.11+, a modern browser |
 

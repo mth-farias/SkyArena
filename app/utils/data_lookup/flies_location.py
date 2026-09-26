@@ -43,7 +43,7 @@ def flies_location(count: int) -> list[dict]:
         raise ValueError("count must be a positive integer")
     if not _PATH.is_file():
         raise FileNotFoundError(
-            "missing data/curated/fly.parquet; run /fly-setup"
+            "missing data/curated/fly.parquet; run scripts/setup.py"
         )
     import pyarrow.parquet as pq
 

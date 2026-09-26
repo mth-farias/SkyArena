@@ -1,4 +1,4 @@
-"""Neon fly (orange wireframe) and fish (teal hologram, magenta tail), 15x15.
+"""Neon fly (violet wireframe) and fish (teal hologram, magenta tail), 15x15.
 
 Both animals share a main body 12 pixels long and 5 wide across the eyes,
 wings and tail excluded.
@@ -23,7 +23,7 @@ FISH_SIZE = 19
 FISH_SCALE = 1.25
 SUPER = 8
 R = load_ramps()
-ORANGE, YELLOW, RED = R["orange"], R["yellow"], R["red"]
+ORANGE, YELLOW = R["orange"], R["yellow"]
 TEAL, MAGENTA, VIOLET = R["teal"], R["magenta"], R["violet"]
 # The palette's darkest neutral, used for the dark hull of both animals.
 HULL = "#181820"
@@ -236,15 +236,15 @@ STYLES = {
     "fly": {
         "shape": fly_neon,
         "colors": {
-            "hull": HULL, "hull_tip": HULL, "led": YELLOW[2],
+            "hull": VIOLET[1], "hull_tip": VIOLET[1], "led": YELLOW[2],
             "led_hi": YELLOW[3], "led_sh": ORANGE[2], "core": ORANGE[4],
-            "wing_line": ORANGE[2], "wing_glow": RED[1],
-            "wing_closed": ORANGE[2],
+            "wing_line": ORANGE[2], "wing_glow": VIOLET[2],
+            "wing_closed": VIOLET[1],
         },
         "edge": {
             "hull": ORANGE[2], "hull_tip": ORANGE[3], "led": YELLOW[2],
-            "led_hi": YELLOW[3], "led_sh": ORANGE[2], "wing_line": RED[2],
-            "wing_glow": RED[0],
+            "led_hi": YELLOW[3], "led_sh": ORANGE[2], "wing_line": VIOLET[4],
+            "wing_glow": VIOLET[0],
         },
         "dither": {"wing_glow"},
         "body": FLY_BODY,

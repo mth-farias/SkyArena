@@ -20,7 +20,7 @@ def capitals_location() -> list[dict]:
     """
     if not _PATH.is_file():
         raise FileNotFoundError(
-            "missing data/curated/capitals.json; run /fly-setup"
+            "missing data/curated/capitals.json; run scripts/setup.py"
         )
     data = json.loads(_PATH.read_text(encoding="utf-8"))
     if not isinstance(data, list):

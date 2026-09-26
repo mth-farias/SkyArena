@@ -8,7 +8,7 @@ How the piece in `app/` works. The pitch and the specs are in the root
 Double-click [`SkyArena.bat`](../SkyArena.bat) in the repo root. It stops any
 leftover server on `127.0.0.1:5444`, starts one, and opens
 http://127.0.0.1:5444/app/. The curated data ships with the repo; run
-`/fly-setup` only to rebuild it.
+`scripts/setup.py` only to rebuild it.
 
 ## How it draws
 
@@ -38,20 +38,26 @@ stars beside it. Stars load from `/api/get_data`. Tracks load from
 
 - [`utils/get_data.py`](utils/get_data.py) — JSON for capitals, stars, and
   quakes; optional fly and fish lists
+- [`utils/data_lookup/quakes_live.py`](utils/data_lookup/quakes_live.py) — the
+  rolling store behind `/api/quakes/live`, filled by a thread on EMSC's
+  real-time push channel and a thread polling the USGS summary feed
 - [`utils/data_lookup/tracks_bin.py`](utils/data_lookup/tracks_bin.py) — the
-  Float32 track blob behind `/api/flies.bin` and `/api/fish.bin`
+  Float32 track blob behind `/api/flies.bin` and `/api/fish.bin`; add
+  `&set=fiction` for the fictional tracks the cyber look draws
 - [`trails.js`](trails.js) — the comet and water trails for the animals
 - [`planets.js`](planets.js) — the nine planet color schemes (spoke hues, star
   tones, rim glow), the weighted no-repeat pick for a new sky, and the halo
   painter
-- [`utils/sprites/`](utils/sprites/) — fly and fish PNG frames, with the neon cyber set beside them
-  (`GET /SPRITES/` from `scripts/serve.py`)
+- [`utils/sprites/`](utils/sprites/) — fly and fish PNG frames in two sets,
+  organic and neon (`GET /SPRITES/` from `scripts/serve.py`); the start screen
+  toggles which one draws
 - `../data/curated/` — the curated files: `capitals.json`,
-  `stars_catalog`, `quakes_21062026.json`, `fly.parquet`, `fish.parquet`
+  `stars_catalog`, `quakes_21062026.json`, `fly.parquet`, `fish.parquet`,
+  `fly_fiction.parquet`, `fish_fiction.parquet`
 
-Fly and fish points are 10 Hz tracks on the unit disk: a short HMM close, then a
-rim clip. The arena proof PNGs stay in `data/raw/`. Call `get_data` with
-keyword arguments:
+Fly and fish points are 10 Hz tracks on the unit disk: a bridge that turns the
+end back to the first sample, then a rim clip. The arena proof PNGs stay in
+`data/raw/`. Call `get_data` with keyword arguments:
 
 ```python
 from app.utils.get_data import get_data

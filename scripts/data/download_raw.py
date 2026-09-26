@@ -36,6 +36,8 @@ _FDSN = (
 )
 _DRIVE_FLIES = "17Cn8rT8Fk9QLcAnU8yokScMdqTk8QA5u"
 _DRIVE_FISH = "1eVZWK89DHTkyQNL5B0Euj9ezGvqzTvyl"
+_DRIVE_FLIES_B = "1_jgQwYAjPllZKTMnyuQvqKskJ5WMLkpY"
+_DRIVE_FISH_B = "1ceP9Zg_189yNyOYa-El6hL1l3_J36L7U"
 
 
 class DownloadError(RuntimeError):
@@ -283,12 +285,30 @@ def download_fish() -> None:
     download_drive_csv(_DRIVE_FISH, dest, "fish")
 
 
+def download_flies_b() -> None:
+    """Fetch the second Drosophila validated CSV from Drive.
+
+    Curation pools this with the first pack and keeps the more mobile
+    half, so both are needed to rebuild ``data/curated/``.
+    """
+    dest = _DATA / "flies" / "trajectories_b.csv"
+    download_drive_csv(_DRIVE_FLIES_B, dest, "flies-b")
+
+
+def download_fish_b() -> None:
+    """Fetch the second zebrafish validated CSV from Drive."""
+    dest = _DATA / "fish" / "trajectories_b.csv"
+    download_drive_csv(_DRIVE_FISH_B, dest, "fish-b")
+
+
 def download_all() -> None:
-    """Download stars, quakes, flies, and fish (skip if present)."""
+    """Download stars, quakes, and both packs of each species."""
     download_stars()
     download_quakes()
     download_flies()
     download_fish()
+    download_flies_b()
+    download_fish_b()
 
 
 def main() -> int:

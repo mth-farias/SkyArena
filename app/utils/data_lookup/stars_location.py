@@ -161,7 +161,7 @@ def stars_location(n: int, lat: float, lon: float, date: str | datetime):
         raise ValueError("n must be a positive integer")
     if not _STARS_PATH.is_file():
         raise FileNotFoundError(
-            "missing data/curated/stars_catalog; run /fly-setup"
+            "missing data/curated/stars_catalog; run scripts/setup.py"
         )
     when = _parse_when(date)
     catalog = _load_catalog(_STARS_PATH)

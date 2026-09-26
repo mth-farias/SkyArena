@@ -347,6 +347,26 @@
       color: #f8f8f8;
       animation: boot-blink 1s steps(1) infinite;
     }
+    #look {
+      margin: calc(var(--px) * 22) auto 0;
+      display: flex;
+      gap: calc(var(--px) * 5);
+      justify-content: center;
+    }
+    #look button {
+      padding: calc(var(--px) * 5) calc(var(--px) * 9);
+      border: calc(var(--px) * 2) solid #383848;
+      background: #000;
+      color: #606078;
+      font-family: var(--pixel-font);
+      font-size: calc(var(--px) * 6);
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    #look button.on {
+      color: #f8d820;
+      border-color: #a04010;
+    }
     @keyframes boot-blink {
       0% { visibility: visible; }
       50% { visibility: hidden; }
@@ -359,6 +379,10 @@
     <div class="title">
       <h1>SkyArena</h1>
       <p id="boot-msg">Loading...</p>
+      <div id="look">
+        <button id="look-bio" type="button">Bio</button>
+        <button id="look-cyber" type="button">Cyber</button>
+      </div>
     </div>
   </div>
   <div id="topLeft">

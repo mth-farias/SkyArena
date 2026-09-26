@@ -20,7 +20,14 @@ import {
   pickPlanet,
   rampOf,
 } from './planets.js?v=1';
-import {buildOdometer, drawTrail} from './trails.js?v=1';
+import {
+  buildOdometer as bioOdometer,
+  drawTrail as bioTrail,
+} from './trails.js?v=1';
+import {
+  buildOdometer as cyberOdometer,
+  drawTrail as cyberTrail,
+} from './utils/sprites/cyber-trails.js';
 
 /** Background of the arena. */
 const BG = '#000000';
@@ -43,8 +50,15 @@ const SPRITE_PX = {fly: 15, fish: 19};
  * dies away fast. Each entry is [level, opacity].
  */
 const AURA_LEVELS = [[1, 1], [1, 1], [2, 0.5], [3, 0.25]];
-/** A fly flickers at this multiple of the slow-speed cutoff. */
-const FLY_Q1_SCALE = 2;
+/**
+ * A fly flickers at this multiple of the slow-speed cutoff. The curated
+ * tracks used to round coordinates to 3 decimals, which zeroed most of a
+ * fly's per-sample steps; because the speed quantiles skip stationary
+ * samples, that made the cutoff read about ten times too high. With the
+ * rounding removed the honest cutoff is small, so the multiple is raised
+ * to hold the flicker rate where it was: about 38% of samples.
+ */
+const FLY_Q1_SCALE = 9;
 /** Seconds a sprite takes to turn toward its heading (smoothing). */
 const FLY_HEADING_TAU = 0.55;
 const FISH_HEADING_TAU = 0.22;
@@ -52,9 +66,7 @@ const FISH_HEADING_TAU = 0.22;
 const TARGET_ROWS = 720;
 /** Never draw an art pixel smaller than this many device pixels. */
 const MIN_SCALE = 2;
-/** Scale at which the size constants below were tuned. */
-const REF_SCALE = 3;
-/** Arena radius the glow sizes were tuned for, in art pixels. */
+/** Arena radius the size constants are tuned for, in art pixels. */
 const REF_RADIUS = 388;
 
 /** Gap between the flowing dots on an edge, in art pixels. */
@@ -173,20 +185,28 @@ const HAT_PEAK = 0.12;
 const HAT_SIGMA = 0.28;
 /** Seed of the first sky's star count. */
 const DRAW_SEED = 108;
-/** A sky draws a star count from a normal curve, kept inside the range. */
+/**
+ * A sky draws a star count from a normal curve, kept inside the range. The
+ * mean is the curve's centre, not the mean of what a sky draws: the floor at
+ * STAR_MIN cuts more of the lower tail than the ceiling cuts the upper one,
+ * so the counts a viewer sees average a little above STAR_MEAN.
+ */
 const STAR_MEAN = 60;
-const NORMAL_SIGMA = 24;
-const STAR_MIN = 16;
-const STAR_MAX = 108;
+const NORMAL_SIGMA = 46;
+const STAR_MIN = 2;
+const STAR_MAX = 198;
 /** Milliseconds the star-count slider waits before it builds a new sky. */
 const STAR_SETTLE_MS = 120;
-/** Milliseconds between polls of the live quake feed. */
-const LIVE_POLL_MS = 8000;
 /**
- * How far back the server looks for quakes; matches EQ_LOOKBACK_S in
+ * Milliseconds between polls of the live quake feed. The server answers from
+ * memory, so this is what the piece adds to a quake's trip to the screen.
+ */
+const LIVE_POLL_MS = 3000;
+/**
+ * How far back the server keeps events; matches EQ_WINDOW_S in
  * quakes_live.py.
  */
-const LIVE_LOOKBACK_MS = 20 * 60 * 1000;
+const LIVE_LOOKBACK_MS = 60 * 60 * 1000;
 
 /** Compact 2D simplex noise, a public-domain algorithm, seeded. */
 class SimplexNoise {
@@ -313,12 +333,32 @@ function nextEvenStarCount() {
   }
 }
 
+/**
+ * Every number from 0 to n - 1, in an order drawn from the seeded stream.
+ * @param {number} n how many to shuffle
+ * @return {number[]} the shuffled numbers
+ */
+function shuffledIds(n) {
+  const ids = [];
+  for (let i = 0; i < n; i++) {
+    ids.push(i);
+  }
+  for (let i = ids.length - 1; i > 0; i--) {
+    const j = Math.floor(nextUnit() * (i + 1));
+    const swap = ids[i];
+    ids[i] = ids[j];
+    ids[j] = swap;
+  }
+  return ids;
+}
+
 /** Color of the Circle layer. */
 const RING = GREY_RAMP[3];
 const pixels = new PixelBatch();
 /**
- * Grid density factor: 1 on the grid the size constants were tuned for, and
- * above 1 when art pixels are smaller, so things keep their size on screen.
+ * Art scale factor: 1 at the radius the size constants were tuned for, and
+ * proportional to the dome above and below it, so every mark scales with the
+ * sky it sits on.
  */
 let gridK = 1;
 let dotSpacing = DOT_SPACING;
@@ -382,6 +422,13 @@ let flies = null;
 let fish = null;
 let nFlies = 30;
 let nFish = 30;
+/**
+ * Every identity of each species, shuffled. The piece shows the first
+ * ``nFlies``/``nFish`` of these, so a new sky draws a different handful from
+ * the whole set instead of always the same low-numbered ones.
+ */
+let flyOrder = [];
+let fishOrder = [];
 let skyCount = 60;
 let remainingFly = 30;
 let remainingFish = 30;
@@ -395,6 +442,22 @@ let looping = false;
 let domePath = new Path2D();
 /** @type {Record<string, Record<string, HTMLImageElement[]>>|null} */
 let sprites = null;
+
+/**
+ * Which look the piece is wearing: 'bio' for the recorded animals and the
+ * organic sprites, 'cyber' for the fictional ones and the neon set. Both
+ * sets load before the start screen clears, so switching is a swap.
+ */
+let look = 'bio';
+/** @type {Object|null} sprite sets keyed by look, from loadSprites */
+let spriteSets = null;
+/** @type {Object|null} track packs keyed by look, from loadTrackSets */
+let trackSets = null;
+// The trail functions of the look in use. Both modules export the same two
+// names, so only the bindings move when the look changes and every call
+// site stays as it was.
+let buildOdometer = bioOdometer;
+let drawTrail = bioTrail;
 
 const layers = {
   circle: false,
@@ -527,7 +590,7 @@ function resize() {
     w: w,
     h: h,
   };
-  gridK = REF_SCALE / scale;
+  gridK = view.radius / REF_RADIUS;
   dotSpacing = DOT_SPACING * gridK;
   dotFlow = DOT_FLOW_SPEED * gridK;
   wiggleAmt = WIGGLE_AMOUNT * gridK;
@@ -1481,23 +1544,26 @@ function animalFade(id, map) {
   return 1 - u;
 }
 
+/**
+ * The identities of one species this sky shows, in entry order.
+ * @param {string} kind 'fly' or 'fish'
+ * @return {number[]} the chosen ids
+ */
+function wantedIds(kind) {
+  const nWant = kind === 'fly' ? nFlies : nFish;
+  const order = kind === 'fly' ? flyOrder : fishOrder;
+  return order.slice(0, nWant);
+}
+
 /** Ids of the animals of this kind still waiting to enter. */
 function pendingEnterIds(kind) {
   const pack = kind === 'fly' ? flies : fish;
-  const nWant = kind === 'fly' ? nFlies : nFish;
   const shown = kind === 'fly' ? flyShown : fishShown;
   const layerOn = kind === 'fly' ? layers.flies : layers.fish;
   if (!objectsOn || !layerOn || !pack) {
     return [];
   }
-  const out = [];
-  const cap = Math.min(nWant, pack.counts.length);
-  for (let id = 0; id < cap; id++) {
-    if (!shown.has(id)) {
-      out.push(id);
-    }
-  }
-  return out;
+  return wantedIds(kind).filter((id) => !shown.has(id));
 }
 
 /** Ids of the animals of this kind on screen and not leaving. */
@@ -2251,17 +2317,36 @@ function drawWiggle(time) {
   pixels.flush(ctx);
 }
 
-/** Spokes an animal lights: flies run warm, fish run cold. */
+/**
+ * Spokes an animal lights, in the look the piece is wearing. Bio runs warm for
+ * the fly and cold for the fish. Cyber takes each animal's own ramp: the fly's
+ * tracks the trail in `cyber-trails.js`, the fish's its scan bars. Each ramp
+ * runs dark to bright, the order `spokeColors` indexes it in.
+ */
 const HOVER_TINT = {
-  fly: {
-    ramp: ['#A04010', '#F08018', '#F8B860', '#F8F090', '#F8F8C8'],
-    glow: ['#A04010', '#A04010', '#A04010', '#A04010'].map(
-        (hex) => PALETTE_INDEX.get(hex)),
+  bio: {
+    fly: {
+      ramp: ['#A04010', '#F08018', '#F8B860', '#F8F090', '#F8F8C8'],
+      glow: ['#A04010', '#A04010', '#A04010', '#A04010'].map(
+          (hex) => PALETTE_INDEX.get(hex)),
+    },
+    fish: {
+      ramp: ['#103878', '#18A0A0', '#28A0F0', '#98E8F8', '#D0F0F8'],
+      glow: ['#103878', '#103878', '#103878', '#103878'].map(
+          (hex) => PALETTE_INDEX.get(hex)),
+    },
   },
-  fish: {
-    ramp: ['#103878', '#18A0A0', '#28A0F0', '#98E8F8', '#D0F0F8'],
-    glow: ['#103878', '#103878', '#103878', '#103878'].map(
-        (hex) => PALETTE_INDEX.get(hex)),
+  cyber: {
+    fly: {
+      ramp: ['#201048', '#402088', '#A04010', '#F08018', '#F8F8C8'],
+      glow: ['#402088', '#402088', '#402088', '#402088'].map(
+          (hex) => PALETTE_INDEX.get(hex)),
+    },
+    fish: {
+      ramp: ['#8050D8', '#C838A8', '#18A0A0', '#58E8D0', '#B0F0E8'],
+      glow: ['#201048', '#201048', '#201048', '#201048'].map(
+          (hex) => PALETTE_INDEX.get(hex)),
+    },
   },
 };
 /** The two diagonal steps one pixel out from a lit spoke. */
@@ -2321,7 +2406,7 @@ function paintSpoke(seed, style, ex, ey, key, hoverPts) {
       key, segmentHovered(seed.x0, seed.y0, ex, ey, hoverPts), lastDt);
   const boost = hb > HOVER_LIFT_2 ? 2 : hb > HOVER_LIFT_1 ? 1 : 0;
   // A spoke an animal lights takes that animal's temperature and a faint glow.
-  const tint = boost ? HOVER_TINT[spokeKind.get(key)] : null;
+  const tint = boost ? HOVER_TINT[look][spokeKind.get(key)] : null;
   const lift = style.lift + (tint ? 1 : boost);
   const cols = spokeColors(style.ramp, lift);
   let cols2 = style.ramp2 ? spokeColors(style.ramp2, lift) : null;
@@ -2764,8 +2849,8 @@ function orientSprite(east, diagonal, size) {
   return out;
 }
 
-/** Load every sprite frame and turn each to its eight headings. */
-async function loadSprites() {
+/** Load one sprite set and turn every frame to its eight headings. */
+async function loadSpriteSet(folder) {
   const kinds = ['fly', 'fish'];
   const banks = ['grow', 'flicker', 'shrink'];
   const raw = {};
@@ -2775,8 +2860,9 @@ async function loadSprites() {
     for (const bank of banks) {
       raw[kind][bank] = [];
       for (let n = 1; n <= SPRITE_FRAMES; n++) {
-        const east = loadOneSprite(`/SPRITES/${kind}/${bank}/${n}.png`);
-        const diagonal = loadOneSprite(`/SPRITES/${kind}/${bank}/${n}_d.png`);
+        const east = loadOneSprite(`/SPRITES/${folder}${kind}/${bank}/${n}.png`);
+        const diagonal =
+            loadOneSprite(`/SPRITES/${folder}${kind}/${bank}/${n}_d.png`);
         raw[kind][bank].push([east.img, diagonal.img]);
         jobs.push(east.ready, diagonal.ready);
       }
@@ -2795,6 +2881,35 @@ async function loadSprites() {
 }
 
 /**
+ * Load both looks. The cyber set is the neon wireframe fly and hologram
+ * fish kept beside the organic one; see utils/sprites/README.md.
+ * @return {Promise<Object>} sets keyed by look name
+ */
+async function loadSprites() {
+  const bio = await loadSpriteSet('');
+  const cyber = await loadSpriteSet('cyber-');
+  return {bio, cyber};
+}
+
+/**
+ * Fetch both looks' animal tracks. The cyber look draws the fictional
+ * ones, which the server keeps beside the recorded files.
+ * @return {Promise<Object>} packs keyed by look name
+ */
+async function loadTrackSets() {
+  const bioFly = await loadTracks('/api/flies.bin?n=' + MAX_ANIMALS);
+  const bioFish = await loadTracks('/api/fish.bin?n=' + MAX_ANIMALS);
+  const cyberFly =
+      await loadTracks('/api/flies.bin?n=' + MAX_ANIMALS + '&set=fiction');
+  const cyberFish =
+      await loadTracks('/api/fish.bin?n=' + MAX_ANIMALS + '&set=fiction');
+  return {
+    bio: {fly: bioFly, fish: bioFish},
+    cyber: {fly: cyberFly, fish: cyberFish},
+  };
+}
+
+/**
  * Draw a new sky: a star count, the stars, and the animal tracks. Flies and
  * fish each start at half the star count, so the two swarms together match
  * the stars.
@@ -2803,10 +2918,12 @@ async function loadSky() {
   reseedSky(Date.now());
   skyCount = nextEvenStarCount();
   const data = await loadStars(skyCount);
-  const flyPack = await loadTracks('/api/flies.bin?n=' + MAX_ANIMALS);
-  const fishPack = await loadTracks('/api/fish.bin?n=' + MAX_ANIMALS);
+  const flyPack = trackSets[look].fly;
+  const fishPack = trackSets[look].fish;
   nFlies = Math.min(Math.floor(skyCount / 2), flyPack.counts.length);
   nFish = Math.min(Math.floor(skyCount / 2), fishPack.counts.length);
+  flyOrder = shuffledIds(flyPack.counts.length);
+  fishOrder = shuffledIds(fishPack.counts.length);
   remainingFly = nFlies;
   remainingFish = nFish;
   // Even seconds on the system clock put the fish counter on the left.
@@ -2945,21 +3062,39 @@ let fishLeft = true;
  * taken as is from the sprite art of the animal it counts.
  */
 const COUNTER_LOOK = {
-  fly: {
-    band: ['#f8d8b8', '#f8b860', '#f08018', '#a04010', '#801828'],
-    near: '#502008',
-    far: '#401018',
+  bio: {
+    fly: {
+      band: ['#f8d8b8', '#f8b860', '#f08018', '#a04010', '#801828'],
+      near: '#502008',
+      far: '#401018',
+    },
+    fish: {
+      band: ['#c8d0f8', '#98e8f8', '#88a8f8', '#28a0f0', '#3868e8'],
+      near: '#182880',
+      far: '#101840',
+    },
   },
-  fish: {
-    band: ['#c8d0f8', '#98e8f8', '#88a8f8', '#28a0f0', '#3868e8'],
-    near: '#182880',
-    far: '#101840',
+  cyber: {
+    // Every shade is a ramp entry from palette.js, matching the neon
+    // sprite the counter stands for. The fly's band tracks the gradient of
+    // its trail in `cyber-trails.js` — yellow, orange, then violet — and the
+    // fish's runs teal into magenta and violet.
+    fly: {
+      band: ['#f8f8c8', '#f8d820', '#f08018', '#8050d8', '#402088'],
+      near: '#402088',
+      far: '#201048',
+    },
+    fish: {
+      band: ['#b0f0e8', '#58e8d0', '#18a0a0', '#c838a8', '#8050d8'],
+      near: '#082830',
+      far: '#201048',
+    },
   },
 };
 
-/** The colors of one counter. */
+/** The colors of one counter, in the look the piece is wearing. */
 function counterLook(kind) {
-  return COUNTER_LOOK[kind];
+  return COUNTER_LOOK[look][kind];
 }
 
 /** One digit as blocks; colorAt(row) picks each row's face color. */
@@ -3096,13 +3231,18 @@ function parseLiveQuakeMs(ev) {
 }
 
 /**
- * Starts a fresh live watch. The server sends the last 20 minutes of events,
- * so switching Live on (or moving the threshold) reacts to the ones already
- * in that window, oldest first, then to each new one as it arrives.
+ * Starts a fresh live watch, forgetting which quakes have been seen.
+ *
+ * Switching Live on, or moving the threshold, reacts to the events already
+ * in the server's window, oldest first, then to each new one as it arrives.
+ * Boot passes `fromNow`, so the piece opens in Lisbon rather than leaving at
+ * once for a quake that struck before anyone was watching.
+ *
+ * @param {boolean} fromNow true to ignore the window and watch only ahead
  */
-function armLiveBaseline() {
+function armLiveBaseline(fromNow) {
   liveSeen = new Set();
-  liveSinceMs = Date.now() - LIVE_LOOKBACK_MS;
+  liveSinceMs = fromNow ? Date.now() : Date.now() - LIVE_LOOKBACK_MS;
 }
 
 /** Ask the server for live quakes, react to new ones, and poll again. */
@@ -3276,6 +3416,14 @@ function bindLive() {
   });
 }
 
+/** Recount the animals still in play, for the two side counters. */
+function recountAnimals() {
+  remainingFly = pendingEnterIds('fly').length +
+      remainingShownIds('fly').length;
+  remainingFish = pendingEnterIds('fish').length +
+      remainingShownIds('fish').length;
+}
+
 /**
  * Switch the game (the flies and fish) and the layers that come with them.
  *
@@ -3302,10 +3450,7 @@ function setGame(on, revealStars) {
     revealNow();
     startAnimalEnter();
   }
-  remainingFly = pendingEnterIds('fly').length +
-      remainingShownIds('fly').length;
-  remainingFish = pendingEnterIds('fish').length +
-      remainingShownIds('fish').length;
+  recountAnimals();
   const btn = document.getElementById('game-btn');
   btn.classList.toggle('game-on', gameOn);
   btn.setAttribute('aria-pressed', String(gameOn));
@@ -3393,20 +3538,22 @@ function bindInteract() {
 function applyAnimalCounts() {
   startAnimalEnter();
   const pairs = [
-    [flyShown, flyFadeStart, nFlies],
-    [fishShown, fishFadeStart, nFish],
+    ['fly', flyShown, flyFadeStart],
+    ['fish', fishShown, fishFadeStart],
   ];
-  for (const [shown, fades, nWant] of pairs) {
-    for (let id = 0; id < nWant; id++) {
+  for (const [kind, shown, fades] of pairs) {
+    const wanted = new Set(wantedIds(kind));
+    for (const id of wanted) {
       fades.delete(id);
     }
     for (const id of [...shown]) {
-      if (id >= nWant) {
+      if (!wanted.has(id)) {
         fades.set(id, clockNow);
         shown.delete(id);
       }
     }
   }
+  recountAnimals();
   startLoop();
 }
 
@@ -3448,7 +3595,9 @@ async function applyStarCount(n) {
   }
   stars = data.stars || [];
   if (stars.length < skyCount) {
-    skyCount = stars.length;
+    // Fewer stars were up than asked for. Round down to an even count:
+    // flies and fish each take half, so an odd sky leaves one unpaired.
+    skyCount = stars.length - (stars.length % 2);
   }
   rebuildMesh();
   cacheLists(data);
@@ -3494,6 +3643,78 @@ function bindMenu() {
   bindGame();
   bindCursor();
   bindInteract();
+  bindLook();
+}
+
+/** Mark the button of the look in use. */
+function syncLookButtons() {
+  for (const name of ['bio', 'cyber']) {
+    const button = document.getElementById('look-' + name);
+    if (button) {
+      button.classList.toggle('on', name === look);
+    }
+  }
+}
+
+/**
+ * Switch the whole piece between the recorded look and the neon one:
+ * sprites, trails, tracks and counter colours all follow, because a neon
+ * animal dragging a dusty trail reads as a bug rather than a look.
+ *
+ * The toggle lives on the start screen, so this runs both before and
+ * after the sky has begun. Before it, swapping the sets is the whole job:
+ * rebuilding would spend the intro animation while the start screen
+ * still covers it, and the click would then reveal a sky with nothing
+ * left to play.
+ * @param {string} name 'bio' or 'cyber'
+ * @return {Promise<void>}
+ */
+async function applyLook(name) {
+  if (name !== 'bio' && name !== 'cyber') {
+    return;
+  }
+  look = name;
+  buildOdometer = name === 'cyber' ? cyberOdometer : bioOdometer;
+  drawTrail = name === 'cyber' ? cyberTrail : bioTrail;
+  syncLookButtons();
+  if (!spriteSets) {
+    // Still loading. The buttons are in the page from the start, so this
+    // is reachable while "Loading..." is up. Record the choice and let
+    // main() pick it up when the sets arrive; touching spriteSets here
+    // would throw.
+    return;
+  }
+  sprites = spriteSets[name];
+  if (!gameOn) {
+    return;
+  }
+  await loadSky();
+  rebuildMesh();
+  clearAnimals();
+  remainingFly = nFlies;
+  remainingFish = nFish;
+  startIntroRevival();
+}
+
+/** Wire the look toggle on the start screen. */
+function bindLook() {
+  const box = document.getElementById('look');
+  if (!box) {
+    return;
+  }
+  // The start screen begins the piece on pointerdown, so the control has
+  // to swallow its own presses. This is on pointerdown, not click, which
+  // is the event the start screen actually listens for.
+  for (const type of ['pointerdown', 'pointerup', 'click']) {
+    box.addEventListener(type, (event) => event.stopPropagation());
+  }
+  for (const name of ['bio', 'cyber']) {
+    const button = document.getElementById('look-' + name);
+    if (button) {
+      button.addEventListener('click', () => applyLook(name));
+    }
+  }
+  syncLookButtons();
 }
 
 /**
@@ -3513,6 +3734,13 @@ function waitForStart() {
       resolve();
     };
     const onKey = (ev) => {
+      // The look toggle is focusable, so Enter or Space on it would both
+      // activate the control and start the piece. Leave those to the
+      // control itself.
+      const target = ev.target;
+      if (target instanceof Element && target.closest('#look')) {
+        return;
+      }
       if (ev.key === 'Enter' || ev.key === ' ') {
         ev.preventDefault();
         go();
@@ -3534,7 +3762,9 @@ async function main() {
   try {
     setBoot('Loading...');
     await document.fonts.load('8px "Press Start 2P"').catch(() => null);
-    sprites = await loadWithRetry('Loading sprites...', () => loadSprites());
+    spriteSets = await loadWithRetry('Loading sprites...', () => loadSprites());
+    sprites = spriteSets[look];
+    trackSets = await loadWithRetry('Loading tracks...', () => loadTrackSets());
     await loadWithRetry('Loading stars...', () => loadSky());
     rebuildMesh();
     choosePlanet(null);
@@ -3545,8 +3775,7 @@ async function main() {
       lat: obsLat,
       lon: obsLon,
     });
-      armLiveBaseline();
-    liveSinceMs = Date.now();
+    armLiveBaseline(true);
     pollLive();
     startLoop();
     await waitForStart();
@@ -3555,7 +3784,8 @@ async function main() {
     setBoot('', true);
   } catch (err) {
     setBoot(
-        'Could not load stars or tracks. Run /fly-setup, then SkyArena.bat.');
+        'Could not load stars or tracks. Run scripts/setup.py, then ' +
+        'SkyArena.bat.');
     paintBlank();
     throw err;
   }

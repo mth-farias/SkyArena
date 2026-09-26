@@ -6,9 +6,9 @@ structure of locomotion and its modulation by odors. eLife 8:e41235
 https://github.com/bhandawat/HHMM (GPL-3.0).
 
 This module does **not** port their hierarchical variational HMM. It
-fits the workshop first-order sampler on (v||, v⊥) from each
-idtracker.ai identity and uses it only to close the real 10 Hz
-track back to the first sample.
+fits the workshop first-order model on (v||, v⊥) from each idtracker.ai
+identity and uses it only to shape the bridge that closes the real
+10 Hz track back to the first sample.
 
 Sources: NOTICE (Tao 2019; idtracker.ai).
 """

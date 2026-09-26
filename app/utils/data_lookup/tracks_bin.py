@@ -88,7 +88,9 @@ def pack_wide_parquet(path: Path, count: int) -> bytes:
     if int(count) < 0:
         raise ValueError("count must be >= 0")
     if not path.is_file():
-        raise FileNotFoundError(f"missing {path.as_posix()}; run /fly-setup")
+        raise FileNotFoundError(
+            f"missing {path.as_posix()}; run scripts/setup.py"
+        )
     import pyarrow.parquet as pq
 
     table = pq.read_table(path)

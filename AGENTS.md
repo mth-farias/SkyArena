@@ -1,21 +1,21 @@
 # AGENTS.md
 
 Guidance for AI assistants working in **SkyArena**, and for the participants
-building with them. This file is the contract. Keep it under 150 lines;
-procedures belong in the `fly-*` prompts.
+building with them. This file is the contract, and it is tool-neutral. Keep it
+under 150 lines; procedures belong in the `tg-*` skills.
 
 ## What this is
 
 SkyArena is a finished interactive piece, described in [`README.md`](README.md):
 a real night sky drawn in 8-bit style, with flies, fish, and live earthquakes.
 It lives in `app/` and opens with `SkyArena.bat` on http://127.0.0.1:5444/app/.
-The participant builds on it alongside the assistant, in VS Code with GitHub
-Copilot. There are no lessons in this repo.
+The participant builds on it alongside the assistant, in VS Code with Claude
+Code. There are no lessons in this repo.
 
 ## Before you start
 
 - Python **3.11+** on `PATH`, [Git](https://git-scm.com/), and
-  [VS Code](https://code.visualstudio.com/) with GitHub Copilot.
+  [VS Code](https://code.visualstudio.com/) with Claude Code.
 - The OpenRouter API key handed out at the session. Copy `.env.example` to
   `.env` and paste the key after `OPENROUTER_API_KEY=`. `.env` is gitignored;
   never commit it.
@@ -24,11 +24,25 @@ Copilot. There are no lessons in this repo.
 ## Setup
 
 1. Open this folder in VS Code.
-2. In Copilot Chat, run `/fly-setup`. It creates `.venv`, installs `pyarrow`
-   and `gdown`, downloads the raw packs, and curates `data/curated/`. It takes
-   a few minutes and is safe to run twice. Re-running skips what is already
-   present, so it is also the recovery path when data looks wrong.
+2. Run `python scripts/setup.py` from the repo root. It creates `.venv`,
+   installs `pyarrow` and `gdown`, downloads the raw packs, and curates
+   `data/curated/`. It takes a few minutes and is safe to run twice. Re-running
+   skips what is already present, so it is also the recovery path when data
+   looks wrong.
 3. Double-click `SkyArena.bat`.
+
+Setup is done when all three of these hold:
+
+- `.venv` exists in the repo root.
+- `data/curated/` holds `capitals.json`, `stars_catalog`,
+  `quakes_21062026.json`, `fly.parquet`, `fish.parquet`, and the two
+  `*_fiction.parquet` files.
+- The script's last line starts with `Done.`
+
+When setup fails, show the participant the `[fail]` line and stop. The usual
+causes are no internet connection or a network that blocks Google Drive, a
+Python older than 3.11, and port 5444 already held — that last one affects only
+step 3. Do not stop a process you did not start.
 
 ## How to reply
 
@@ -39,28 +53,30 @@ Copilot. There are no lessons in this repo.
 
 ## Ask before acting
 
-- Use `/fly-confirm-align` whenever the participant is describing a goal or
+- Use `tg-confirm-align` whenever the participant is describing a goal or
   brainstorming. Agree on the goal in chat, then stop.
-- Use `/fly-plan` before a change that touches more than one or two files.
+- Use `tg-plan` before a change that touches more than one or two files.
 - Ask when two or more reasonable options exist and the choice matters. Put the
-  question in Copilot chat, not buried in prose. Mark a recommended option.
+  question in chat, not buried in prose. Mark a recommended option.
 
 ## Session workflow
 
-`fly-onboard` → `fly-confirm-align` → `fly-plan` → *build* →
-`fly-review-session` → `fly-handoff`
+`tg-onboard` → `tg-confirm-align` → `tg-plan` → *build* → `tg-review-plan` →
+`tg-review-session` → `tg-handoff`
 
-| Prompt | Use it when |
+| Skill | Use it when |
 |---|---|
-| `/fly-setup` | Once, to install and fetch everything |
-| `/fly-onboard` | At the start of a session, to catch up on where you left off |
-| `/fly-confirm-align` | You are describing a goal, and want the assistant to check its understanding first |
-| `/fly-plan` | A change will touch more than a couple of files |
-| `/fly-review-session` | Before closing the session, to audit what was built |
-| `/fly-handoff` | To write the handoff and get a suggested commit message |
+| `tg-setup` | Once, to scaffold the `.claude/` workspace in a repo that has none |
+| `tg-onboard` | At the start of a session, to catch up on where you left off |
+| `tg-confirm-align` | You are describing a goal, and want the assistant to check its understanding first |
+| `tg-plan` | A change will touch more than a couple of files |
+| `tg-review-plan` | After a planned change lands, to audit it against the plan |
+| `tg-review-session` | Before closing the session, to audit what was built |
+| `tg-handoff` | To write the handoff and get a suggested commit message |
 
-The prompts live in `.github/prompts/` and run with a leading slash in Copilot
-Chat. The handoff is `.github/handoff.md`, gitignored.
+These skills load from `~/.claude/skills` and are model-invocable. The handoff
+is `.claude/workspace/handoffs/handoff.md`, gitignored along with the rest of
+`.claude/`.
 
 ## Layout
 
@@ -75,7 +91,7 @@ Chat. The handoff is `.github/handoff.md`, gitignored.
     the sprite art (`sprites/`, with a neon "cyber" set kept beside the
     default one)
 - `data/raw/` — downloaded raw packs. Gitignored, except `capitals/`.
-- `data/curated/` — the five curated files the app reads. Committed.
+- `data/curated/` — the curated files the app reads. Committed.
 - `scripts/data/` — the download and curation pipeline
 - `scripts/` — `setup.py` (setup), `serve.py` and `viewer_lock.py` (the viewer)
 - `.env` — the OpenRouter API key. Gitignored.
@@ -110,10 +126,24 @@ There is no test suite. The checks that exist:
 
 ## Data
 
-`data/raw/capitals/locations.json` and the five curated files in
-`data/curated/` ship with the repo, so the piece runs without a download. The
-other raw packs are downloaded by `/fly-setup` and curated into `data/curated/`.
+`data/raw/capitals/locations.json` and the curated files in `data/curated/`
+ship with the repo, so the piece runs without a download. The raw packs are
+downloaded by `scripts/setup.py` and curated into `data/curated/`.
+
+Each species is curated from **two** idtracker.ai recordings of 100 identities
+each. Both are normalized on their own arena circle, pooled, and ranked by arena
+coverage, keeping the more mobile 100 — `scripts/data/mobility.py` holds that
+ranking.
+
+The **cyber** look draws fictional tracks generated from each curated animal's
+own fitted statistics, beside the neon sprites; the start screen toggles it.
 
 Sources: CDS V/50 stars, EMSC/SeismicPortal quakes (a fixed set for 2026-06-21
 plus a live feed), and the idtracker.ai Drosophila and zebrafish CSVs. Details
 in [`NOTICE`](NOTICE).
+
+The live quakes merge two sources in `app/utils/data_lookup/quakes_live.py`:
+EMSC's real-time push channel and the USGS daily summary feed, polled every 30
+seconds. The push channel is faster when it delivers; the USGS poll keeps the
+piece working when it does not. Polling EMSC's *catalogue* instead returns
+nothing, because it publishes about 40 minutes behind real time.

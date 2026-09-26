@@ -13,8 +13,12 @@ import {RAMPS} from '../../palette.js';
 
 const R = RAMPS;
 
-/** Half the side of the buffer around the head, in art pixels. */
-const HALF = 36;
+/**
+ * Half the side of the buffer around the head, in art pixels. Sized for the
+ * fly's bursts, which reach further than the fish's bars: a node at the very
+ * tail, its widest jump and its longest antler measure 33.6 px together.
+ */
+const HALF = 40;
 /** How far behind the head every trail reaches, in art pixels. */
 const REACH = 28;
 /** Where a trail starts behind the head, in art pixels. */
@@ -224,67 +228,179 @@ function marks(odo, scale, t, gap, from, to) {
 
 // ------------------------------------------------------------------------ fly
 
-// Yellow head cooling to orange: no red in the trail.
-const PLUME = [R.yellow[4], R.yellow[3], R.yellow[3], R.yellow[2], R.yellow[2], R.orange[3], R.orange[2], R.orange[2], R.orange[1]];
-const SPARK = [R.yellow[3], R.yellow[2], R.orange[3], R.orange[2], R.orange[1]];
+// Yellow at the head cooling through orange into violet: no red anywhere, and
+// the cool half is the longer one.
+const BURST_CORE = [
+  R.yellow[4], R.yellow[2], R.orange[3], R.orange[2], R.orange[1],
+  R.violet[3], R.violet[3], R.violet[2], R.violet[1], R.violet[0],
+];
+// The last generation of an antler draws from this, which is dimmer at every
+// index than BURST_CORE, so a branch thins away to a dark point.
+const BURST_TIP = [
+  R.orange[2], R.orange[1], R.orange[1], R.orange[0], R.orange[0],
+  R.violet[1], R.violet[1], R.violet[1], R.violet[0], R.violet[0],
+];
+const BURST_SPARK = [
+  R.yellow[3], R.yellow[2], R.orange[3], R.orange[2], R.orange[1],
+];
 
-/** Cyber comet: a chain of hard-edged light packets that shrink and cool in steps. */
-function flyTrail(sky, path, t) {
-  const STEP = 0.05;
-  const head = path(t);
-  const life = span(path, t, REACH - SKIP);
-  const i0 = Math.floor(t / STEP);
-  for (let i = i0; i > i0 - Math.ceil(life / STEP) - 1; i--) {
-    const age = t - (i + 1) * STEP;
-    const aN = Math.max(age, 0) / life;
-    if (aN >= 1) {
+/** Seconds between bursts. Smaller packs them closer together. */
+const BURST_DT = 0.22;
+/** How far a burst's base may sit off the true path, in art pixels. */
+const BURST_AMP = 2;
+/** Shares of bursts left bare, and thrown far off so they do not line up. */
+const BURST_GAP = 0.25;
+const BURST_JUMP = 0.16;
+const BURST_JUMP_SCALE = 2.6;
+/** Antlers per burst, and half the fan they spread over, in radians. */
+const BURST_ARMS = 3;
+const BURST_SPREAD = 1.15;
+const BURST_JITTER = 0.35;
+/** Generations of fork per antler, its first length, and their falloff. */
+const ANTLER_DEPTH = 3;
+const ANTLER_LEN = 5;
+const ANTLER_SPREAD = 0.62;
+const ANTLER_SHORTEN = 0.55;
+/** Share of an antler's length that age takes away by the tail of the trail. */
+const ANTLER_TAPER = 0.72;
+/** Sparkles shed per second, how many slots are skipped, and how they thin. */
+const SPARK_RATE = 22;
+const SPARK_SKIP = 0.35;
+const SPARK_FADE = 1;
+const SPARK_WIDE = 0.85;
+/** How far off the trail a sparkle sits, and how much age pulls it back in. */
+const SPARK_OFFSET = 2;
+const SPARK_SCATTER = 3;
+const SPARK_TIGHTEN = 0.6;
+/** How far behind the head the field of bursts reaches, in art pixels. */
+const BURST_REACH = 25;
+
+/**
+ * One fractal antler: a jagged span that forks into two shorter, dimmer spans,
+ * ANTLER_DEPTH times over. Every stroke is a single pixel — this trail has no
+ * thickness to narrow — so it thins by length and colour alone.
+ */
+function antler(sky, x, y, ux, uy, len, depth, seed, from) {
+  if (depth <= 0 || len < 1.2) {
+    return;
+  }
+  const last = BURST_CORE.length - 1;
+  const kink = (hash(seed, depth * 7 + 3) * 2 - 1) * len * 0.34;
+  const mx = x + ux * len * 0.5 - uy * kink;
+  const my = y + uy * len * 0.5 + ux * kink;
+  const ex = x + ux * len;
+  const ey = y + uy * len;
+  if (depth === 1) {
+    sky.put(mx, my, BURST_TIP[Math.min(last, from)]);
+    sky.put(ex, ey, BURST_TIP[Math.min(last, from + 1)]);
+  } else {
+    sky.line(x, y, mx, my, BURST_CORE[Math.min(last, from)]);
+    sky.line(mx, my, ex, ey, BURST_CORE[Math.min(last, from + 1)]);
+  }
+  for (let c = 0; c < 2; c++) {
+    const sign = c === 0 ? 1 : -1;
+    const a = sign * ANTLER_SPREAD * (0.65 + 0.7 * hash(seed, depth * 13 + c));
+    const ca = Math.cos(a);
+    const sa = Math.sin(a);
+    antler(sky, ex, ey, ux * ca - uy * sa, ux * sa + uy * ca,
+        len * ANTLER_SHORTEN, depth - 1, seed * 31 + c * 7 + 1, from + 2);
+  }
+}
+
+/**
+ * The bursts: one fan of fractal antlers per node of the recent path, with no
+ * line joining one node to the next. Nodes are pinned to fixed times, so a
+ * burst stays where it was struck and ages where it stands. Each is shortest
+ * and dimmest by the time it reaches the tail.
+ */
+function bursts(sky, path, t, life) {
+  const node = (k) => {
+    const tk = k * BURST_DT;
+    const p = path(tk);
+    const d = dirAt(path, tk);
+    const jump = hash(k, 4) < BURST_JUMP ? BURST_JUMP_SCALE : 1;
+    const off = (hash(k, 1) * 2 - 1) * BURST_AMP * jump *
+        (0.5 + 0.5 * hash(k, 2));
+    return {x: p.x - d.y * off, y: p.y + d.x * off, nx: -d.y, ny: d.x};
+  };
+  const last = Math.floor(t / BURST_DT);
+  for (let k = last; k > 0; k--) {
+    const tk = k * BURST_DT;
+    if (tk > t) {
       continue;
     }
-    const core = PLUME[Math.min(PLUME.length - 1, Math.floor(aN * PLUME.length))];
-    const shrink = STEP * Math.min(0.5, aN * 0.7);
-    for (let tau = i * STEP + shrink; tau <= Math.min(t, (i + 1) * STEP); tau += 1 / 90) {
-      const p = path(tau);
-      if (Math.hypot(p.x - head.x, p.y - head.y) < SKIP) {
-        continue;
-      }
-      const d = dirAt(path, tau);
-      const nx = -d.y;
-      const ny = d.x;
-      sky.put(p.x, p.y, core);
-      if (aN < 0.72) {
-        const c = aN < 0.36 ? R.orange[2] : R.orange[1];
-        sky.put(p.x + Math.round(nx), p.y + Math.round(ny), c);
-        sky.put(p.x - Math.round(nx), p.y - Math.round(ny), c);
-      }
-      if (aN < 0.6 && i % 2 === 0) {
-        sky.put(p.x + Math.round(nx * 2), p.y + Math.round(ny * 2), R.yellow[1]);
-        sky.put(p.x - Math.round(nx * 2), p.y - Math.round(ny * 2), R.yellow[1]);
-      }
+    const age = (t - tk) / life;
+    if (age < 0 || age >= 1) {
+      continue;
+    }
+    // Some nodes stay bare, so the bursts read as separate strikes instead of
+    // fusing into one mass. The newest always draws, keeping the trail with
+    // the animal rather than floating behind it.
+    if (k !== last && hash(k, 41) < BURST_GAP) {
+      continue;
+    }
+    const a = node(k);
+    const idx = Math.min(BURST_CORE.length - 1,
+        Math.floor(age * BURST_CORE.length));
+    // The fan spreads about the direction opposite the fly's travel, so it
+    // trails behind rather than reaching ahead. Both vectors are unit length,
+    // so rotating them leaves them so.
+    const bx = -a.ny;
+    const by = a.nx;
+    const armLen = ANTLER_LEN * (1 - ANTLER_TAPER * age);
+    for (let arm = 0; arm < BURST_ARMS; arm++) {
+      const at = arm / (BURST_ARMS - 1) * 2 - 1;
+      const ang = at * BURST_SPREAD + (hash(k, 50 + arm) - 0.5) * BURST_JITTER;
+      const ca = Math.cos(ang);
+      const sa = Math.sin(ang);
+      const len = armLen * (0.7 + 0.6 * hash(k, 60 + arm));
+      antler(sky, a.x, a.y, bx * ca - by * sa, bx * sa + by * ca,
+          len, ANTLER_DEPTH, k * 7 + arm, idx + 1);
     }
   }
-  // Grid-snapped sparks that stay where they were shed and cool in 10 Hz steps.
-  const RATE = 14;
-  const sparkLife = span(path, t, REACH - 4);
-  for (let i = Math.floor((t - sparkLife) * RATE); i <= Math.floor(t * RATE); i++) {
-    const ti = i / RATE;
-    if (hash(i, 1) < 0.4) {
+}
+
+/**
+ * Sparkles: single dots shed beside the trail, the way the fish sheds its data
+ * bits. Each is pinned to a time and keeps the offset it was shed at, so the
+ * field thins down the trail instead of fanning out along it.
+ */
+function sparkles(sky, path, t, life) {
+  const first = Math.floor((t - life) * SPARK_RATE);
+  const last = Math.floor(t * SPARK_RATE);
+  for (let i = first; i <= last; i++) {
+    const ti = i / SPARK_RATE;
+    const age = (t - ti) / life;
+    if (age < 0 || age >= 1 || hash(i, 71) < SPARK_SKIP ||
+        hash(i, 75) < age * SPARK_FADE) {
       continue;
     }
-    const aN = Math.floor((t - ti) * 10) / 10 / sparkLife;
-    if (aN >= 1) {
-      continue;
-    }
-    const idx = Math.min(4, Math.floor(aN * 5));
     const p = path(ti);
     const d = dirAt(path, ti);
-    const side = Math.round((hash(i, 2) - 0.5) * 10);
-    const x = 2 * Math.round((p.x - d.x * 4 - d.y * side) / 2);
-    const y = 2 * Math.round((p.y - d.y * 4 + d.x * side) / 2);
-    sky.put(x, y, SPARK[idx]);
-    if (hash(i, 3) > 0.65 && idx < 3) {
-      sky.put(x + 1, y, SPARK[idx + 1]);
+    const side = hash(i, 72) < 0.5 ? -1 : 1;
+    const reach = SPARK_OFFSET + SPARK_SCATTER * (1 - SPARK_TIGHTEN * age) *
+        hash(i, 73);
+    const x = p.x - d.x * 3 - d.y * side * reach;
+    const y = p.y - d.y * 3 + d.x * side * reach;
+    const colour = BURST_SPARK[Math.min(BURST_SPARK.length - 1,
+        Math.floor(age * BURST_SPARK.length))];
+    sky.put(x, y, colour);
+    // A brand new dot is two pixels wide, and fewer of them are as it ages.
+    if (hash(i, 74) > (1 - SPARK_WIDE) + age) {
+      sky.put(x + 1, y, colour);
     }
   }
+}
+
+/**
+ * Cyber ramification: a run of bursts with no master line through them, and
+ * the warm sparkles they shed. Neither joins anything else, so the trail is a
+ * scatter of lightning hanging in the sky, not a stroke dragged behind the fly.
+ */
+function flyTrail(sky, path, t) {
+  const life = span(path, t, BURST_REACH);
+  bursts(sky, path, t, life);
+  sparkles(sky, path, t, life);
 }
 
 // ----------------------------------------------------------------------- fish
