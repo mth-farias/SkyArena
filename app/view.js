@@ -145,7 +145,7 @@ const HOVER_RELEASE = 3;
  */
 const ANIMAL_RELEASE = 0.6;
 /** How near an animal or the cursor must be to hit a star, by star size. */
-const OBJECT_HIT_R_SCALE = 0.15;
+const OBJECT_HIT_R_SCALE = 0.7;
 const CURSOR_HIT_SCALE = 0.7;
 /** Animals fly this much faster while the sky travels. */
 const TRAVEL_SPEED_MUL = 1.5;
@@ -1588,19 +1588,6 @@ function updatePlace(loc) {
   paintHudText();
 }
 
-/** Distance from a point to a line segment. */
-function distToSegment(px, py, ax, ay, bx, by) {
-  const dx = bx - ax;
-  const dy = by - ay;
-  const lenSq = dx * dx + dy * dy;
-  let t = 0;
-  if (lenSq > 1e-9) {
-    t = ((px - ax) * dx + (py - ay) * dy) / lenSq;
-  }
-  t = Math.max(0, Math.min(1, t));
-  return Math.hypot(px - (ax + dx * t), py - (ay + dy * t));
-}
-
 /** Index of the star under a point, or -1; `scale` shrinks the hit area. */
 function findStarAt(mx, my, scale) {
   const sc = scale == null ? 1 : scale;
@@ -2085,7 +2072,6 @@ async function swapLocation(target) {
     rebuildMesh();
     choosePlanet(planetKey);
     syncCountInputs();
-    quakeHud = null;
     for (const member of eachMember()) {
       member.remaining = member.count;
     }
@@ -2168,13 +2154,12 @@ function nextShakeEvent() {
   return ev;
 }
 
-/** A quake as a place to travel to. */
+/** A quake as a place to travel to. The magnitude is the HUD's own line. */
 function quakeTarget(ev) {
-  const mag = Number(ev.mag);
   return {
     lat: ev.lat,
     lon: ev.lon,
-    capital: 'M' + mag.toFixed(1) + ' · ' + (ev.region || 'Epicenter'),
+    capital: ev.region || 'Epicenter',
     country: '',
   };
 }
@@ -2269,10 +2254,31 @@ function hoverPoints() {
 /**
  * Who lit the first point on a spoke — 'cursor', or the member that lit it —
  * or null when nothing is on it.
+ *
+ * The test runs against the spoke's own stretch, not the whole line through
+ * it. Every spoke of a star starts at the same point, so a point at the
+ * star's centre falls inside the hover radius of all of them at once and one
+ * animal would light the star's whole fan. The inner hover radius, and the
+ * tip past the flowing dot, are therefore not part of the spoke.
  */
 function segmentHovered(ax, ay, bx, by, pts) {
+  const dx = bx - ax;
+  const dy = by - ay;
+  const len = Math.hypot(dx, dy);
+  if (len <= hoverR) {
+    return null;
+  }
+  const t0 = hoverR / len;
+  const len2 = len * len;
+  const span = hoverR * len;
   for (const p of pts) {
-    if (distToSegment(p[0], p[1], ax, ay, bx, by) <= hoverR) {
+    const ex = p[0] - ax;
+    const ey = p[1] - ay;
+    const t = (ex * dx + ey * dy) / len2;
+    if (t < t0 || t > 1) {
+      continue;
+    }
+    if (Math.abs(ex * dy - ey * dx) <= span) {
       return p[2];
     }
   }
@@ -3233,12 +3239,11 @@ function paintHudText() {
     latEl.textContent = formatLatLon(obsLat, obsLon);
   }
   if (quakeEl) {
-    if (quakeHud && (explosionKind === 'live' || explosionKind === 'shake') &&
-        (explosionActive || locationChange)) {
-      quakeEl.textContent = 'M' + Number(quakeHud.mag).toFixed(1);
-    } else {
-      quakeEl.textContent = '';
-    }
+    const quakeOn = Boolean(quakeHud) &&
+        (explosionKind === 'live' || explosionKind === 'shake');
+    quakeEl.textContent = quakeOn ?
+        'M' + Number(quakeHud.mag).toFixed(1) : '';
+    quakeEl.classList.toggle('hot', quakeOn && explosionActive);
   }
   const clockLines = formatClockLines(new Date());
   const dateEl = document.getElementById('dateLine');

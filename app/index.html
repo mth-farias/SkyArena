@@ -52,6 +52,30 @@
     }
     #placeLine, #dateLine { font-size: calc(var(--px) * 10); }
     #latlonLine, #timeLine { color: #9898b0; }
+    /* The quake magnitude: the HUD's own line, larger than the place above it.
+       It blinks red while the sky burns, then cools to grey when the new sky
+       rebuilds and stays grey for the rest of that sky. */
+    #quakeLine { color: #d0d0e0; }
+    #quakeLine:not(:empty) {
+      display: inline-block;
+      font-size: calc(var(--px) * 16);
+      line-height: calc(var(--px) * 20);
+    }
+    #quakeLine.hot {
+      animation: quake-blink 0.5s steps(1, end) infinite;
+    }
+    @keyframes quake-blink {
+      0%, 100% {
+        color: #e03030;
+        text-shadow:
+            var(--px) var(--px) 0 #000,
+            0 0 calc(var(--px) * 3) #f88878;
+      }
+      50% {
+        color: #801828;
+        text-shadow: var(--px) var(--px) 0 #000;
+      }
+    }
     #topRight { right: calc(var(--px) * 4); text-align: right; }
     #hud-live {
       position: fixed;
