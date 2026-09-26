@@ -1,8 +1,8 @@
 """Shared helpers for the sprite generators.
 
-The generator ``organic_sprites.py`` draws the 15x15
-fly and fish. It reads its colors from the ramps in ``app/palette.js``, so
-the art stays inside the locked palette.
+The generators ``organic_sprites.py`` and ``cyber_sprites.py`` draw the fly and
+the fish. Both read their colors from the ramps in ``app/palette.js``, so the
+art stays inside the locked palette.
 """
 
 from __future__ import annotations

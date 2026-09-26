@@ -366,10 +366,9 @@ def check_size(kind, style):
 
 
 
-def main():
-    """Checks the body size, then writes every frame of both animals."""
+def write_all():
+    """Writes every frame of both animals next to this file."""
     for kind, style in STYLES.items():
-        check_size(kind, style)
         for bank, frames in specs(kind).items():
             d = OUT / f"cyber-{kind}" / bank
             d.mkdir(parents=True, exist_ok=True)
@@ -377,6 +376,13 @@ def main():
             for n, (scale, pose) in enumerate(frames, start=1):
                 render(style, scale * k, pose, 0, size).save(d / f"{n}.png")
                 render(style, scale * k, pose, 45, size).save(d / f"{n}_d.png")
+
+
+def main():
+    """Checks the body size, then writes every frame of both animals."""
+    for kind, style in STYLES.items():
+        check_size(kind, style)
+    write_all()
 
 
 if __name__ == "__main__":

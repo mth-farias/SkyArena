@@ -136,7 +136,7 @@ coverage, keeping the more mobile 100 — `scripts/data/mobility.py` holds that
 ranking.
 
 The **cyber** look draws fictional tracks generated from each curated animal's
-own fitted statistics, beside the neon sprites; the start screen toggles it.
+own fitted statistics, beside the neon sprites; the sky draws a team per side.
 
 Sources: CDS V/50 stars, EMSC/SeismicPortal quakes (a fixed set for 2026-06-21
 plus a live feed), and the idtracker.ai Drosophila and zebrafish CSVs. Details

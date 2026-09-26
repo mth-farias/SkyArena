@@ -212,6 +212,8 @@ FISH_EDGE = {
 }
 # Marks drawn as a checkerboard so translucent parts look see-through.
 DITHER = {"wing", "fin", "wing_edge"}
+# What each animal is drawn from: its shape, its fill colors and its edges.
+SPECIES = (("fly", fly, FLY_C, FLY_EDGE), ("fish", fish, FISH_C, FISH_EDGE))
 
 
 def render(shape, colors, edge, scale, pose, degrees, size=SIZE):
@@ -288,8 +290,7 @@ def specs(kind):
 
 def write_all():
     """Writes every frame of the fly and fish next to this file."""
-    for kind, shape, colors, edge in (("fly", fly, FLY_C, FLY_EDGE),
-                                      ("fish", fish, FISH_C, FISH_EDGE)):
+    for kind, shape, colors, edge in SPECIES:
         banks = specs(kind)
         for bank, frames in banks.items():
             d = OUT / kind / bank

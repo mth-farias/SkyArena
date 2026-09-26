@@ -11,8 +11,8 @@ across the constellations.
 
 Each animal that touches a star gives itself up: the star shatters in a burst
 of light and the animal blinks out. Two counters, one on each side of the dome,
-show how many flies and how many fish are left. When one swarm is wiped out,
-the game ends and the sky travels to a new city.
+show how many animals each side has left. When one side is wiped out, the game
+ends and the sky travels to a new city.
 
 The sky is never still. Press **Travel** and the dome dissolves and reforms
 over another capital. Press **Shake** and it replays one of the earthquakes
@@ -24,7 +24,8 @@ explodes and lands on the epicenter.
 
 1. Double-click [`SkyArena.bat`](SkyArena.bat). The piece opens at
    http://127.0.0.1:5444/app/.
-2. Click, tap, or press Enter on the PRESS START screen.
+2. Click, tap, or press Enter on the PRESS START screen. Two teams take the
+   field; a new matchup is drawn every time the sky travels.
 3. Open **Controls** (bottom right) to switch layers, and **Live** (bottom
    left) for the earthquake threshold, Travel, and Shake. Both panels are
    glass: the sky shows through.
@@ -39,7 +40,8 @@ First time here? Follow [Setup](AGENTS.md#setup) in `AGENTS.md`.
 |---|---|
 | Look | 720-row pixel grid scaled by whole numbers; every pixel from a locked 58-color palette; Press Start 2P for all text |
 | Sky | Real star positions (CDS V/50) for the chosen city, date, and time; nine planet color schemes, one per new sky |
-| Animals | Fly and fish tracks from idtracker.ai recordings, replayed at 10 Hz on the unit disk; the fly and the fish each have a 15-pixel sprite and a trail |
+| Teams | A side plays one or two animals drawn from four: the organic fly and fish, on tracks from idtracker.ai recordings, and the cyber fly and fish, neon sprites over fictional tracks. A new matchup is drawn for every sky. Seven in ten are one animal a side; the rest are collaborations — the organic pair against the cyber pair, or the fly pair against the fish pair |
+| Animals | Tracks replayed at 10 Hz on the unit disk; the fly and the fish each have a 15-pixel sprite and a trail |
 | Earthquakes | EMSC / SeismicPortal: a fixed set from 21 June 2026, plus a live feed that merges EMSC's real-time push channel with the USGS summary feed |
 | Runs on | A canvas in the browser, no dependencies. A small Python server (`127.0.0.1:5444`, standard library only) serves the page and the data |
 | Needs | Python 3.11+, a modern browser |

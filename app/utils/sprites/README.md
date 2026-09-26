@@ -34,8 +34,9 @@ thinning in length and colour with age, with warm sparkles shed between them.
 The fish keeps its teal hologram and magenta tail, and its trail is still a
 ladder of scan bars, sonar diamonds and data bits.
 
-**It is loaded.** The start screen has a Bio / Cyber toggle, and `view.js`
-loads both sets at boot so switching costs nothing. The same toggle also swaps
-the trails, the trajectories and the counter colours, because the cyber look
-pairs its sprites with the fictional tracks and a neon fly dragging an organic
-dust comet reads as a bug rather than a look.
+**It is loaded on demand.** A **member** is one animal in one look, and the sky
+draws a team for each side of the dome before that sky loads. `view.js` fetches
+only the members actually drawn — their animated frames and their tracks — and
+caches the frames, which are never mutated. A look carries its sprites, its
+trail, its trajectories and its counter colours together, because a neon animal
+dragging an organic dust comet reads as a bug rather than a look.

@@ -151,7 +151,7 @@ const CURSOR_HIT_SCALE = 0.7;
 const TRAVEL_SPEED_MUL = 1.5;
 /** Most animals of each kind one sky can hold. */
 const MAX_ANIMALS = 100;
-/** Mean gap between fly and fish pairs entering: 5 pairs a second. */
+/** Mean gap between the two sides' entering animals: 5 pairs a second. */
 const ANIMAL_ENTER_TICK_S = 0.2;
 /** Seconds between exit batches. */
 const ANIMAL_EXIT_TICK_S = 0.08;
@@ -168,6 +168,42 @@ const OBJECT_HAT_REACH = 0.22;
 const SHAKE_SHRINK_S = 0.4;
 /** Seconds the sky stays dark between a Travel and the next sky. */
 const MANUAL_SHUFFLE_DARK_S = 1.0;
+/**
+ * The four members: one animal in one look. A side plays a **team** of one or
+ * two of these, and a look carries the sprites, the trail, the trajectories
+ * and the counter colours together.
+ */
+const MEMBERS = [
+  {id: 'bio-fly', look: 'bio', kind: 'fly'},
+  {id: 'bio-fish', look: 'bio', kind: 'fish'},
+  {id: 'cyber-fly', look: 'cyber', kind: 'fly'},
+  {id: 'cyber-fish', look: 'cyber', kind: 'fish'},
+];
+/** The members sharing each look, and each species. */
+const BIO_MEMBERS = MEMBERS.filter((m) => m.look === 'bio');
+const CYBER_MEMBERS = MEMBERS.filter((m) => m.look === 'cyber');
+const FLY_MEMBERS = MEMBERS.filter((m) => m.kind === 'fly');
+const FISH_MEMBERS = MEMBERS.filter((m) => m.kind === 'fish');
+/**
+ * The three shapes a matchup takes, with their relative shares. `single` gives
+ * each side one member, and never the same one twice. `look` puts both members
+ * of one look against the other look. `species` puts both members of one
+ * species against the other species.
+ *
+ * Seven skies in ten field a team of one; the rest are collaborations, split
+ * evenly between the two kinds. Integer weights so the draw lands exactly on
+ * the boundaries rather than a hair over from floating point.
+ */
+const MATCH_ODDS = [
+  {kind: 'single', weight: 70},
+  {kind: 'look', weight: 15},
+  {kind: 'species', weight: 15},
+];
+const MATCH_WEIGHT_TOTAL = MATCH_ODDS.reduce((sum, o) => sum + o.weight, 0);
+/** Side of the arena a team plays for. Left is index 0, right is index 1. */
+const LEFT = 0;
+const RIGHT = 1;
+
 /** Where the first sky is seen from, and the date of its stars. */
 const LISBON_LAT = 38.72;
 const LISBON_LON = -9.13;
@@ -193,8 +229,8 @@ const DRAW_SEED = 108;
  */
 const STAR_MEAN = 60;
 const NORMAL_SIGMA = 46;
-const STAR_MIN = 2;
-const STAR_MAX = 198;
+const STAR_MIN = 4;
+const STAR_MAX = 196;
 /** Milliseconds the star-count slider waits before it builds a new sky. */
 const STAR_SETTLE_MS = 120;
 /**
@@ -319,14 +355,15 @@ function reseedSky(seed) {
   noiseC = new SimplexNoise(s + 2);
 }
 
-/** Draw an even star count near STAR_MEAN, clamped to the star range. */
-function nextEvenStarCount() {
+/**
+ * Draw a star count near STAR_MEAN, in fours so it splits evenly however the
+ * sky is divided: halves between the sides, and quarters when a side fields a
+ * team of two.
+ */
+function nextStarCount() {
   while (true) {
     const x = STAR_MEAN + nextGaussian() * NORMAL_SIGMA;
-    let n = Math.round(x);
-    if (n % 2) {
-      n += n > x ? -1 : 1;
-    }
+    const n = Math.round(x / 4) * 4;
     if (n >= STAR_MIN && n <= STAR_MAX) {
       return n;
     }
@@ -417,47 +454,115 @@ let rimDots = [];
  * }} TrackPack
  */
 /** @type {TrackPack|null} */
-let flies = null;
-/** @type {TrackPack|null} */
-let fish = null;
-let nFlies = 30;
-let nFish = 30;
 /**
- * Every identity of each species, shuffled. The piece shows the first
- * ``nFlies``/``nFish`` of these, so a new sky draws a different handful from
- * the whole set instead of always the same low-numbered ones.
+ * One member on the field: the animal, the tracks it draws, and everything
+ * that animal mutates while the sky runs.
+ * @param {Object} team One entry of MEMBERS.
+ * @return {Object} the member
  */
-let flyOrder = [];
-let fishOrder = [];
+function makeMember(team) {
+  return {
+    team,
+    /** Track pack of the member's species, from loadMemberPack. */
+    pack: null,
+    /** Eight-heading sprite frames of the member's kind and look. */
+    sprites: null,
+    /** Identities on screen, and the ones that have started to leave. */
+    shown: new Set(),
+    fadeStart: new Map(),
+    /**
+     * Every identity of the member's species, shuffled. The piece shows the
+     * first `count` of these, so a new sky draws a different handful from the
+     * whole set instead of always the same low-numbered ones.
+     */
+    order: [],
+    count: 0,
+    remaining: 0,
+    hz: DEFAULT_HZ,
+    clock: 0,
+  };
+}
+
+/**
+ * A side of the arena: the layer switch that shows it and the team it plays.
+ * A team is one member or two.
+ * @param {string} layer 'left' or 'right'
+ * @param {Object[]} teams One entry of MEMBERS, or two.
+ * @return {Object} the side
+ */
+function makeSide(layer, teams) {
+  return {
+    layer,
+    members: teams.map(makeMember),
+    /** Animals this side fields in total, which is what its slider sets. */
+    want: 0,
+    /**
+     * Which member owns the tens digit and which the units, drawn once per
+     * sky. `drawCounter` runs every frame, so this cannot be decided there.
+     */
+    digitOrder: [0, 1],
+  };
+}
+
+/**
+ * The shape of matchup a new sky gets, drawn by weight.
+ * @return {string} one of the kinds in MATCH_ODDS
+ */
+function drawMatchKind() {
+  let roll = Math.floor(Math.random() * MATCH_WEIGHT_TOTAL);
+  for (const {kind, weight} of MATCH_ODDS) {
+    if (roll < weight) {
+      return kind;
+    }
+    roll -= weight;
+  }
+  return MATCH_ODDS[0].kind;
+}
+
+/**
+ * Draw the matchup for a new sky: one of the three shapes, then the concrete
+ * assignment inside it.
+ *
+ * A `single` takes one member from the four and a second from the remaining
+ * three, so a team never faces itself. A `look` match hands one look to each
+ * side and a `species` match one species to each, which are distinct by
+ * definition. Which goes left is a coin toss.
+ * @return {Object[]} the two sides, left first
+ */
+function drawMatchup() {
+  const kind = drawMatchKind();
+  const swap = Math.random() < 0.5;
+  if (kind === 'look') {
+    const pair = swap ? [CYBER_MEMBERS, BIO_MEMBERS] :
+        [BIO_MEMBERS, CYBER_MEMBERS];
+    return [makeSide('left', pair[0]), makeSide('right', pair[1])];
+  }
+  if (kind === 'species') {
+    const pair = swap ? [FISH_MEMBERS, FLY_MEMBERS] :
+        [FLY_MEMBERS, FISH_MEMBERS];
+    return [makeSide('left', pair[0]), makeSide('right', pair[1])];
+  }
+  const pool = MEMBERS.slice();
+  const first = pool.splice(Math.floor(Math.random() * pool.length), 1)[0];
+  const second = pool[Math.floor(Math.random() * pool.length)];
+  return [makeSide('left', [first]), makeSide('right', [second])];
+}
+
+/** Both sides, left first. Rebuilt outright on every new sky. */
+let sides = [makeSide('left', [MEMBERS[0]]), makeSide('right', [MEMBERS[1]])];
 let skyCount = 60;
-let remainingFly = 30;
-let remainingFish = 30;
-let flyHz = DEFAULT_HZ;
-let fishHz = DEFAULT_HZ;
-let flyClock = 0;
-let fishClock = 0;
 let lastMs = 0;
 let animTime = 0;
 let looping = false;
 let domePath = new Path2D();
-/** @type {Record<string, Record<string, HTMLImageElement[]>>|null} */
-let sprites = null;
 
-/**
- * Which look the piece is wearing: 'bio' for the recorded animals and the
- * organic sprites, 'cyber' for the fictional ones and the neon set. Both
- * sets load before the start screen clears, so switching is a swap.
- */
-let look = 'bio';
-/** @type {Object|null} sprite sets keyed by look, from loadSprites */
-let spriteSets = null;
-/** @type {Object|null} track packs keyed by look, from loadTrackSets */
-let trackSets = null;
-// The trail functions of the look in use. Both modules export the same two
-// names, so only the bindings move when the look changes and every call
-// site stays as it was.
-let buildOdometer = bioOdometer;
-let drawTrail = bioTrail;
+// The trail builders of each look. Both modules export the same two names,
+// so only the lookup moves when a team's look is known and every call site
+// stays as it was.
+const TRAIL_BY_LOOK = {
+  bio: {odometer: bioOdometer, trail: bioTrail},
+  cyber: {odometer: cyberOdometer, trail: cyberTrail},
+};
 
 const layers = {
   circle: false,
@@ -467,8 +572,8 @@ const layers = {
   spokes: false,
   sparkle: false,
   color: false,
-  flies: false,
-  fish: false,
+  left: false,
+  right: false,
 };
 
 const deadStarIds = new Set();
@@ -523,10 +628,6 @@ let mouseY = null;
 let animalsVisibleAtExit = false;
 let lastDt = 1 / 30;
 const hatBursts = [];
-const flyShown = new Set();
-const fishShown = new Set();
-const flyFadeStart = new Map();
-const fishFadeStart = new Map();
 let shakeFrozen = false;
 let shakeShrinkT0 = 0;
 let exitChainStarted = false;
@@ -884,52 +985,57 @@ const TRAIL_SHADES = {
 const ODOMETER_STEPS_PER_SAMPLE = 4;
 
 /** Color off: a pixel line behind the animal and a dot at its head. */
-function drawLineTrail(pack, id, clock, hz, kind) {
+function drawLineTrail(member, id) {
+  const pack = member.pack;
   const n = pack.counts[id];
-  const [lineColor, headColor] = TRAIL_SHADES[kind];
+  const [lineColor, headColor] = TRAIL_SHADES[member.team.kind];
   let prev = null;
   for (let k = Math.min(TRAIL, n - 1); k >= 0; k--) {
-    const pos = poseAt(pack, id, clock - k / hz, hz);
+    const pos = poseAt(pack, id, member.clock - k / member.hz, member.hz);
     const p = toPixel(pos[0], pos[1]);
     if (prev) {
       pixels.line(prev.px, prev.py, p.px, p.py, gridK, () => lineColor, false);
     }
     prev = p;
   }
-  const head = poseAt(pack, id, clock, hz);
+  const head = poseAt(pack, id, member.clock, member.hz);
   const p = toPixel(head[0], head[1]);
   pixels.dot(Math.round(p.px), Math.round(p.py), headColor, 3.1 * gridK);
   pixels.flush(ctx);
 }
 
-/** Color on: the comet or water trail of the active sprite set. */
-function drawAnimalTrail(pack, id, clock, hz, kind) {
+/** Color on: the comet or neon trail of the member's look. */
+function drawAnimalTrail(member, id) {
+  const pack = member.pack;
   const n = pack.counts[id];
   if (n < 1) {
     return;
   }
   if (!layers.color) {
-    drawLineTrail(pack, id, clock, hz, kind);
+    drawLineTrail(member, id);
     return;
   }
+  const {odometer, trail} = TRAIL_BY_LOOK[member.team.look];
   const path = (clk) => {
-    const p = poseAt(pack, id, clk, hz);
+    const p = poseAt(pack, id, clk, member.hz);
     return {x: view.cx + p[0] * view.radius, y: view.cy + p[1] * view.radius};
   };
   if (!pack.odometers[id]) {
     pack.odometers[id] = n < 2 ?
         {period: 1, dt: 1, d: new Float64Array(2), loop: 0} :
-        buildOdometer((t) => poseAt(pack, id, t, hz), n / hz,
+        odometer((t) => poseAt(pack, id, t, member.hz), n / member.hz,
             n * ODOMETER_STEPS_PER_SAMPLE);
   }
-  drawTrail(actx, kind, path, clock, pack.odometers[id],
+  trail(actx, member.team.kind, path, member.clock, pack.odometers[id],
       view.radius);
 }
 
 /** Draw an animal's sprite, turned to its heading. */
-function drawAnimalSprite(pack, id, clock, hz, kind, fx) {
+function drawAnimalSprite(member, id, fx) {
+  const pack = member.pack;
+  const kind = member.team.kind;
   const n = pack.counts[id];
-  if (n < 1 || !sprites) {
+  if (n < 1 || !member.sprites) {
     return;
   }
   let segI = -1;
@@ -941,7 +1047,7 @@ function drawAnimalSprite(pack, id, clock, hz, kind, fx) {
     if (n === 1) {
       return {xy: sampleXY(pack, id, 0), slope: [1, 0], i: 0};
     }
-    const u = clk * hz;
+    const u = clk * member.hz;
     const i = wrap(Math.floor(u), n);
     const t = u - Math.floor(u);
     if (i !== segI) {
@@ -955,18 +1061,19 @@ function drawAnimalSprite(pack, id, clock, hz, kind, fx) {
     const slope = lerp2(m0, m1, t);
     return {xy: hermite(p0, m0, p1, m1, t), slope, i};
   };
-  const head = pose(clock);
+  const head = pose(member.clock);
   const pixel = toPixel(head.xy[0], head.xy[1]);
   const speed = sampleSpeed(pack, id, head.i);
   const prev = sampleSpeed(pack, id, wrap(head.i - 1, n));
   const clip = spriteFrame(
-      clock, hz, speed, prev, speedThreshold(kind, pack.q1),
+      member.clock, member.hz, speed, prev, speedThreshold(kind, pack.q1),
       pack.lastBank[id]);
   pack.lastBank[id] = clip.bank === 'flicker' ? pack.lastBank[id] : clip.bank;
   const rawHead = Math.atan2(head.slope[1], head.slope[0]);
   const tau = kind === 'fly' ? FLY_HEADING_TAU : FISH_HEADING_TAU;
-  const heading = smoothHeading(pack, id, rawHead, clock, tau);
-  drawSprite(sprites[kind][clip.bank][clip.n], pixel.px, pixel.py, heading, fx);
+  const heading = smoothHeading(pack, id, rawHead, member.clock, tau);
+  drawSprite(member.sprites[clip.bank][clip.n], pixel.px, pixel.py,
+      heading, fx);
 }
 
 /**
@@ -1002,7 +1109,7 @@ function leaveFx(t) {
 }
 
 /** Draw one animal: its trail, then its sprite. */
-function drawAnimal(pack, id, clock, hz, kind, fade) {
+function drawAnimal(member, id, fade) {
   const a = fade == null ? 1 : fade;
   if (a <= 0) {
     return;
@@ -1015,10 +1122,10 @@ function drawAnimal(pack, id, clock, hz, kind, fade) {
     }
   }
   if (!fx || fx.on) {
-    drawAnimalTrail(pack, id, clock, hz, kind);
+    drawAnimalTrail(member, id);
   }
   if (layers.color) {
-    drawAnimalSprite(pack, id, clock, hz, kind, fx);
+    drawAnimalSprite(member, id, fx);
   }
 }
 
@@ -1453,7 +1560,7 @@ function startLocationShuffle(target, quakeMag, kind) {
   animalExitAt = null;
   animalNextAt = 0;
   animalExitTick = 0;
-  animalsVisibleAtExit = objectsOn && (layers.flies || layers.fish);
+  animalsVisibleAtExit = objectsOn && (layers.left || layers.right);
   if (src === 'live' || src === 'shake') {
     quakeHud = {
       mag: quakeMag,
@@ -1545,53 +1652,59 @@ function animalFade(id, map) {
 }
 
 /**
- * The identities of one species this sky shows, in entry order.
- * @param {string} kind 'fly' or 'fish'
+ * The identities of the member's species this sky shows, in entry order.
+ * @param {Object} member
  * @return {number[]} the chosen ids
  */
-function wantedIds(kind) {
-  const nWant = kind === 'fly' ? nFlies : nFish;
-  const order = kind === 'fly' ? flyOrder : fishOrder;
-  return order.slice(0, nWant);
+function wantedIds(member) {
+  return member.order.slice(0, member.count);
 }
 
-/** Ids of the animals of this kind still waiting to enter. */
-function pendingEnterIds(kind) {
-  const pack = kind === 'fly' ? flies : fish;
-  const shown = kind === 'fly' ? flyShown : fishShown;
-  const layerOn = kind === 'fly' ? layers.flies : layers.fish;
-  if (!objectsOn || !layerOn || !pack) {
+/** Ids of the member's animals still waiting to enter. */
+function pendingEnterIds(side, member) {
+  if (!objectsOn || !layers[side.layer] || !member.pack) {
     return [];
   }
-  return wantedIds(kind).filter((id) => !shown.has(id));
+  return wantedIds(member).filter((id) => !member.shown.has(id));
 }
 
-/** Ids of the animals of this kind on screen and not leaving. */
-function remainingShownIds(kind) {
-  const shown = kind === 'fly' ? flyShown : fishShown;
-  const fades = kind === 'fly' ? flyFadeStart : fishFadeStart;
+/** Ids of the member's animals on screen and not leaving. */
+function remainingShownIds(member) {
   const out = [];
-  for (const id of shown) {
-    if (!fades.has(id)) {
+  for (const id of member.shown) {
+    if (!member.fadeStart.has(id)) {
       out.push(id);
     }
   }
   return out;
 }
 
-/** Remove every animal at once. */
+/**
+ * Every member of both sides.
+ * @param {Object[]} [list] the sides to walk, defaulting to the ones on screen
+ * @return {Object[]}
+ */
+function eachMember(list = sides) {
+  const out = [];
+  for (const side of list) {
+    out.push(...side.members);
+  }
+  return out;
+}
+
+/** Remove every animal at once, on both sides. */
 function clearAnimals() {
-  flyShown.clear();
-  fishShown.clear();
-  flyFadeStart.clear();
-  fishFadeStart.clear();
+  for (const member of eachMember()) {
+    member.shown.clear();
+    member.fadeStart.clear();
+  }
   animalEnterAt = null;
   animalExitAt = null;
   animalNextAt = 0;
   animalExitTick = 0;
 }
 
-/** Start letting the animals in, a pair at a time. */
+/** Start letting the animals in, one from each swarm at a time. */
 function startAnimalEnter() {
   if (!objectsOn || locationChange || swapping) {
     return;
@@ -1601,8 +1714,9 @@ function startAnimalEnter() {
   }
   animalEnterAt = clockNow;
   animalNextAt = clockNow;
-  flyFadeStart.clear();
-  fishFadeStart.clear();
+  for (const member of eachMember()) {
+    member.fadeStart.clear();
+  }
 }
 
 /** Let in the animals whose turn has come. */
@@ -1611,17 +1725,19 @@ function tickAnimalEnter() {
     return;
   }
   while (clockNow >= animalNextAt) {
-    const fliesLeft = pendingEnterIds('fly');
-    const fishLeft = pendingEnterIds('fish');
-    if (!fliesLeft.length && !fishLeft.length) {
+    let any = false;
+    for (const side of sides) {
+      for (const member of side.members) {
+        const waiting = pendingEnterIds(side, member);
+        if (waiting.length) {
+          member.shown.add(waiting[0]);
+          any = true;
+        }
+      }
+    }
+    if (!any) {
       animalEnterAt = null;
       break;
-    }
-    if (fliesLeft.length) {
-      flyShown.add(fliesLeft[0]);
-    }
-    if (fishLeft.length) {
-      fishShown.add(fishLeft[0]);
     }
     animalNextAt += variableInterval(ANIMAL_ENTER_TICK_S);
   }
@@ -1644,19 +1760,21 @@ function tickAnimalExit() {
     return;
   }
   while (clockNow >= animalExitAt + animalExitTick * ANIMAL_EXIT_TICK_S) {
-    const fliesLeft = remainingShownIds('fly');
-    const fishLeft = remainingShownIds('fish');
-    if (!fliesLeft.length && !fishLeft.length) {
+    let any = false;
+    for (const member of eachMember()) {
+      const staying = remainingShownIds(member);
+      if (staying.length) {
+        any = true;
+      }
+      for (let n = 0; n < ANIMAL_EXIT_BATCH; n++) {
+        if (staying[n] != null) {
+          member.fadeStart.set(staying[n], clockNow);
+        }
+      }
+    }
+    if (!any) {
       animalExitAt = null;
       break;
-    }
-    for (let n = 0; n < ANIMAL_EXIT_BATCH; n++) {
-      if (fliesLeft[n] != null) {
-        flyFadeStart.set(fliesLeft[n], clockNow);
-      }
-      if (fishLeft[n] != null) {
-        fishFadeStart.set(fishLeft[n], clockNow);
-      }
     }
     animalExitTick += 1;
   }
@@ -1667,21 +1785,25 @@ function animalsFadedOut() {
   if (!animalsVisibleAtExit) {
     return true;
   }
-  if (!flyShown.size && !fishShown.size) {
+  const members = eachMember();
+  let shown = 0;
+  for (const member of members) {
+    shown += member.shown.size;
+  }
+  if (!shown) {
     return true;
   }
-  for (const id of flyShown) {
-    if (animalFade(id, flyFadeStart) > 0) {
+  for (const member of members) {
+    for (const id of member.shown) {
+      if (animalFade(id, member.fadeStart) > 0) {
+        return false;
+      }
+    }
+    if (remainingShownIds(member).length) {
       return false;
     }
   }
-  for (const id of fishShown) {
-    if (animalFade(id, fishFadeStart) > 0) {
-      return false;
-    }
-  }
-  return remainingShownIds('fly').length === 0 &&
-      remainingShownIds('fish').length === 0;
+  return true;
 }
 
 /** Share of the stars still alive, from 0 to 1. */
@@ -1872,7 +1994,6 @@ function drawHatBursts() {
 
 /** Advance the game by one frame: chains, deaths, animals, and shuffles. */
 function tickSky() {
-  clockNow = performance.now() / 1000;
   while (chainFn != null && clockNow >= nextChainAt) {
     const done = chainFn();
     if (done) {
@@ -1937,7 +2058,7 @@ function tickSky() {
   if (isFullyDead()) {
     objectsGate = false;
   } else if (objectsOn && !locationChange &&
-      (layers.flies || layers.fish) && isFullyAlive()) {
+      (layers.left || layers.right) && isFullyAlive()) {
     objectsGate = true;
     startAnimalEnter();
   }
@@ -1965,12 +2086,18 @@ async function swapLocation(target) {
     choosePlanet(planetKey);
     syncCountInputs();
     quakeHud = null;
-    remainingFly = nFlies;
-    remainingFish = nFish;
+    for (const member of eachMember()) {
+      member.remaining = member.count;
+    }
     shakeFrozen = false;
     exitChainStarted = false;
     clearAnimals();
     startIntroRevival();
+  } catch (err) {
+    // The sky on screen is still the last good one, because loadSky only
+    // swaps in a sky once every fetch has landed. Leave it running and let
+    // the viewer press Travel again.
+    console.error('Could not load the next sky.', err);
   } finally {
     swapping = false;
     syncTravelButtons();
@@ -2070,12 +2197,18 @@ function syncTravelButtons() {
   }
 }
 
-/** Fade a spoke's hover strength up or down; returns it, 0 to 1. */
-function updateSpokeHover(key, kind, dt) {
+/**
+ * Fade a spoke's hover strength up or down; returns it, 0 to 1.
+ * @param {string} key the spoke
+ * @param {Object|string|null} who 'cursor', or the member that lit it
+ * @param {number} dt seconds since the last frame
+ * @return {number}
+ */
+function updateSpokeHover(key, who, dt) {
   let v = spokeHover.get(key) || 0;
-  if (kind) {
+  if (who) {
     v = 1;
-    spokeKind.set(key, kind);
+    spokeKind.set(key, who);
   } else {
     const release =
         spokeKind.get(key) === 'cursor' ? HOVER_RELEASE : ANIMAL_RELEASE;
@@ -2105,35 +2238,27 @@ function hoverPoints() {
   // Only animals that are staying interact. One that has started to leave
   // blinks and is on its way out, so it neither lights spokes nor kills.
   if (objectsOn && interactOn) {
-    if (layers.flies && flies) {
-      for (const id of flyShown) {
-        if (flyFadeStart.has(id)) {
-          continue;
-        }
-        const pos = poseAt(flies, id, flyClock, flyHz);
-        const p = toPixel(pos[0], pos[1]);
-        if (!onScreen(p)) {
-          continue;
-        }
-        pts.push([p.px, p.py, 'fly']);
-        if (tryObjectKill(p.px, p.py, 'fly')) {
-          kamikaze('fly', id);
-        }
+    for (const side of sides) {
+      if (!layers[side.layer]) {
+        continue;
       }
-    }
-    if (layers.fish && fish) {
-      for (const id of fishShown) {
-        if (fishFadeStart.has(id)) {
+      for (const member of side.members) {
+        if (!member.pack) {
           continue;
         }
-        const pos = poseAt(fish, id, fishClock, fishHz);
-        const p = toPixel(pos[0], pos[1]);
-        if (!onScreen(p)) {
-          continue;
-        }
-        pts.push([p.px, p.py, 'fish']);
-        if (tryObjectKill(p.px, p.py, 'fish')) {
-          kamikaze('fish', id);
+        for (const id of member.shown) {
+          if (member.fadeStart.has(id)) {
+            continue;
+          }
+          const pos = poseAt(member.pack, id, member.clock, member.hz);
+          const p = toPixel(pos[0], pos[1]);
+          if (!onScreen(p)) {
+            continue;
+          }
+          pts.push([p.px, p.py, member]);
+          if (tryObjectKill(p.px, p.py, member.team.kind)) {
+            kamikaze(member, id);
+          }
         }
       }
     }
@@ -2142,7 +2267,8 @@ function hoverPoints() {
 }
 
 /**
- * The kind ('cursor', 'fly', 'fish') of the first point on a spoke, or null.
+ * Who lit the first point on a spoke — 'cursor', or the member that lit it —
+ * or null when nothing is on it.
  */
 function segmentHovered(ax, ay, bx, by, pts) {
   for (const p of pts) {
@@ -2318,10 +2444,10 @@ function drawWiggle(time) {
 }
 
 /**
- * Spokes an animal lights, in the look the piece is wearing. Bio runs warm for
- * the fly and cold for the fish. Cyber takes each animal's own ramp: the fly's
- * tracks the trail in `cyber-trails.js`, the fish's its scan bars. Each ramp
- * runs dark to bright, the order `spokeColors` indexes it in.
+ * Spokes a member lights, in its own look. Bio runs warm for the fly and cold
+ * for the fish. Cyber takes each animal's own ramp: the fly's tracks the trail
+ * in `cyber-trails.js`, the fish's its scan bars. Each ramp runs dark to
+ * bright, the order `spokeColors` indexes it in.
  */
 const HOVER_TINT = {
   bio: {
@@ -2406,7 +2532,9 @@ function paintSpoke(seed, style, ex, ey, key, hoverPts) {
       key, segmentHovered(seed.x0, seed.y0, ex, ey, hoverPts), lastDt);
   const boost = hb > HOVER_LIFT_2 ? 2 : hb > HOVER_LIFT_1 ? 1 : 0;
   // A spoke an animal lights takes that animal's temperature and a faint glow.
-  const tint = boost ? HOVER_TINT[look][spokeKind.get(key)] : null;
+  const who = spokeKind.get(key);
+  const tint = boost && who !== 'cursor' ?
+      HOVER_TINT[who.team.look][who.team.kind] : null;
   const lift = style.lift + (tint ? 1 : boost);
   const cols = spokeColors(style.ramp, lift);
   let cols2 = style.ramp2 ? spokeColors(style.ramp2, lift) : null;
@@ -2692,16 +2820,17 @@ function draw(time) {
   if (layers.stars || gameOn) {
     drawStars();
   }
-  if (layers.fish && fish) {
-    for (const id of fishShown) {
-      const fade = animalFade(id, fishFadeStart);
-      drawAnimal(fish, id, fishClock, fishHz, 'fish', fade);
+  for (const side of sides) {
+    if (!layers[side.layer]) {
+      continue;
     }
-  }
-  if (layers.flies && flies) {
-    for (const id of flyShown) {
-      const fade = animalFade(id, flyFadeStart);
-      drawAnimal(flies, id, flyClock, flyHz, 'fly', fade);
+    for (const member of side.members) {
+      if (!member.pack) {
+        continue;
+      }
+      for (const id of member.shown) {
+        drawAnimal(member, id, animalFade(id, member.fadeStart));
+      }
     }
   }
   ctx.drawImage(animalLayer, 0, 0);
@@ -2741,20 +2870,31 @@ function tick(now) {
   const travelMul = (explosionActive && explosionKind === 'travel') ?
       TRAVEL_SPEED_MUL : 1;
   if (!shakeFrozen) {
-    flyClock += dt * travelMul;
-    fishClock += dt * travelMul;
+    for (const member of eachMember()) {
+      member.clock += dt * travelMul;
+    }
   }
   lastDt = dt;
+  clockNow = performance.now() / 1000;
   tickSky();
   draw(animTime);
   requestAnimationFrame(tick);
 }
 
-/** Read the track rates from the server data. */
+/**
+ * Read the track rates from the server data. Each side takes the rate of its
+ * own species, so a mirror match reads the one field twice.
+ * @param {Object} data the server's sky payload
+ */
 function applyPlayback(data) {
   const pb = data.playback || {};
-  flyHz = Number(pb.fly_point_hz) || DEFAULT_HZ;
-  fishHz = Number(pb.fish_point_hz) || DEFAULT_HZ;
+  const rate = {
+    fly: Number(pb.fly_point_hz) || DEFAULT_HZ,
+    fish: Number(pb.fish_point_hz) || DEFAULT_HZ,
+  };
+  for (const member of eachMember()) {
+    member.hz = rate[member.team.kind];
+  }
 }
 
 /** Resolve after `ms` milliseconds. */
@@ -2849,120 +2989,200 @@ function orientSprite(east, diagonal, size) {
   return out;
 }
 
-/** Load one sprite set and turn every frame to its eight headings. */
-async function loadSpriteSet(folder) {
-  const kinds = ['fly', 'fish'];
+/**
+ * Load one animal's sprite frames and turn every frame to its eight headings.
+ * @param {string} kind 'fly' or 'fish'
+ * @param {string} folder '' for the organic set, 'cyber-' for the neon one
+ * @return {Promise<Object>} the three banks, each a frame of eight headings
+ */
+async function loadSpriteSet(kind, folder) {
   const banks = ['grow', 'flicker', 'shrink'];
   const raw = {};
   const jobs = [];
-  for (const kind of kinds) {
-    raw[kind] = {};
-    for (const bank of banks) {
-      raw[kind][bank] = [];
-      for (let n = 1; n <= SPRITE_FRAMES; n++) {
-        const east = loadOneSprite(`/SPRITES/${folder}${kind}/${bank}/${n}.png`);
-        const diagonal =
-            loadOneSprite(`/SPRITES/${folder}${kind}/${bank}/${n}_d.png`);
-        raw[kind][bank].push([east.img, diagonal.img]);
-        jobs.push(east.ready, diagonal.ready);
-      }
+  for (const bank of banks) {
+    raw[bank] = [];
+    for (let n = 1; n <= SPRITE_FRAMES; n++) {
+      const east = loadOneSprite(`/SPRITES/${folder}${kind}/${bank}/${n}.png`);
+      const diagonal =
+          loadOneSprite(`/SPRITES/${folder}${kind}/${bank}/${n}_d.png`);
+      raw[bank].push([east.img, diagonal.img]);
+      jobs.push(east.ready, diagonal.ready);
     }
   }
   await Promise.all(jobs);
   const out = {};
-  for (const kind of kinds) {
-    out[kind] = {};
-    for (const bank of banks) {
-      out[kind][bank] = raw[kind][bank].map(
-          ([east, diagonal]) => orientSprite(east, diagonal, SPRITE_PX[kind]));
-    }
+  for (const bank of banks) {
+    out[bank] = raw[bank].map(
+        ([east, diagonal]) => orientSprite(east, diagonal, SPRITE_PX[kind]));
   }
   return out;
 }
 
-/**
- * Load both looks. The cyber set is the neon wireframe fly and hologram
- * fish kept beside the organic one; see utils/sprites/README.md.
- * @return {Promise<Object>} sets keyed by look name
- */
-async function loadSprites() {
-  const bio = await loadSpriteSet('');
-  const cyber = await loadSpriteSet('cyber-');
-  return {bio, cyber};
+/** The sprite folder of a member: the neon set is prefixed, the organic is not. */
+function spriteFolder(team) {
+  return team.look === 'cyber' ? 'cyber-' : '';
 }
 
 /**
- * Fetch both looks' animal tracks. The cyber look draws the fictional
- * ones, which the server keeps beside the recorded files.
- * @return {Promise<Object>} packs keyed by look name
+ * Sprite frames already loaded, by member id. A frame is a canvas of eight
+ * headings and nothing ever draws into it, so one copy serves every sky and
+ * every side at once.
+ * @type {Map<string, Object>}
  */
-async function loadTrackSets() {
-  const bioFly = await loadTracks('/api/flies.bin?n=' + MAX_ANIMALS);
-  const bioFish = await loadTracks('/api/fish.bin?n=' + MAX_ANIMALS);
-  const cyberFly =
-      await loadTracks('/api/flies.bin?n=' + MAX_ANIMALS + '&set=fiction');
-  const cyberFish =
-      await loadTracks('/api/fish.bin?n=' + MAX_ANIMALS + '&set=fiction');
-  return {
-    bio: {fly: bioFly, fish: bioFish},
-    cyber: {fly: cyberFly, fish: cyberFish},
-  };
+const spriteCache = new Map();
+
+/**
+ * Load one member's sprite frames, or hand back the copy already loaded.
+ * @param {Object} team One entry of MEMBERS.
+ * @return {Promise<Object>} the member's three banks
+ */
+function loadMemberSprites(team) {
+  if (!spriteCache.has(team.id)) {
+    const started = loadSpriteSet(team.kind, spriteFolder(team)).catch(
+        (err) => {
+          spriteCache.delete(team.id);
+          throw err;
+        });
+    spriteCache.set(team.id, started);
+  }
+  return spriteCache.get(team.id);
 }
 
 /**
- * Draw a new sky: a star count, the stars, and the animal tracks. Flies and
- * fish each start at half the star count, so the two swarms together match
+ * Fetch one member's track pack. The cyber members draw the fictional tracks,
+ * which the server keeps beside the recorded files.
+ *
+ * This is deliberately **not** cached: a pack carries per-animal state
+ * (`odometers`, `lastBank`, `lastHeading`, `headClock`) that the sky mutates,
+ * so two sides running the same member need a pack each or they would drag
+ * each other's animals around. The bytes still come from the HTTP cache.
+ * @param {Object} team One entry of MEMBERS.
+ * @return {Promise<Object>} the track pack
+ */
+function loadMemberPack(team) {
+  const animal = team.kind === 'fly' ? 'flies' : 'fish';
+  let url = `/api/${animal}.bin?n=${MAX_ANIMALS}`;
+  if (team.look === 'cyber') {
+    url += '&set=fiction';
+  }
+  return loadTracks(url);
+}
+
+/**
+ * Give every member of `list` its sprites and its own pack. Only the members
+ * actually on the field are loaded, so a sky never fetches a member it is not
+ * playing.
+ * @param {Object[]} list the sides to load
+ * @return {Promise<void>}
+ */
+async function loadSides(list) {
+  await Promise.all(eachMember(list).map(async (member) => {
+    const [sprites, pack] = await Promise.all([
+      loadMemberSprites(member.team),
+      loadMemberPack(member.team),
+    ]);
+    member.sprites = sprites;
+    member.pack = pack;
+  }));
+}
+
+/**
+ * Draw a new sky: a star count, the stars, and the animal tracks. The two
+ * sides each start at half the star count, so the two swarms together match
  * the stars.
+ *
+ * The new sky is built aside and only swapped in once every fetch has landed,
+ * so a failure leaves the sky already on screen running rather than a
+ * half-built one.
  */
 async function loadSky() {
+  const next = drawMatchup();
+  await loadSides(next);
   reseedSky(Date.now());
-  skyCount = nextEvenStarCount();
-  const data = await loadStars(skyCount);
-  const flyPack = trackSets[look].fly;
-  const fishPack = trackSets[look].fish;
-  nFlies = Math.min(Math.floor(skyCount / 2), flyPack.counts.length);
-  nFish = Math.min(Math.floor(skyCount / 2), fishPack.counts.length);
-  flyOrder = shuffledIds(flyPack.counts.length);
-  fishOrder = shuffledIds(fishPack.counts.length);
-  remainingFly = nFlies;
-  remainingFish = nFish;
-  // Even seconds on the system clock put the fish counter on the left.
-  fishLeft = new Date().getSeconds() % 2 === 0;
-  if (data.stars && data.stars.length > skyCount) {
-    data.stars = data.stars.slice(0, skyCount);
+  const count = nextStarCount();
+  shuffleMembers(next);
+  for (const side of next) {
+    side.want = Math.floor(count / 2);
+    side.digitOrder = Math.random() < 0.5 ? [0, 1] : [1, 0];
+    dealCounts(side);
   }
+  const data = await loadStars(count);
+  if (data.stars && data.stars.length > count) {
+    data.stars = data.stars.slice(0, count);
+  }
+  sides = next;
+  skyCount = count;
   stars = data.stars || [];
-  flies = flyPack;
-  fish = fishPack;
   applyPlayback(data);
   cacheLists(data);
 }
 
 /**
- * An animal spends itself on a star: it starts to leave and the count drops.
+ * Split one side's animals between its members, in whole numbers. The first
+ * member takes the odd one when the total does not divide evenly.
+ *
+ * This only sets counts, so moving a slider adds and removes animals without
+ * changing which ones are out. A new sky shuffles first, separately.
+ * @param {Object} side
  */
-function kamikaze(kind, id) {
-  const shown = kind === 'fly' ? flyShown : fishShown;
-  const fades = kind === 'fly' ? flyFadeStart : fishFadeStart;
-  if (!shown.has(id) || fades.has(id)) {
+function dealCounts(side) {
+  const each = Math.floor(side.want / side.members.length);
+  side.members.forEach((member, i) => {
+    const share = i === 0 ? side.want - each * (side.members.length - 1) :
+        each;
+    member.count = Math.min(share, member.pack.counts.length);
+    member.remaining = member.count;
+  });
+}
+
+/**
+ * Draw a fresh identity order for every member of `list`, which a new sky does.
+ * @param {Object[]} list the sides to shuffle
+ */
+function shuffleMembers(list) {
+  for (const member of eachMember(list)) {
+    member.order = shuffledIds(member.pack.counts.length);
+  }
+}
+
+/**
+ * An animal spends itself on a star: it starts to leave and the count drops.
+ * @param {Object} member the member the animal belongs to
+ * @param {number} id the animal's identity in the track pack
+ */
+function kamikaze(member, id) {
+  if (!member.shown.has(id) || member.fadeStart.has(id)) {
     return;
   }
-  fades.set(id, clockNow);
-  shown.delete(id);
-  if (kind === 'fly') {
-    remainingFly = Math.max(0, remainingFly - 1);
-  } else {
-    remainingFish = Math.max(0, remainingFish - 1);
-  }
+  member.fadeStart.set(id, clockNow);
+  member.shown.delete(id);
+  member.remaining = Math.max(0, member.remaining - 1);
   maybeGameOver();
 }
 
-/** When a swarm is gone, send the sky to a new place. */
+/**
+ * How many animals a side has left, which is what its counter reads.
+ * @param {Object} side
+ * @return {number}
+ */
+function sideRemaining(side) {
+  let total = 0;
+  for (const member of side.members) {
+    total += member.remaining;
+  }
+  return total;
+}
+
+/**
+ * When a side has nothing left, send the sky to a new place. A side runs out
+ * only once every member of it is gone, so a team of two has to be wiped
+ * twice over.
+ */
 function maybeGameOver() {
   if (!gameOn) {
     return;
   }
-  if (remainingFly > 0 && remainingFish > 0) {
+  if (sides.every((side) => sideRemaining(side) > 0)) {
     return;
   }
   if (explosionKind === 'live' &&
@@ -3051,11 +3271,9 @@ const COUNTER_KICK = [0, -1, -2, -1.5, 0.5, 0];
 
 /** Per-side counter state: what it last showed and when it last changed. */
 const counterState = {
-  fly: {shown: null, from: null, t0: -9},
-  fish: {shown: null, from: null, t0: -9},
+  left: {shown: null, from: null, t0: -9},
+  right: {shown: null, from: null, t0: -9},
 };
-/** Which side the blue fish counter takes; set from the clock each sky. */
-let fishLeft = true;
 
 /**
  * The fixed look of each counter: one color per digit row, top to bottom,
@@ -3092,18 +3310,18 @@ const COUNTER_LOOK = {
   },
 };
 
-/** The colors of one counter, in the look the piece is wearing. */
-function counterLook(kind) {
-  return COUNTER_LOOK[look][kind];
+/** The colors one member's digits wear, from its own sprite's bands. */
+function counterLook(member) {
+  return COUNTER_LOOK[member.team.look][member.team.kind];
 }
 
 /** One digit as blocks; colorAt(row) picks each row's face color. */
-function paintDigit(ch, x, y, cell, drop, look, colorAt, white) {
+function paintDigit(ch, x, y, cell, drop, colors, colorAt, white) {
   const bits = DIGIT_BITS[Number(ch)] || DIGIT_BITS[0];
   for (let pass = 0; pass < 3; pass++) {
     for (let row = 0; row < 5; row++) {
-      ctx.fillStyle = pass === 0 ? look.far :
-          pass === 1 ? look.near : (white ? WHITE : colorAt(row));
+      ctx.fillStyle = pass === 0 ? colors.far :
+          pass === 1 ? colors.near : (white ? WHITE : colorAt(row));
       const off = pass === 0 ? 2 * drop : pass === 1 ? drop : 0;
       for (let col = 0; col < 5; col++) {
         if (bits[row] & (1 << (4 - col))) {
@@ -3119,14 +3337,14 @@ function paintDigit(ch, x, y, cell, drop, look, colorAt, white) {
  * changed digits roll down like an odometer in quarter steps, the face flashes
  * white for two frames, the number kicks and sparks fly off, all stepped like
  * an old arcade score.
- * @param {string} kind 'fly' or 'fish'
+ * @param {Object} side the side the counter stands for
  * @param {number} value
  * @param {number} cx
  * @param {number} cy
  * @param {number} cell art pixels per digit block
  */
-function drawCounter(kind, value, cx, cy, cell) {
-  const st = counterState[kind];
+function drawCounter(side, value, cx, cy, cell) {
+  const st = counterState[side.layer];
   const v = Math.min(99, Math.max(0, value | 0));
   if (st.shown !== v) {
     st.from = st.shown;
@@ -3134,7 +3352,13 @@ function drawCounter(kind, value, cx, cy, cell) {
     st.t0 = animTime;
   }
   const t = animTime - st.t0;
-  const look = counterLook(kind);
+  // One member's colours per digit. A team of one wears its own colours on
+  // both, so the pair of them is the same object twice — the digit order only
+  // means anything once there are two members to order.
+  const order = side.digitOrder;
+  const only = side.members.length < 2;
+  const colors = [0, 1].map(
+      (d) => counterLook(side.members[only ? 0 : order[d]]));
   const drop = Math.max(2, Math.round(cell / 3));
   const text = String(v).padStart(2, '0');
   const old = st.from == null ? text : String(st.from).padStart(2, '0');
@@ -3144,11 +3368,11 @@ function drawCounter(kind, value, cx, cy, cell) {
       COUNTER_KICK[Math.min(COUNTER_KICK.length - 1, Math.floor(t / 0.06))] : 0;
   const white = animating && (st.from == null ? t < 0.12 : t < 0.07);
   const zeroBlink = v === 0 && Math.floor(animTime * 4) % 2 === 0;
-  const colorAt = (row) => {
+  const colorAt = (d) => (row) => {
     if (zeroBlink) {
       return RAMPS.red[row < 2 ? 3 : 2];
     }
-    return look.band[row];
+    return colors[d].band[row];
   };
   const width = 2 * 5 * cell + cell;
   const x0 = Math.round(cx - width / 2);
@@ -3161,21 +3385,22 @@ function drawCounter(kind, value, cx, cy, cell) {
     const rolling = animating && st.from != null && old[d] !== text[d] &&
         u < 1;
     if (!rolling) {
-      paintDigit(text[d], dx, y0, cell, drop, look, colorAt, white);
+      paintDigit(text[d], dx, y0, cell, drop, colors[d], colorAt(d), white);
       continue;
     }
     ctx.save();
     ctx.beginPath();
     ctx.rect(dx, y0 - 2 * drop, 5 * cell + 2 * drop + 1, 5 * cell + 4 * drop);
     ctx.clip();
-    paintDigit(old[d], dx, y0 + Math.round(stepped * run), cell, drop, look,
-        colorAt, white);
+    paintDigit(old[d], dx, y0 + Math.round(stepped * run), cell, drop,
+        colors[d], colorAt(d), white);
     paintDigit(text[d], dx, y0 + Math.round((stepped - 1) * run), cell, drop,
-        look, colorAt, white);
+        colors[d], colorAt(d), white);
     ctx.restore();
   }
   if (animating && st.from != null) {
-    const seed = (kind === 'fly' ? 1 : 2) * 100 + v;
+    const seed = (side.layer === 'left' ? 1 : 2) * 100 + v;
+    const band = colors[0].band;
     for (let k = 0; k < 14; k++) {
       const a = hash01(seed + k) * Math.PI * 2;
       const r = (2 + hash01(seed + k + 50) * 7) * cell * (t / COUNTER_ANIM_S);
@@ -3184,7 +3409,7 @@ function drawCounter(kind, value, cx, cy, cell) {
       if (t > 0.3 && (k + frame) % 2) {
         continue;
       }
-      ctx.fillStyle = look.band[k % look.band.length];
+      ctx.fillStyle = band[k % band.length];
       const sq = Math.max(2, Math.round(cell / 3));
       ctx.fillRect(px, py, sq, sq);
     }
@@ -3192,24 +3417,25 @@ function drawCounter(kind, value, cx, cy, cell) {
 }
 
 /**
- * The counters of the flies and fish left, one each side of the arena on its
- * vertical middle, centered in the empty space out to the edges. They hide
- * while a sky is changing and come back full.
+ * The counter of the animals each side has left, on that side of the arena
+ * along its vertical middle, centered in the empty space out to the edge.
+ * They hide while a sky is changing and come back full.
  */
 function drawCounters() {
   if (!gameOn || explosionActive || locationChange || swapping) {
-    counterState.fly.shown = null;
-    counterState.fish.shown = null;
+    for (const key of Object.keys(counterState)) {
+      counterState[key].shown = null;
+    }
     return;
   }
   const gapPx = view.cx - view.radius;
   const cell = Math.max(3, Math.min(Math.round(view.h / 60),
       Math.floor(gapPx * 0.8 / 11)));
   const mid = gapPx * 0.42;
-  const left = mid;
-  const right = view.w - mid;
-  drawCounter('fly', remainingFly, fishLeft ? right : left, view.cy, cell);
-  drawCounter('fish', remainingFish, fishLeft ? left : right, view.cy, cell);
+  const at = {left: mid, right: view.w - mid};
+  for (const side of sides) {
+    drawCounter(side, sideRemaining(side), at[side.layer], view.cy, cell);
+  }
 }
 
 function parseLiveQuakeMs(ev) {
@@ -3316,7 +3542,7 @@ function hudHit(ev) {
 function bindLayers() {
   const ids = [
     'circle', 'stars', 'voronoi', 'wiggle', 'spokes', 'sparkle',
-    'flies', 'fish', 'color',
+    'left', 'right', 'color',
   ];
   for (const id of ids) {
     const el = document.getElementById('layer-' + id);
@@ -3336,23 +3562,24 @@ function bindLayers() {
         } else {
           setLayer('circle', true);
         }
-        clearHeadings(flies);
-        clearHeadings(fish);
+        for (const member of eachMember()) {
+          clearHeadings(member.pack);
+        }
       }
       if (id === 'wiggle' && layers.wiggle) {
         setLayer('voronoi', false);
       }
-      if (id === 'flies' && !layers.flies) {
-        flyShown.clear();
-        flyFadeStart.clear();
-      }
-      if (id === 'fish' && !layers.fish) {
-        fishShown.clear();
-        fishFadeStart.clear();
-      }
-      if ((id === 'flies' || id === 'fish') && layers[id] &&
-          objectsOn && !locationChange) {
-        startAnimalEnter();
+      if (id === 'left' || id === 'right') {
+        const side = sides[id === 'left' ? LEFT : RIGHT];
+        for (const member of side.members) {
+          if (!layers[id]) {
+            member.shown.clear();
+            member.fadeStart.clear();
+          }
+        }
+        if (layers[id] && objectsOn && !locationChange) {
+          startAnimalEnter();
+        }
       }
       startLoop();
     });
@@ -3418,14 +3645,16 @@ function bindLive() {
 
 /** Recount the animals still in play, for the two side counters. */
 function recountAnimals() {
-  remainingFly = pendingEnterIds('fly').length +
-      remainingShownIds('fly').length;
-  remainingFish = pendingEnterIds('fish').length +
-      remainingShownIds('fish').length;
+  for (const side of sides) {
+    for (const member of side.members) {
+      member.remaining = pendingEnterIds(side, member).length +
+          remainingShownIds(member).length;
+    }
+  }
 }
 
 /**
- * Switch the game (the flies and fish) and the layers that come with them.
+ * Switch the game (both swarms) and the layers that come with them.
  *
  * @param {boolean} on
  * @param {boolean} revealStars true when the viewer flips the switch over a
@@ -3442,8 +3671,8 @@ function setGame(on, revealStars) {
   setLayer('spokes', on);
   setLayer('sparkle', on);
   setLayer('color', on);
-  setLayer('flies', on);
-  setLayer('fish', on);
+  setLayer('left', on);
+  setLayer('right', on);
   if (!on) {
     clearAnimals();
   } else if (revealStars) {
@@ -3537,19 +3766,18 @@ function bindInteract() {
 /** Add or send out animals to match the count sliders. */
 function applyAnimalCounts() {
   startAnimalEnter();
-  const pairs = [
-    ['fly', flyShown, flyFadeStart],
-    ['fish', fishShown, fishFadeStart],
-  ];
-  for (const [kind, shown, fades] of pairs) {
-    const wanted = new Set(wantedIds(kind));
-    for (const id of wanted) {
-      fades.delete(id);
-    }
-    for (const id of [...shown]) {
-      if (!wanted.has(id)) {
-        fades.set(id, clockNow);
-        shown.delete(id);
+  for (const side of sides) {
+    dealCounts(side);
+    for (const member of side.members) {
+      const wanted = new Set(wantedIds(member));
+      for (const id of wanted) {
+        member.fadeStart.delete(id);
+      }
+      for (const id of [...member.shown]) {
+        if (!wanted.has(id)) {
+          member.fadeStart.set(id, clockNow);
+          member.shown.delete(id);
+        }
       }
     }
   }
@@ -3559,21 +3787,22 @@ function applyAnimalCounts() {
 
 /** Write the three count sliders from the current sky's state. */
 function syncCountInputs() {
-  const fliesEl = document.getElementById('n-flies');
-  const fishEl = document.getElementById('n-fish');
   const starsEl = document.getElementById('n-stars');
-  const fliesOut = document.getElementById('n-flies-out');
-  const fishOut = document.getElementById('n-fish-out');
   const starsOut = document.getElementById('n-stars-out');
-  const maxFlies = flies ? Math.min(MAX_ANIMALS, flies.counts.length) : 0;
-  const maxFish = fish ? Math.min(MAX_ANIMALS, fish.counts.length) : 0;
-  fliesEl.max = String(maxFlies);
-  fishEl.max = String(maxFish);
-  fliesEl.value = String(Math.min(nFlies, maxFlies));
-  fishEl.value = String(Math.min(nFish, maxFish));
+  for (const side of sides) {
+    const el = document.getElementById('n-' + side.layer);
+    const out = document.getElementById('n-' + side.layer + '-out');
+    // A team of two can legitimately ask for twice what either member holds.
+    let most = 0;
+    for (const member of side.members) {
+      most += member.pack ?
+          Math.min(MAX_ANIMALS, member.pack.counts.length) : 0;
+    }
+    el.max = String(most);
+    el.value = String(Math.min(side.want, most));
+    out.textContent = el.value;
+  }
   starsEl.value = String(skyCount);
-  fliesOut.textContent = fliesEl.value;
-  fishOut.textContent = fishEl.value;
   starsOut.textContent = starsEl.value;
 }
 
@@ -3582,22 +3811,23 @@ let starApplySeq = 0;
 /**
  * Apply a star count the user picked.
  *
- * Refetches the stars and rebuilds the mesh, leaving flies and fish
+ * Refetches the stars and rebuilds the mesh, leaving the animals
  * alone and leaving the random streams unseeded: a manual count is not
  * a new sky. A newer pick supersedes an in-flight one.
  */
 async function applyStarCount(n) {
   const seq = ++starApplySeq;
-  skyCount = Math.max(0, n - (n % 2));
+  skyCount = Math.max(0, n - (n % 4));
   const data = await loadStars(skyCount);
   if (seq !== starApplySeq) {
     return;
   }
   stars = data.stars || [];
   if (stars.length < skyCount) {
-    // Fewer stars were up than asked for. Round down to an even count:
-    // flies and fish each take half, so an odd sky leaves one unpaired.
-    skyCount = stars.length - (stars.length % 2);
+    // Fewer stars were up than asked for. Round down to a multiple of four:
+    // the sky splits between two sides and then between the members of a
+    // team, so anything else leaves the last member short.
+    skyCount = stars.length - (stars.length % 4);
   }
   rebuildMesh();
   cacheLists(data);
@@ -3606,25 +3836,20 @@ async function applyStarCount(n) {
   startLoop();
 }
 
-/** Wire up the star, fly, and fish count sliders. */
+/** Wire up the star count slider and the count slider of each side. */
 function bindCounts() {
-  const fliesEl = document.getElementById('n-flies');
-  const fishEl = document.getElementById('n-fish');
   const starsEl = document.getElementById('n-stars');
-  const fliesOut = document.getElementById('n-flies-out');
-  const fishOut = document.getElementById('n-fish-out');
   const starsOut = document.getElementById('n-stars-out');
   syncCountInputs();
-  fliesEl.addEventListener('input', () => {
-    nFlies = Number(fliesEl.value);
-    fliesOut.textContent = fliesEl.value;
-    applyAnimalCounts();
-  });
-  fishEl.addEventListener('input', () => {
-    nFish = Number(fishEl.value);
-    fishOut.textContent = fishEl.value;
-    applyAnimalCounts();
-  });
+  for (const side of sides) {
+    const el = document.getElementById('n-' + side.layer);
+    const out = document.getElementById('n-' + side.layer + '-out');
+    el.addEventListener('input', () => {
+      side.want = Number(el.value);
+      out.textContent = el.value;
+      applyAnimalCounts();
+    });
+  }
   let settleTimer = 0;
   starsEl.addEventListener('input', () => {
     starsOut.textContent = starsEl.value;
@@ -3643,78 +3868,6 @@ function bindMenu() {
   bindGame();
   bindCursor();
   bindInteract();
-  bindLook();
-}
-
-/** Mark the button of the look in use. */
-function syncLookButtons() {
-  for (const name of ['bio', 'cyber']) {
-    const button = document.getElementById('look-' + name);
-    if (button) {
-      button.classList.toggle('on', name === look);
-    }
-  }
-}
-
-/**
- * Switch the whole piece between the recorded look and the neon one:
- * sprites, trails, tracks and counter colours all follow, because a neon
- * animal dragging a dusty trail reads as a bug rather than a look.
- *
- * The toggle lives on the start screen, so this runs both before and
- * after the sky has begun. Before it, swapping the sets is the whole job:
- * rebuilding would spend the intro animation while the start screen
- * still covers it, and the click would then reveal a sky with nothing
- * left to play.
- * @param {string} name 'bio' or 'cyber'
- * @return {Promise<void>}
- */
-async function applyLook(name) {
-  if (name !== 'bio' && name !== 'cyber') {
-    return;
-  }
-  look = name;
-  buildOdometer = name === 'cyber' ? cyberOdometer : bioOdometer;
-  drawTrail = name === 'cyber' ? cyberTrail : bioTrail;
-  syncLookButtons();
-  if (!spriteSets) {
-    // Still loading. The buttons are in the page from the start, so this
-    // is reachable while "Loading..." is up. Record the choice and let
-    // main() pick it up when the sets arrive; touching spriteSets here
-    // would throw.
-    return;
-  }
-  sprites = spriteSets[name];
-  if (!gameOn) {
-    return;
-  }
-  await loadSky();
-  rebuildMesh();
-  clearAnimals();
-  remainingFly = nFlies;
-  remainingFish = nFish;
-  startIntroRevival();
-}
-
-/** Wire the look toggle on the start screen. */
-function bindLook() {
-  const box = document.getElementById('look');
-  if (!box) {
-    return;
-  }
-  // The start screen begins the piece on pointerdown, so the control has
-  // to swallow its own presses. This is on pointerdown, not click, which
-  // is the event the start screen actually listens for.
-  for (const type of ['pointerdown', 'pointerup', 'click']) {
-    box.addEventListener(type, (event) => event.stopPropagation());
-  }
-  for (const name of ['bio', 'cyber']) {
-    const button = document.getElementById('look-' + name);
-    if (button) {
-      button.addEventListener('click', () => applyLook(name));
-    }
-  }
-  syncLookButtons();
 }
 
 /**
@@ -3734,13 +3887,6 @@ function waitForStart() {
       resolve();
     };
     const onKey = (ev) => {
-      // The look toggle is focusable, so Enter or Space on it would both
-      // activate the control and start the piece. Leave those to the
-      // control itself.
-      const target = ev.target;
-      if (target instanceof Element && target.closest('#look')) {
-        return;
-      }
       if (ev.key === 'Enter' || ev.key === ' ') {
         ev.preventDefault();
         go();
@@ -3751,7 +3897,13 @@ function waitForStart() {
   });
 }
 
-/** Start the piece: load everything, wait for PRESS START, and begin. */
+/**
+ * Start the piece: draw the first matchup, load what it plays with, then wait
+ * for PRESS START and begin.
+ *
+ * The draw comes first so the sky is built for the teams that are actually on
+ * it, and every later sky does the same through `loadSky`.
+ */
 async function main() {
   bindMenu();
   resize();
@@ -3762,10 +3914,7 @@ async function main() {
   try {
     setBoot('Loading...');
     await document.fonts.load('8px "Press Start 2P"').catch(() => null);
-    spriteSets = await loadWithRetry('Loading sprites...', () => loadSprites());
-    sprites = spriteSets[look];
-    trackSets = await loadWithRetry('Loading tracks...', () => loadTrackSets());
-    await loadWithRetry('Loading stars...', () => loadSky());
+    await loadWithRetry('Loading sky...', () => loadSky());
     rebuildMesh();
     choosePlanet(null);
     bindCounts();
@@ -3784,7 +3933,7 @@ async function main() {
     setBoot('', true);
   } catch (err) {
     setBoot(
-        'Could not load stars or tracks. Run scripts/setup.py, then ' +
+        'Could not load the sky or the animals. Run scripts/setup.py, then ' +
         'SkyArena.bat.');
     paintBlank();
     throw err;
