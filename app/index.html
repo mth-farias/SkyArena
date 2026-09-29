@@ -11,9 +11,13 @@
       src: url("fonts/PressStart2P-Regular.ttf") format("truetype");
       font-display: block;
     }
-    /* --px is the CSS size of one arena pixel; view.js sets it on resize. */
+    /* --px is the CSS size of one arena pixel; view.js sets it on resize.
+       --safe-x and --safe-y are the origin of the safe rect, the area inside
+       the overscan margin; view.js sets those too. */
     :root {
       --px: 3px;
+      --safe-x: 0px;
+      --safe-y: 0px;
       --pixel-font: "Press Start 2P", monospace;
     }
     html, body {
@@ -36,7 +40,7 @@
     }
     #topLeft, #topRight {
       position: fixed;
-      top: calc(var(--px) * 3);
+      top: calc(var(--safe-y) + var(--px) * 3);
       z-index: 2;
       font-family: var(--pixel-font);
       font-size: calc(var(--px) * 8);
@@ -47,8 +51,8 @@
     }
     /* Long capital names wrap instead of running into the date. */
     #topLeft {
-      left: calc(var(--px) * 4);
-      max-width: calc(100vw - var(--px) * 8 * 20);
+      left: calc(var(--safe-x) + var(--px) * 4);
+      max-width: calc(100vw - var(--safe-x) * 2 - var(--px) * 8 * 20);
     }
     #placeLine, #dateLine { font-size: calc(var(--px) * 10); }
     #latlonLine, #timeLine { color: #9898b0; }
@@ -76,11 +80,11 @@
         text-shadow: var(--px) var(--px) 0 #000;
       }
     }
-    #topRight { right: calc(var(--px) * 4); text-align: right; }
+    #topRight { right: calc(var(--safe-x) + var(--px) * 4); text-align: right; }
     #hud-live {
       position: fixed;
-      left: 20px;
-      bottom: 20px;
+      left: calc(var(--safe-x) + 20px);
+      bottom: calc(var(--safe-y) + 20px);
       z-index: 2;
       display: flex;
       flex-direction: column;
@@ -89,8 +93,8 @@
     }
     #hud-look {
       position: fixed;
-      right: 20px;
-      bottom: 20px;
+      right: calc(var(--safe-x) + 20px);
+      bottom: calc(var(--safe-y) + 20px);
       z-index: 2;
       display: flex;
       flex-direction: column;
@@ -189,13 +193,14 @@
     #menu,
     #live-menu {
       width: 280px;
-      max-height: calc(100vh - 48px);
+      max-height: calc(100vh - var(--safe-y) * 2 - 48px);
       overflow: auto;
       border-radius: 18px;
       padding: 6px 0 10px;
     }
     #menu[hidden],
-    #live-menu[hidden] {
+    #live-menu[hidden],
+    #hud-live[hidden] {
       display: none;
     }
     .menu-head {
@@ -394,7 +399,7 @@
     <span id="dateLine"></span><br>
     <span id="timeLine"></span>
   </div>
-  <div id="hud-live">
+  <div id="hud-live" hidden>
     <form id="live-menu" class="glass" autocomplete="off" hidden>
       <div class="menu-head">
         <h1>Live</h1>
@@ -498,7 +503,7 @@
     </form>
     <button type="button" class="glass" id="menu-open"
             aria-label="Show controls" aria-expanded="false"
-            aria-controls="menu">
+            aria-controls="menu hud-live">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
            stroke-width="1.8" stroke-linecap="round">
         <path d="M4 7h16M4 12h11M4 17h7"/>

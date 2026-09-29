@@ -66,6 +66,15 @@ const FISH_HEADING_TAU = 0.22;
 const TARGET_ROWS = 720;
 /** Never draw an art pixel smaller than this many device pixels. */
 const MIN_SCALE = 2;
+/**
+ * The share of each edge kept clear. Overscanning televisions crop the
+ * outermost few percent of the picture, so the dome and the HUD both stay
+ * inside this margin. The canvas itself stays full bleed, so the planet glow
+ * fades out across the margin rather than ending at an edge.
+ */
+const SAFE_EDGE = 0.04;
+/** Share of the shorter screen side the dome spans, before the safe margin. */
+const DOME_FILL = 0.485;
 /** Arena radius the size constants are tuned for, in art pixels. */
 const REF_RADIUS = 388;
 
@@ -169,9 +178,9 @@ const SHAKE_SHRINK_S = 0.4;
 /** Seconds the sky stays dark between a Travel and the next sky. */
 const MANUAL_SHUFFLE_DARK_S = 1.0;
 /**
- * The four members: one animal in one look. A side plays a **team** of one or
- * two of these, and a look carries the sprites, the trail, the trajectories
- * and the counter colours together.
+ * The four members: one animal in one look. A side plays exactly one of these,
+ * and a look carries the sprites, the trail, the trajectories and the counter
+ * colours together.
  */
 const MEMBERS = [
   {id: 'bio-fly', look: 'bio', kind: 'fly'},
@@ -179,27 +188,6 @@ const MEMBERS = [
   {id: 'cyber-fly', look: 'cyber', kind: 'fly'},
   {id: 'cyber-fish', look: 'cyber', kind: 'fish'},
 ];
-/** The members sharing each look, and each species. */
-const BIO_MEMBERS = MEMBERS.filter((m) => m.look === 'bio');
-const CYBER_MEMBERS = MEMBERS.filter((m) => m.look === 'cyber');
-const FLY_MEMBERS = MEMBERS.filter((m) => m.kind === 'fly');
-const FISH_MEMBERS = MEMBERS.filter((m) => m.kind === 'fish');
-/**
- * The three shapes a matchup takes, with their relative shares. `single` gives
- * each side one member, and never the same one twice. `look` puts both members
- * of one look against the other look. `species` puts both members of one
- * species against the other species.
- *
- * Seven skies in ten field a team of one; the rest are collaborations, split
- * evenly between the two kinds. Integer weights so the draw lands exactly on
- * the boundaries rather than a hair over from floating point.
- */
-const MATCH_ODDS = [
-  {kind: 'single', weight: 70},
-  {kind: 'look', weight: 15},
-  {kind: 'species', weight: 15},
-];
-const MATCH_WEIGHT_TOTAL = MATCH_ODDS.reduce((sum, o) => sum + o.weight, 0);
 /** Side of the arena a team plays for. Left is index 0, right is index 1. */
 const LEFT = 0;
 const RIGHT = 1;
@@ -356,9 +344,9 @@ function reseedSky(seed) {
 }
 
 /**
- * Draw a star count near STAR_MEAN, in fours so it splits evenly however the
- * sky is divided: halves between the sides, and quarters when a side fields a
- * team of two.
+ * Draw a star count near STAR_MEAN, in fours. The sky now divides only between
+ * the two sides, so twos would do; fours is kept so the measured distribution
+ * does not move.
  */
 function nextStarCount() {
   while (true) {
@@ -485,71 +473,34 @@ function makeMember(team) {
 
 /**
  * A side of the arena: the layer switch that shows it and the team it plays.
- * A team is one member or two.
  * @param {string} layer 'left' or 'right'
- * @param {Object[]} teams One entry of MEMBERS, or two.
+ * @param {Object} team One entry of MEMBERS.
  * @return {Object} the side
  */
-function makeSide(layer, teams) {
+function makeSide(layer, team) {
   return {
     layer,
-    members: teams.map(makeMember),
-    /** Animals this side fields in total, which is what its slider sets. */
+    member: makeMember(team),
+    /** Animals this side fields, which is what its slider sets. */
     want: 0,
-    /**
-     * Which member owns the tens digit and which the units, drawn once per
-     * sky. `drawCounter` runs every frame, so this cannot be decided there.
-     */
-    digitOrder: [0, 1],
   };
 }
 
 /**
- * The shape of matchup a new sky gets, drawn by weight.
- * @return {string} one of the kinds in MATCH_ODDS
- */
-function drawMatchKind() {
-  let roll = Math.floor(Math.random() * MATCH_WEIGHT_TOTAL);
-  for (const {kind, weight} of MATCH_ODDS) {
-    if (roll < weight) {
-      return kind;
-    }
-    roll -= weight;
-  }
-  return MATCH_ODDS[0].kind;
-}
-
-/**
- * Draw the matchup for a new sky: one of the three shapes, then the concrete
- * assignment inside it.
- *
- * A `single` takes one member from the four and a second from the remaining
- * three, so a team never faces itself. A `look` match hands one look to each
- * side and a `species` match one species to each, which are distinct by
- * definition. Which goes left is a coin toss.
+ * Draw the matchup for a new sky: two distinct members of the four, one a
+ * side, so a team never faces itself. Which goes left is a coin toss.
  * @return {Object[]} the two sides, left first
  */
 function drawMatchup() {
-  const kind = drawMatchKind();
-  const swap = Math.random() < 0.5;
-  if (kind === 'look') {
-    const pair = swap ? [CYBER_MEMBERS, BIO_MEMBERS] :
-        [BIO_MEMBERS, CYBER_MEMBERS];
-    return [makeSide('left', pair[0]), makeSide('right', pair[1])];
-  }
-  if (kind === 'species') {
-    const pair = swap ? [FISH_MEMBERS, FLY_MEMBERS] :
-        [FLY_MEMBERS, FISH_MEMBERS];
-    return [makeSide('left', pair[0]), makeSide('right', pair[1])];
-  }
   const pool = MEMBERS.slice();
   const first = pool.splice(Math.floor(Math.random() * pool.length), 1)[0];
   const second = pool[Math.floor(Math.random() * pool.length)];
-  return [makeSide('left', [first]), makeSide('right', [second])];
+  const pair = Math.random() < 0.5 ? [first, second] : [second, first];
+  return [makeSide('left', pair[0]), makeSide('right', pair[1])];
 }
 
 /** Both sides, left first. Rebuilt outright on every new sky. */
-let sides = [makeSide('left', [MEMBERS[0]]), makeSide('right', [MEMBERS[1]])];
+let sides = [makeSide('left', MEMBERS[0]), makeSide('right', MEMBERS[1])];
 let skyCount = 60;
 let lastMs = 0;
 let animTime = 0;
@@ -650,11 +601,18 @@ function toPixel(x, y) {
  * number of screen pixels at any zoom or display density. The canvas is
  * centered on a device-pixel boundary and --px carries the size of one arena
  * pixel in CSS pixels for the DOM around it.
+ *
+ * The canvas stays full bleed, so a glow that overspills the dome fades out
+ * across the whole screen instead of ending at a visible edge. Only the dome
+ * and the HUD keep clear of the overscan margin, and --safe-x and --safe-y
+ * carry that rect's origin in CSS pixels so the HUD can pin to it.
  */
 function resize() {
   const dpr = window.devicePixelRatio || 1;
   const devW = Math.round(window.innerWidth * dpr);
   const devH = Math.round(window.innerHeight * dpr);
+  const insetX = Math.round(devW * SAFE_EDGE);
+  const insetY = Math.round(devH * SAFE_EDGE);
   const scale = Math.max(
       MIN_SCALE, Math.round(Math.min(devW, devH) / TARGET_ROWS));
   const w = Math.ceil(devW / scale);
@@ -683,11 +641,17 @@ function resize() {
     auraBlur.push({canvas: c, ctx: c.getContext('2d')});
   }
   document.documentElement.style.setProperty('--px', (scale / dpr) + 'px');
+  document.documentElement.style.setProperty(
+      '--safe-x', (insetX / dpr) + 'px');
+  document.documentElement.style.setProperty(
+      '--safe-y', (insetY / dpr) + 'px');
   ctx.setTransform(1, 0, 0, 1, 0, 0);
+  // The dome takes the same share of the screen it always did, of the safe
+  // rect rather than the viewport, so the rim keeps clear of the margin.
   view = {
     cx: Math.floor(w / 2),
     cy: Math.floor(h / 2),
-    radius: Math.floor(Math.min(w, h) * 0.485),
+    radius: Math.floor(Math.min(w, h) * DOME_FILL * (1 - 2 * SAFE_EDGE)),
     w: w,
     h: h,
   };
@@ -1672,11 +1636,7 @@ function remainingShownIds(member) {
  * @return {Object[]}
  */
 function eachMember(list = sides) {
-  const out = [];
-  for (const side of list) {
-    out.push(...side.members);
-  }
-  return out;
+  return list.map((side) => side.member);
 }
 
 /** Remove every animal at once, on both sides. */
@@ -1714,12 +1674,11 @@ function tickAnimalEnter() {
   while (clockNow >= animalNextAt) {
     let any = false;
     for (const side of sides) {
-      for (const member of side.members) {
-        const waiting = pendingEnterIds(side, member);
-        if (waiting.length) {
-          member.shown.add(waiting[0]);
-          any = true;
-        }
+      const {member} = side;
+      const waiting = pendingEnterIds(side, member);
+      if (waiting.length) {
+        member.shown.add(waiting[0]);
+        any = true;
       }
     }
     if (!any) {
@@ -2227,23 +2186,22 @@ function hoverPoints() {
       if (!layers[side.layer]) {
         continue;
       }
-      for (const member of side.members) {
-        if (!member.pack) {
+      const member = side.member;
+      if (!member.pack) {
+        continue;
+      }
+      for (const id of member.shown) {
+        if (member.fadeStart.has(id)) {
           continue;
         }
-        for (const id of member.shown) {
-          if (member.fadeStart.has(id)) {
-            continue;
-          }
-          const pos = poseAt(member.pack, id, member.clock, member.hz);
-          const p = toPixel(pos[0], pos[1]);
-          if (!onScreen(p)) {
-            continue;
-          }
-          pts.push([p.px, p.py, member]);
-          if (tryObjectKill(p.px, p.py, member.team.kind)) {
-            kamikaze(member, id);
-          }
+        const pos = poseAt(member.pack, id, member.clock, member.hz);
+        const p = toPixel(pos[0], pos[1]);
+        if (!onScreen(p)) {
+          continue;
+        }
+        pts.push([p.px, p.py, member]);
+        if (tryObjectKill(p.px, p.py, member.team.kind)) {
+          kamikaze(member, id);
         }
       }
     }
@@ -2830,13 +2788,12 @@ function draw(time) {
     if (!layers[side.layer]) {
       continue;
     }
-    for (const member of side.members) {
-      if (!member.pack) {
-        continue;
-      }
-      for (const id of member.shown) {
-        drawAnimal(member, id, animalFade(id, member.fadeStart));
-      }
+    const member = side.member;
+    if (!member.pack) {
+      continue;
+    }
+    for (const id of member.shown) {
+      drawAnimal(member, id, animalFade(id, member.fadeStart));
     }
   }
   ctx.drawImage(animalLayer, 0, 0);
@@ -3059,9 +3016,9 @@ function loadMemberSprites(team) {
  * which the server keeps beside the recorded files.
  *
  * This is deliberately **not** cached: a pack carries per-animal state
- * (`odometers`, `lastBank`, `lastHeading`, `headClock`) that the sky mutates,
- * so two sides running the same member need a pack each or they would drag
- * each other's animals around. The bytes still come from the HTTP cache.
+ * (`odometers`, `lastBank`, `lastHeading`, `headClock`) that the sky mutates
+ * in place, so a pack handed to the next sky would start from the last sky's
+ * state. The bytes still come from the HTTP cache.
  * @param {Object} team One entry of MEMBERS.
  * @return {Promise<Object>} the track pack
  */
@@ -3109,7 +3066,6 @@ async function loadSky() {
   shuffleMembers(next);
   for (const side of next) {
     side.want = Math.floor(count / 2);
-    side.digitOrder = Math.random() < 0.5 ? [0, 1] : [1, 0];
     dealCounts(side);
   }
   const data = await loadStars(count);
@@ -3124,21 +3080,16 @@ async function loadSky() {
 }
 
 /**
- * Split one side's animals between its members, in whole numbers. The first
- * member takes the odd one when the total does not divide evenly.
+ * Give one side's animals to its member, capped by what the pack holds.
  *
  * This only sets counts, so moving a slider adds and removes animals without
  * changing which ones are out. A new sky shuffles first, separately.
  * @param {Object} side
  */
 function dealCounts(side) {
-  const each = Math.floor(side.want / side.members.length);
-  side.members.forEach((member, i) => {
-    const share = i === 0 ? side.want - each * (side.members.length - 1) :
-        each;
-    member.count = Math.min(share, member.pack.counts.length);
-    member.remaining = member.count;
-  });
+  const {member} = side;
+  member.count = Math.min(side.want, member.pack.counts.length);
+  member.remaining = member.count;
 }
 
 /**
@@ -3172,17 +3123,11 @@ function kamikaze(member, id) {
  * @return {number}
  */
 function sideRemaining(side) {
-  let total = 0;
-  for (const member of side.members) {
-    total += member.remaining;
-  }
-  return total;
+  return side.member.remaining;
 }
 
 /**
- * When a side has nothing left, send the sky to a new place. A side runs out
- * only once every member of it is gone, so a team of two has to be wiped
- * twice over.
+ * When a side has nothing left, send the sky to a new place.
  */
 function maybeGameOver() {
   if (!gameOn) {
@@ -3357,13 +3302,10 @@ function drawCounter(side, value, cx, cy, cell) {
     st.t0 = animTime;
   }
   const t = animTime - st.t0;
-  // One member's colours per digit. A team of one wears its own colours on
-  // both, so the pair of them is the same object twice — the digit order only
-  // means anything once there are two members to order.
-  const order = side.digitOrder;
-  const only = side.members.length < 2;
-  const colors = [0, 1].map(
-      (d) => counterLook(side.members[only ? 0 : order[d]]));
+  // One member wears its own colours on both digits, so the pair of them is
+  // the same object twice.
+  const look = counterLook(side.member);
+  const colors = [look, look];
   const drop = Math.max(2, Math.round(cell / 3));
   const text = String(v).padStart(2, '0');
   const old = st.from == null ? text : String(st.from).padStart(2, '0');
@@ -3575,12 +3517,10 @@ function bindLayers() {
         setLayer('voronoi', false);
       }
       if (id === 'left' || id === 'right') {
-        const side = sides[id === 'left' ? LEFT : RIGHT];
-        for (const member of side.members) {
-          if (!layers[id]) {
-            member.shown.clear();
-            member.fadeStart.clear();
-          }
+        const {member} = sides[id === 'left' ? LEFT : RIGHT];
+        if (!layers[id]) {
+          member.shown.clear();
+          member.fadeStart.clear();
         }
         if (layers[id] && objectsOn && !locationChange) {
           startAnimalEnter();
@@ -3651,10 +3591,9 @@ function bindLive() {
 /** Recount the animals still in play, for the two side counters. */
 function recountAnimals() {
   for (const side of sides) {
-    for (const member of side.members) {
-      member.remaining = pendingEnterIds(side, member).length +
-          remainingShownIds(member).length;
-    }
+    const {member} = side;
+    member.remaining = pendingEnterIds(side, member).length +
+        remainingShownIds(member).length;
   }
 }
 
@@ -3741,14 +3680,28 @@ function bindCursor() {
   });
 }
 
-/** Wire up opening and closing the Controls panel. */
+/**
+ * Wire up opening and closing the Controls panel.
+ *
+ * The panel carries the two bottom-left buttons: they stay hidden until it
+ * opens, and go again when it closes, taking the Live panel with them so
+ * reopening shows the buttons by themselves.
+ */
 function bindPanels() {
   const lookOpen = document.getElementById('menu-open');
   const lookClose = document.getElementById('menu-close');
   const lookMenu = document.getElementById('menu');
+  const liveOpen = document.getElementById('live-open');
+  const liveMenu = document.getElementById('live-menu');
+  const hudLive = document.getElementById('hud-live');
   const setLook = (open) => {
     lookMenu.hidden = !open;
     lookOpen.setAttribute('aria-expanded', String(open));
+    hudLive.hidden = !open;
+    if (!open) {
+      liveMenu.hidden = true;
+      liveOpen.setAttribute('aria-expanded', 'false');
+    }
   };
   lookOpen.addEventListener('click', () => setLook(lookMenu.hidden));
   lookClose.addEventListener('click', () => setLook(false));
@@ -3773,16 +3726,15 @@ function applyAnimalCounts() {
   startAnimalEnter();
   for (const side of sides) {
     dealCounts(side);
-    for (const member of side.members) {
-      const wanted = new Set(wantedIds(member));
-      for (const id of wanted) {
-        member.fadeStart.delete(id);
-      }
-      for (const id of [...member.shown]) {
-        if (!wanted.has(id)) {
-          member.fadeStart.set(id, clockNow);
-          member.shown.delete(id);
-        }
+    const {member} = side;
+    const wanted = new Set(wantedIds(member));
+    for (const id of wanted) {
+      member.fadeStart.delete(id);
+    }
+    for (const id of [...member.shown]) {
+      if (!wanted.has(id)) {
+        member.fadeStart.set(id, clockNow);
+        member.shown.delete(id);
       }
     }
   }
@@ -3797,12 +3749,10 @@ function syncCountInputs() {
   for (const side of sides) {
     const el = document.getElementById('n-' + side.layer);
     const out = document.getElementById('n-' + side.layer + '-out');
-    // A team of two can legitimately ask for twice what either member holds.
-    let most = 0;
-    for (const member of side.members) {
-      most += member.pack ?
-          Math.min(MAX_ANIMALS, member.pack.counts.length) : 0;
-    }
+    // The member caps the slider, not the star count: a species has only so
+    // many recorded identities to show.
+    const {pack} = side.member;
+    const most = pack ? Math.min(MAX_ANIMALS, pack.counts.length) : 0;
     el.max = String(most);
     el.value = String(Math.min(side.want, most));
     out.textContent = el.value;
@@ -3829,9 +3779,8 @@ async function applyStarCount(n) {
   }
   stars = data.stars || [];
   if (stars.length < skyCount) {
-    // Fewer stars were up than asked for. Round down to a multiple of four:
-    // the sky splits between two sides and then between the members of a
-    // team, so anything else leaves the last member short.
+    // Fewer stars were up than asked for. Round down to a multiple of four,
+    // matching the draw, so the count still halves between the two sides.
     skyCount = stars.length - (stars.length % 4);
   }
   rebuildMesh();

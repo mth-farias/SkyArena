@@ -18,6 +18,13 @@ palette in [`palette.js`](palette.js), plus 45 muted colors only the planet
 schemes use. Lines are straight and soft edged, with each edge pixel snapped to
 a palette shade.
 
+The dome, the HUD and the corner buttons keep clear of a **safe margin**, 4% in
+from each edge, so an overscanning television cannot crop them. The canvas
+itself stays full bleed, so the planet glow fades out across the margin instead
+of ending at a visible edge. `SAFE_EDGE` in `view.js` sets the share; the dome
+takes its usual 0.485 of the shorter side *of the safe rect*, and the margin
+reaches the stylesheet as `--safe-x` and `--safe-y` for the HUD to pin to.
+
 It opens on a PRESS START screen. Click, tap, or press Enter or Space to begin;
 there is nothing to set up first.
 
@@ -25,41 +32,37 @@ there is nothing to set up first.
 
 A **member** is one animal in one look, and there are four: the organic fly, the
 organic fish, the cyber fly, and the cyber fish. A **team** is what one side of
-the dome plays, and it is either one member or two.
+the dome plays, and it is exactly one member — a side never mixes a fly with a
+fish or an organic animal with a cyber one.
 
-Every new sky draws a matchup of one of three kinds. Seven skies in ten field a
-team of one; the rest are collaborations, split evenly between the two kinds:
-
-| Matchup | Share | Left side | Right side |
-|---|---|---|---|
-| Single | 70% | one member | one of the other three, so a team never faces itself |
-| Look | 15% | the organic pair | the cyber pair |
-| Species | 15% | the fly pair | the fish pair |
+Every new sky draws two distinct members of the four, one a side, so a team
+never faces itself. Each of the twelve pairings is equally likely, and which
+side gets which is a coin toss. The species pairing and the look pairing both
+fall out of the draw rather than being drawn separately.
 
 A side's team is drawn again on **every** sky, so Travel, Shake and the live feed
 all bring new teams, and the same one can come up twice in a row. Only the
 members actually drawn are fetched. Their frames are cached, and their tracks are
 reloaded for each sky because the sky mutates them.
 
-The star count is drawn in fours. It halves between the two sides and, when a
-side fields a team of two, quarters again between its members.
+The star count is drawn in fours, so it halves cleanly between the two sides.
 
-The two counters read the animals each side has left. A team of one wears its
-member's colours on both digits. A team of two wears one member's colours on each
-digit, and which member takes the tens digit is drawn per sky — so the colours
-say what a team is made of while the number is the team's total. A side is out
-only once **both** of its members are gone.
+The two counters read the animals each side has left, and each side's member
+wears its own colours on both digits. A side is out once its member is gone.
 
 ## What is on screen
 
-After the teams are drawn the full piece plays: the game button is on, and Live
-is on with a magnitude threshold of 3.0. The Controls menu, bottom right,
-switches each layer: Circle, Stars, Voronoi, Wiggle, Spokes, Sparkle, Cursor,
-Left, Right, Interact, Color. The Left and Right rows carry a count bar for
-their side. The Live menu, bottom left, holds the live toggle, the magnitude
-bar, and the Travel and Shake buttons. The round button under the Live button
-turns the game on or off: the animals, the star kills, and the two counters at
-the sides of the dome.
+After the teams are drawn the full piece plays: the game is on, and Live is on
+with a magnitude threshold of 3.0. The Controls menu, bottom right, switches
+each layer: Circle, Stars, Voronoi, Wiggle, Spokes, Sparkle, Cursor, Left,
+Right, Interact, Color. The Left and Right rows carry a count bar for their
+side.
+
+The two round buttons at the bottom left stay hidden until the Controls menu
+opens, and go when it closes. The globe opens the Live menu — the live toggle,
+the magnitude bar, and the Travel and Shake buttons. The paw turns the game on
+or off: the animals, the star kills, and the two counters at the sides of the
+dome.
 
 Every fourth flowing dot on a cell edge receives a spoke from each of the two
 stars beside it. Stars load from `/api/get_data`. Tracks load from
